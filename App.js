@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native';
 import { Button,TabBar,List,DatePicker } from 'antd-mobile';
+import Tabbars from './app/root'
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
     'Cmd+D or shake for dev menu',
@@ -29,33 +30,6 @@ export default class App extends Component<{}> {
         };
     }
 
-    renderContent=(pageText)=> {
-        return (
-            <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-                <div style={{ paddingTop: 60 }}>Clicked “{pageText}” tab， show “{pageText}” information</div>
-                <a style={{ display: 'block', marginTop: 40, marginBottom: 20, color: '#108ee9' }}
-                   onClick={(e) => {
-                       e.preventDefault();
-                       this.setState({
-                           hidden: !this.state.hidden,
-                       });
-                   }}
-                >
-                    Click to show/hide tab-bar
-                </a>
-                <a style={{ display: 'block', marginBottom: 600, color: '#108ee9' }}
-                   onClick={(e) => {
-                       e.preventDefault();
-                       this.setState({
-                           fullScreen: !this.state.fullScreen,
-                       });
-                   }}
-                >
-                    Click to switch fullscreen
-                </a>
-            </div>
-        );
-    }
 
     render() {
         return (
@@ -74,6 +48,7 @@ export default class App extends Component<{}> {
                 <Text style={styles.instructions}>
                     {instructions}
                 </Text>
+                <Tabbars />
             </View>
         );
     }
