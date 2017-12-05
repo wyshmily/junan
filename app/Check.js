@@ -4,12 +4,12 @@ import {
   Text,
   View
 } from 'react-native';
-export default class Record extends Component {
+export default class Check extends Component {
   render() {
     return (
       <View>
         <Text style={styles.welcome}>
-          记录
+          检查
         </Text>
       </View>
     )

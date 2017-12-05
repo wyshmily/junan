@@ -7,7 +7,7 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Home form './Home'
+import Check from './Check'
 import Record from './Record'
 const deviceW = Dimensions.get('window').width
 
@@ -18,7 +18,7 @@ function px2dp(px) {
 }
 
 
-class Tabbars extends Component {
+export default class Tabbars extends Component {
   state= {
     selectedTab: 'home'
   };
@@ -28,17 +28,17 @@ class Tabbars extends Component {
       <TabNavigator style={styles.container}>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'home'}
-          title="Home"
+          title="检查"
           selectedTitleStyle={{color: "#3496f0"}}
           renderIcon={() => <Icon name="home" size={px2dp(22)} color="#666"/>}
           renderSelectedIcon={() => <Icon name="home" size={px2dp(22)} color="#3496f0"/>}
           badgeText="1"
           onPress={() => this.setState({selectedTab: 'home'})}>
-          <Home/>
+          <Check/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'record'}
-          title="Record"
+          title="记录"
           selectedTitleStyle={{color: "#3496f0"}}
           renderIcon={() => <Icon name="user" size={px2dp(22)} color="#666"/>}
           renderSelectedIcon={() => <Icon name="user" size={px2dp(22)} color="#3496f0"/>}
@@ -52,7 +52,7 @@ class Tabbars extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
@@ -68,4 +68,3 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-export default Tabbars;
