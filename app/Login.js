@@ -48,7 +48,7 @@ export default class App extends Component<{}> {
     render() {
 
         return (
-            <View style={styles.container}>
+            <View>
 
                 <List>
                     <InputItem value={this.state.username} onChange={this.changeInput.bind(this,"username")}>用户名</InputItem>

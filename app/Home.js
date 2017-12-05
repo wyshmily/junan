@@ -20,7 +20,7 @@ export default class Home extends Component {
     beginCheck=()=>{
         const {navigate} = this.props.navigation;
         //跳转页面
-        navigate("MyTabBars")
+        navigate("OrgList")
     }
   render() {
     return (
