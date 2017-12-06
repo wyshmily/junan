@@ -13,6 +13,8 @@ import Record from './app/containers/record/Record'
 import OrgList from './app/containers/check/OrgList'
 import PointTypeList from './app/containers/check/PointTypeList'
 import PointList from './app/containers/check/PointList'
+import CheckList from './app/containers/check/CheckList'
+import AddProblem from "./app/containers/check/AddProblem";
 
 
 const deviceW = Dimensions.get('window').width
@@ -74,6 +76,10 @@ const Route = StackNavigator({
     },
     PointTypeList: {screen: PointTypeList},
     PointList: {screen: PointList},
+    CheckList: {screen: CheckList},
+    AddProblem: {screen: AddProblem,navigationOptions: {
+        title: '新增问题'
+    }},
 });
 
 const styles = StyleSheet.create({
