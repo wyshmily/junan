@@ -17,7 +17,7 @@ export default class OrgList extends Component {
     beginCheck=(orgName)=>{
         console.log("selected:",orgName)
         const {navigate} = this.props.navigation;
-        navigate("TabBars", { org: orgName })
+        navigate("PointTypeList", { org: orgName })
     }
     render() {
         return (
@@ -33,19 +33,4 @@ export default class OrgList extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        marginBottom: 5,
-    },
 });

@@ -42,7 +42,7 @@ export default class App extends Component<{}> {
         console.log(this.state.username,this.state.password)
         //验证成功后跳转页面
         const {navigate} = this.props.navigation;
-        navigate("Home")
+        navigate("TabBars")
     }
 
     render() {

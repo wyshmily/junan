@@ -14,23 +14,24 @@ export default class Home extends Component {
             time:(new Date()).toUTCString()
         };
     }
-    static navigationOptions={
-        header:null,
-    }
     beginCheck=()=>{
         const {navigate} = this.props.navigation;
+        console.log(navigate)
         //跳转页面
         navigate("OrgList")
     }
   render() {
     return (
-      <View>
+      <View >
         <Text style={styles.welcome}>
             {this.state.name}
         </Text>
         <Text style={styles.instructions}>
             {this.state.org}
         </Text>
+          <Text style={styles.instructions}>
+              {this.state.time}
+          </Text>
         <Button type="primary" onClick={this.beginCheck}>开始检查</Button>
       </View>
     )

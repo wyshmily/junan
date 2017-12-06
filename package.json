@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"antd-mobile": "^2.1.0",
+		"babel-plugin-transform-remove-console": "^6.8.5",
 		"react": "^16.0.0",
 		"react-native": "^0.50.3",
 		"react-native-actionsheet": "^2.3.0",
