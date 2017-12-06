@@ -21,7 +21,7 @@ export default class PointTypeList extends Component {
     beginCheck=(pointId)=>{
         console.log("selected:",pointId)
         const {navigate} = this.props.navigation;
-        navigate("PointTypeList", { pointType: pointId })
+        navigate("PointList", { pointType: pointId })
 
     }
 
