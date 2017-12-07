@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 import {Button} from 'antd-mobile'
-export default class Home extends Component {
+export default class CheckHome extends Component {
     constructor(props) {
         super(props);
         this.state = {

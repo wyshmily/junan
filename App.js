@@ -7,8 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 import Login from './app/Login'
-import Home from './app/containers/check/Home'
-import Record from './app/containers/record/Record'
+import CheckHome from './app/containers/check/CheckHome'
+import RecordHome from './app/containers/record/RecordHome'
 
 import OrgList from './app/containers/check/OrgList'
 import PointTypeList from './app/containers/check/PointTypeList'
@@ -16,6 +16,12 @@ import PointList from './app/containers/check/PointList'
 import CheckList from './app/containers/check/CheckList'
 import AddProblem from "./app/containers/check/AddProblem";
 import AddAdvantage from "./app/containers/check/AddAdvantage";
+
+import AdvantageList from "./app/containers/record/AdvantageList";
+import ProblemList from "./app/containers/record/ProblemList";
+import ProblemDetail from "./app/containers/record/ProblemDetail";
+import AdvantageDetail from "./app/containers/record/AdvantageDetail";
+
 
 
 const deviceW = Dimensions.get('window').width
@@ -29,15 +35,15 @@ function px2dp(px) {
 
 const MainNavigator = TabNavigator({
         Check: {
-            screen: Home,
+            screen: CheckHome,
             navigationOptions: {
                 tabBarLabel: '检查',
                 header: null,
                 // tabBarIcon: ({tintColor}) => <Icon name="home" size={px2dp(22)} color={tintColor}/>,
             }
         },
-        Record: {
-            screen: Record,
+        RecordHome: {
+            screen: RecordHome,
             navigationOptions: {
                 tabBarLabel: '记录',
                 header: null,
@@ -83,6 +89,18 @@ const Route = StackNavigator({
     }},
     AddAdvantage: {screen: AddAdvantage,navigationOptions: {
         title: '新增优点'
+    }},
+    AdvantageList: {screen: AdvantageList,navigationOptions: {
+        title: '优点记录'
+    }},
+    ProblemList: {screen: ProblemList,navigationOptions: {
+        title: '问题记录'
+    }},
+    ProblemDetail: {screen: ProblemDetail,navigationOptions: {
+        title: '问题详情'
+    }},
+    AdvantageDetail: {screen: AdvantageDetail,navigationOptions: {
+        title: '优点详情'
     }},
 });
 

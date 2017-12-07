@@ -57,9 +57,7 @@ export default class App extends Component<{}> {
                     <InputItem type={"password"} value={this.state.password} onChange={this.changeInput.bind(this,"password")}>密码</InputItem>
                 </List>
                 <List>
-                    <Button type="primary" onClick={this.login}
-
-                    >登录</Button>
+                    <Button type="primary" onClick={this.login}>登录</Button>
                 </List>
             </View>
         );
