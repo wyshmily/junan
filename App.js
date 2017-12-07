@@ -81,7 +81,7 @@ const MainNavigator = TabNavigator({
 
 //进行导航的注册
 const Route = StackNavigator({
-    initialRouteName:{screen:MainNavigator},
+    initialRouteName:{screen:Login},
     Login: {
         screen: Login,
         navigationOptions: {

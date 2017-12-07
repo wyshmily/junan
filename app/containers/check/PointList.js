@@ -4,8 +4,9 @@ import {
     Text,
     View
 } from 'react-native';
-import {List, Button} from 'antd-mobile'
+import { List, Modal, Button,Flex, Toast } from 'antd-mobile';
 
+const prompt = Modal.prompt;
 const Item = List.Item;
 
 export default class PointList extends Component {
@@ -29,17 +30,43 @@ export default class PointList extends Component {
     }
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <List className="my-list">
                     {this.state.pointList.map((val, index) => {
                         return (<Item key={"pointitem" + index} arrow="horizontal" extra={val.checkedNum+'/'+val.num} multipleLine
                                       onClick={this.beginCheck.bind(this, val.point)}>{val.point}</Item>)
                     })}
                 </List>
-                <Button type="primary" onClick={this.newPoint}>新增点位</Button>
+                <Flex style={styles.button} >
+                    <Flex.Item></Flex.Item>
+                    <Flex.Item><Button type={"primary"} onClick={() => prompt('新增点位', '点位名称',
+                        [
+                            { text: '取消' },
+                            {
+                                text: '保存',
+                                onPress: value => new Promise((resolve) => {
+                                    Toast.info(`你输入的点位名称是：${value}`, 1);
+                                    setTimeout(() => {
+                                        resolve();
+                                    }, 1000);
+                                }),
+                            },
+                        ], 'default', null, ['点位名称'])}
+                    >新增点位</Button></Flex.Item>
+                    <Flex.Item></Flex.Item>
+                </Flex>
+
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+    },
+    button:{
+        position: 'absolute',
+        bottom: 20,
+    },
+});
