@@ -38,14 +38,15 @@ export default class CheckList extends Component {
      * @param id
      */
     setNormal = (id) => {
-
+        console.log(id);
     }
     /**
      * 新增优点
      * @param id
      */
     addAdvantage = (id) => {
-        console.log(id)
+        const {navigate} = this.props.navigation;
+        navigate("AddAdvantage", { id: id })
     }
     /**
      * 新增问题

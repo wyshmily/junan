@@ -15,6 +15,7 @@ import PointTypeList from './app/containers/check/PointTypeList'
 import PointList from './app/containers/check/PointList'
 import CheckList from './app/containers/check/CheckList'
 import AddProblem from "./app/containers/check/AddProblem";
+import AddAdvantage from "./app/containers/check/AddAdvantage";
 
 
 const deviceW = Dimensions.get('window').width
@@ -79,6 +80,9 @@ const Route = StackNavigator({
     CheckList: {screen: CheckList},
     AddProblem: {screen: AddProblem,navigationOptions: {
         title: '新增问题'
+    }},
+    AddAdvantage: {screen: AddAdvantage,navigationOptions: {
+        title: '新增优点'
     }},
 });
 
