@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import {AppRegistry, StyleSheet} from 'react-native';
 //导入stack导航组件
 import {StackNavigator, TabNavigator} from 'react-navigation';
@@ -39,7 +40,7 @@ const MainNavigator = TabNavigator({
             navigationOptions: {
                 tabBarLabel: '检查',
                 header: null,
-                // tabBarIcon: ({tintColor}) => <Icon name="home" size={px2dp(22)} color={tintColor}/>,
+                tabBarIcon: ({tintColor}) => <Icon name="check-square-o" size={px2dp(22)} color={tintColor}/>,
             }
         },
         RecordHome: {
@@ -47,28 +48,40 @@ const MainNavigator = TabNavigator({
             navigationOptions: {
                 tabBarLabel: '记录',
                 header: null,
-                // tabBarIcon: ({tintColor}) => <Icon name="user" size={px2dp(22)} color={tintColor}/>,
+                tabBarIcon: ({tintColor}) => <Icon name="list" size={px2dp(22)} color={tintColor}/>,
             }
         },
     }, {
-        animationEnabled: true,
+        animationEnabled: true,// 切换页面时是否有动画效果
         tabBarPosition: 'bottom',
-        swipeEnabled: true,
-        backBehavior: 'none',
+        swipeEnabled: true,// 是否可以左右滑动切换tab
+        backBehavior: 'none',// 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
         tabBarOptions: {
-            activeTintColor: '#fff',
-            inactiveTintColor: '#fff',
-            activeBackgroundColor: '#fff',
-            inactiveBackgroundColor: '#3496f0',
-            showIcon: true,
-            pressColor: 'gray',
-            pressOpacity: 0.8,
+            activeTintColor: '#3e9ce9',// 文字和图片选中颜色
+            inactiveTintColor: '#999999',// 文字和图片未选中颜色
+            showIcon: true,// android 默认不显示 icon, 需要设置为 true 才会显示
+            indicatorStyle: {
+                height: 0,  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+                opacity: 0
+            },
+            style: {
+                backgroundColor: '#fff',// TabBar 背景色
+                // height: 44,
+                // lineHeight:44,
+            },
+            tabStyle: {
+                padding: 0
+            },
+            labelStyle: {
+                fontSize: 12, // 文字大小
+            },
         },
     },
 )
 
 //进行导航的注册
 const Route = StackNavigator({
+    initialRouteName:{screen:MainNavigator},
     Login: {
         screen: Login,
         navigationOptions: {
@@ -105,19 +118,7 @@ const Route = StackNavigator({
 });
 
 const styles = StyleSheet.create({
-    tabBarImage: {
-        width: 24,
-        height: 24,
-    },
-    tabBar: {
-        backgroundColor: 'white',
-    },
-    tabBarLabel: {
-        fontSize: 12,
-    },
-    tabBarItem: {
-        height: 56,
-    },
+
 })
 
 
