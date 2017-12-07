@@ -4,7 +4,7 @@ import {
     Text,
     View
 } from 'react-native';
-import {List, Button} from 'antd-mobile'
+import {List, Button,Flex} from 'antd-mobile'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -72,14 +72,15 @@ export default class CheckList extends Component {
                                 {val.name}
 
                                 <Brief>{val.detail}</Brief>
-                                <View><Button key={"button-problem"} type="warning" size="small" inline
-                                              onClick={this.addProblem.bind(this, val.id)}>发现问题</Button>
-                                    <Button key={"button-advantage"} type="ghost" size="small" inline style={{ marginRight: 4 }}
-                                            className={"am-button-borderfix"}
-                                            onClick={this.addAdvantage.bind(this, val.id)}>记录优点</Button>
-                                    <Button key={"button-normal"} type="primary" size="small" inline style={{ marginRight: 4 }}
-                                            onClick={this.setNormal.bind(this, val.id)}>设为正常</Button>
-                                </View>
+                                    <Flex>
+                                    <Flex.Item><Button key={"button-problem"} type="warning" size="small" inline style={{ marginRight: 10 }}
+                                                       onClick={this.addProblem.bind(this, val.id)}>发现问题</Button></Flex.Item>
+                                        <Flex.Item><Button key={"button-advantage"} type="ghost" size="small" inline style={{ marginRight: 10 }}
+                                                           className={"am-button-borderfix"}
+                                                           onClick={this.addAdvantage.bind(this, val.id)}>记录优点</Button></Flex.Item>
+                                        <Flex.Item><Button key={"button-normal"} type="primary" size="small" inline style={{ marginRight: 10 }}
+                                                           onClick={this.setNormal.bind(this, val.id)}>设为正常</Button></Flex.Item>
+                                    </Flex>
                             </Item>
                         )
                     })}
@@ -89,4 +90,8 @@ export default class CheckList extends Component {
     }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    view: {
+        flexDirection: 'row',
+    },
+});

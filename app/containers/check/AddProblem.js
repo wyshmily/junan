@@ -80,9 +80,9 @@ export default class AddProblem extends Component {
                     />
                 </List>
                 <List>
-                    <Item>
+                    <Item style={styles.view}>
                     <Button size="small" inline onClick={this.onReset}>取消</Button>
-                    <Button type="primary" size="small" inline style={{marginLeft: 2.5}}
+                    <Button type="primary" size="small" inline style={{marginLeft: 10}}
                             onClick={this.onSubmit}>保存</Button>
                     </Item>
                 </List>
@@ -91,18 +91,9 @@ export default class AddProblem extends Component {
     }
 }
 
-// {
-//     <TextareaItem
-//         value={}
-//         rows={5}
-//     />
-// }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    }
+    view: {
+        flexDirection: 'row',
+    },
 });
