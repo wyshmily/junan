@@ -3,11 +3,11 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    TouchableHighlight
 } from 'react-native';
-import {List,Button, WingBlank, WhiteSpace, Flex} from 'antd-mobile';
+import { WingBlank, WhiteSpace, Flex} from 'antd-mobile';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-const Item = List.Item;
 
 export default class RecordHome extends Component {
     constructor(props) {
@@ -25,47 +25,37 @@ export default class RecordHome extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <WingBlank size="lg">
                     <WhiteSpace size="lg"/>
-                    <List className="my-list" onClick={this.toList.bind(this, "ProblemList")}>
-                        <Item>
+                    <TouchableHighlight className="my-list" style={styles.card} onPress={this.toList.bind(this, "ProblemList")}>
+                        <View>
                             <Flex>
-                                <Flex.Item><Image source={require('../../images/img.png')}
-                                                                style={{
-                                                                    width: 55,
-                                                                    height: 55,
-                                                                    marginRight: 20
-                                                                }}/></Flex.Item>
-                                <Flex.Item><Text style={styles.title}>{"问题记录"}</Text>
-                                    <Button type="primary" onClick={this.toList.bind(this, "ProblemList")}>test</Button></Flex.Item>
+                                <Flex.Item style={styles.inner}>
+                                    <Icon name="warning" size={22} color={'#e94f4f'} />
+                                    <Text style={styles.title}>{"问题记录"}</Text>
+                                    </Flex.Item>
                                 <Flex.Item><Text
                                     style={styles.num}>{this.state.problem.num}</Text></Flex.Item>
                             </Flex>
-                        </Item>
-                    </List>
-                    <WhiteSpace size="lg"/>
+                        </View>
+                    </TouchableHighlight>
                     <WhiteSpace size="lg"/>
                 </WingBlank>
                 <WingBlank size="lg">
                     <WhiteSpace size="lg"/>
-                    <List className="my-list" onClick={this.toList.bind(this, "AdvantageList")}>
-                        <Item>
-                            <Flex>
-                                <Flex.Item><Image source={require('../../images/img.png')}
-                                                  style={{
-                                                      width: 55,
-                                                      height: 55,
-                                                      marginRight: 20
-                                                  }}/></Flex.Item>
-                                <Flex.Item>
-                                    <Button type="primary" onClick={this.toList.bind(this, "AdvantageList")}>test</Button>
-                                    <Text style={styles.title}>{"优点记录"}</Text></Flex.Item>
+                    <TouchableHighlight style={styles.card} className="my-list" onPress={this.toList.bind(this, "AdvantageList")}>
+                        <View>
+                        <Flex>
+                            <Flex.Item style={styles.inner}>
+                                <Icon name="check-circle-o" size={22} color={'#3e9ce9'} />
+                                <Text style={styles.title}>{"优点记录"}</Text>
+                            </Flex.Item>
                                 <Flex.Item><Text
                                     style={styles.num}>{this.state.advantage.num}</Text></Flex.Item>
                             </Flex>
-                        </Item>
-                    </List>
+                        </View>
+                    </TouchableHighlight>
                     <WhiteSpace size="lg"/>
                 </WingBlank>
             </View>
@@ -73,8 +63,24 @@ export default class RecordHome extends Component {
     }
 }
 const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        justifyContent: 'center',
+    },
+    card:{
+        paddingLeft: 25,
+        paddingRight:25,
+        paddingBottom:40,
+        paddingTop:40,
+        backgroundColor:'#fff'
+    },
+    inner:{
+        flexDirection:'row',
+    },
     title:{
+        fontSize:16,
         textAlign:'left',
+        marginLeft:15,
     },
     num: {
         textAlign: 'right',

@@ -4,7 +4,7 @@ import {
   Text,
   View
 } from 'react-native';
-import {Button} from 'antd-mobile'
+import {Button,WhiteSpace} from 'antd-mobile'
 export default class CheckHome extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ export default class CheckHome extends Component {
     }
   render() {
     return (
-      <View >
+      <View style={styles.container}>
         <Text style={styles.welcome}>
             {this.state.name}
         </Text>
@@ -32,7 +32,11 @@ export default class CheckHome extends Component {
           <Text style={styles.instructions}>
               {this.state.time}
           </Text>
+          <WhiteSpace size="lg"/>
+          <WhiteSpace size="lg"/>
         <Button type="primary" onClick={this.beginCheck}>开始检查</Button>
+          <WhiteSpace size="lg"/>
+          <WhiteSpace size="lg"/>
       </View>
     )
   }
@@ -43,7 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
@@ -52,6 +55,6 @@ const styles = StyleSheet.create({
   },
     instructions: {
         textAlign: 'center',
-        marginBottom: 5,
+        marginBottom: 10,
     },
 });

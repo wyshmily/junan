@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { List, Modal, Button,InputItem,Flex, Toast } from 'antd-mobile';
+import { List, Modal, Button,InputItem,Flex, Toast,WingBlank,WhiteSpace } from 'antd-mobile';
 
 const prompt = Modal.prompt
 
@@ -73,8 +73,8 @@ export default class App extends Component<{}> {
     render() {
 
         return (
-            <View>
-
+            <View style={styles.container}>
+                <WingBlank size="lg">
                 <List>
                     <InputItem value={this.state.username} onChange={this.changeInput.bind(this,"username")}>用户名</InputItem>
                 </List>
@@ -89,6 +89,15 @@ export default class App extends Component<{}> {
                     </Flex>
 
                 </List>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                    <WhiteSpace size="lg"/>
+                </WingBlank>
             </View>
         );
     }
@@ -98,7 +107,5 @@ const styles = StyleSheet.create({
   container: {
       flex:1,
       justifyContent: 'center',
-      alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
 });
