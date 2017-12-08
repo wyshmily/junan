@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 import { List, Modal, Button,InputItem,Flex, Toast,WingBlank,WhiteSpace } from 'antd-mobile';
-
+const Item = List.Item;
 const prompt = Modal.prompt
 
 const instructions = Platform.select({
@@ -74,20 +74,16 @@ export default class App extends Component<{}> {
 
         return (
             <View style={styles.container}>
-                <WingBlank size="lg">
-                <List>
+                <List style={styles.list}>
                     <InputItem value={this.state.username} onChange={this.changeInput.bind(this,"username")}>用户名</InputItem>
-                </List>
-                <List>
                     <InputItem type={"password"} value={this.state.password} onChange={this.changeInput.bind(this,"password")}>密码</InputItem>
-                </List>
-                <List>
+                <Item>
                     <Flex style={styles.button} >
                         <Flex.Item></Flex.Item>
                         <Flex.Item><Button type="primary" onClick={this.login}>登录</Button></Flex.Item>
                         <Flex.Item></Flex.Item>
                     </Flex>
-
+                </Item>
                 </List>
                     <WhiteSpace size="lg"/>
                     <WhiteSpace size="lg"/>
@@ -97,7 +93,6 @@ export default class App extends Component<{}> {
                     <WhiteSpace size="lg"/>
                     <WhiteSpace size="lg"/>
                     <WhiteSpace size="lg"/>
-                </WingBlank>
             </View>
         );
     }
@@ -107,5 +102,12 @@ const styles = StyleSheet.create({
   container: {
       flex:1,
       justifyContent: 'center',
+      backgroundColor: '#F5FCFF',
+
   },
+    list:{
+        // backgroundColor:'#fff',
+        // paddingTop:30,
+        // paddingBottom:30,
+    },
 });
