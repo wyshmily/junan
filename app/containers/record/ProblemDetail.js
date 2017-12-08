@@ -25,6 +25,16 @@ export default class ProblemDetail extends Component {
         };
     }
 
+
+    static navigationOptions = {
+        headerRight: <Button title="编辑" onClick={this.onEdit} type="ghost"
+                             className={"am-button-borderfix"}>编辑</Button>,
+    };
+
+    onEdit=()=>{
+
+    }
+
     onReset = () => {
         //返回
 
