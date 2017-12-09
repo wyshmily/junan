@@ -9,8 +9,8 @@ export default class CheckHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'XXXX安全检查',
-            org: 'XX单位',
+            name: '三营安全检查',
+            org: 'test单位',
             time:(new Date()).toUTCString()
         };
     }

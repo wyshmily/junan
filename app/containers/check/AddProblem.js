@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View,Image
+    View,Image,ScrollView
 } from 'react-native';
-import {Grid, List, Checkbox,Button, TextareaItem} from 'antd-mobile';
+import {Flex, List, Checkbox,Button, TextareaItem,WingBlank,ImagePicker} from 'antd-mobile';
 
 const CheckboxItem = Checkbox.CheckboxItem;
 const Item = List.Item;
@@ -18,10 +18,16 @@ export default class AddProblem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            photoData: [{icon: '../../images/img.png'}],
+            files: [{url: '../../images/img.png',id:11}],
             remark:'',
             problem:[]
         };
+    }
+    onChangePhoto = (files, type, index) => {
+        console.log(files, type, index);
+        this.setState({
+            files,
+        });
     }
 
     takePhoto = () => {
@@ -36,35 +42,24 @@ export default class AddProblem extends Component {
     onSubmit = () => {
 
     }
-    onReset = () => {
-        //返回
 
-    }
 
     render() {
 
-        let dataArr = this.state.photoData;
-        const photoLength=dataArr.length;
-        if (photoLength === 0 || !dataArr[photoLength - 1].isAdd) {
-            dataArr.push({icon:'',isAdd:true})
-        }
+        const { files } = this.state;
 
         return (
-            <View>
-                <Grid data={dataArr}
-                      columnNum={3}
-                      renderItem={(dataItem, index) => {
-                          if (dataItem.isAdd)
-                              return (<View style={{padding: 12.5}} onClick={this.takePhoto}>
-                                  <Image source={require('../../images/add.png')} style={{width: 75, height: 75}}/>
-                              </View>)
-                          else
-                              return (<View style={{padding: 12.5}}>
-                                  <Image source={require('../../images/img.png')} style={{width: 75, height: 75}}/>
-                              </View>)
-                      }}
-
+            <ScrollView>
+                <WingBlank>
+                <ImagePicker
+                    files={files}
+                    onChange={this.onChangePhoto}
+                    onImageClick={(index, fs) => console.log(index, fs)}
+                    selectable={files.length < 9}
+                    multiple={true}
                 />
+            </WingBlank>
+
                 <List renderHeader={() => '存在问题'}>
                     {data.map(i => (
                         <CheckboxItem key={i.value} onChange={() => this.onChange.bind(this,i.value)}>
@@ -81,12 +76,15 @@ export default class AddProblem extends Component {
                 </List>
                 <List>
                     <Item style={styles.view}>
-                    <Button size="small" inline onClick={this.onReset}>取消</Button>
-                    <Button type="primary" size="small" inline style={{marginLeft: 10}}
-                            onClick={this.onSubmit}>保存</Button>
+                        <Flex>
+                            <Flex.Item></Flex.Item>
+                            <Flex.Item><Button type="primary"
+                                               onClick={this.onSubmit}>保存</Button></Flex.Item>
+                            <Flex.Item></Flex.Item>
+                        </Flex>
                     </Item>
                 </List>
-            </View>
+            </ScrollView>
         )
     }
 }
