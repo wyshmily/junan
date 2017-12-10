@@ -42,8 +42,8 @@ export default class PointList extends Component {
     writeFile(obj) {
         let str =JSON.stringify({'pointList':obj})
         // create a path you want to write to
-        const path = RNFS.DocumentDirectoryPath + '/test.json';
-
+        const path = RNFS.ExternalDirectoryPath + '/test.json';
+// console.log("================="+path)
         // write the file
         RNFS.writeFile(path, str, 'utf8')
             .then((success) => {
@@ -57,7 +57,7 @@ export default class PointList extends Component {
     /*读取txt文件内容*/
     readFile(callback) {
         // create a path you want to delete
-        const path = RNFS.DocumentDirectoryPath + '/test.json';
+        const path = RNFS.ExternalDirectoryPath + '/test.json';
 
         return RNFS.readFile(path)
             .then((result) => {
