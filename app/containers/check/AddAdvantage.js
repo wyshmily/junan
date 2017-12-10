@@ -13,7 +13,7 @@ export default class AddAdvantage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            files: [],
+            files: [{url:'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',id:1}],
             remark:'',
             advantage:[]
         };

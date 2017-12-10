@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View,Image
+    View,Image,ScrollView
 } from 'react-native';
-import {Grid, List, Checkbox,Button, TextareaItem} from 'antd-mobile';
+import {Grid, List, Checkbox,Button, TextareaItem,WingBlank,ImagePicker,Flex} from 'antd-mobile';
 
 const CheckboxItem = Checkbox.CheckboxItem;
 const Item = List.Item;
@@ -19,7 +19,7 @@ export default class ProblemDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            photoData: [{icon: '../../images/img.png'}],
+            files: [{url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',id:1}],
             remark:'我是问题备注',
             problem:[]
         };
@@ -42,19 +42,19 @@ export default class ProblemDetail extends Component {
 
     render() {
 
-        let dataArr = this.state.photoData;
+        const { files } = this.state;
 
         return (
             <View>
-                <Grid data={dataArr}
-                      columnNum={3}
-                      renderItem={(dataItem, index) => {
-                              return (<View style={{padding: 12.5}}>
-                                  <Image source={require('../../images/img.png')} style={{width: 75, height: 75}}/>
-                              </View>)
-                      }}
-
-                />
+                <WingBlank>
+                    <ImagePicker
+                        files={files}
+                        onChange={this.onChangePhoto}
+                        onImageClick={(index, fs) => console.log(index, fs)}
+                        selectable={false}
+                        multiple={true}
+                    />
+                </WingBlank>
                 <List renderHeader={() => '存在问题'}>
                     {data.map(i => (
                         <CheckboxItem disabled key={i.value}>
@@ -69,7 +69,14 @@ export default class ProblemDetail extends Component {
                 </List>
                 <List>
                     <Item>
-                    <Button inline onClick={this.onReset}>返回</Button>
+                        {
+                            //<Button size="small" inline onClick={this.onReset}>返回</Button>
+                        }
+                        <Flex>
+                            <Flex.Item></Flex.Item>
+                            <Flex.Item></Flex.Item>
+                            <Flex.Item></Flex.Item>
+                        </Flex>
                     </Item>
                 </List>
             </View>

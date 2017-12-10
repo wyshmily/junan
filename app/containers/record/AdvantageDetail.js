@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View,Image
+    View,Image,ScrollView
 } from 'react-native';
-import {Grid, List, Button, TextareaItem} from 'antd-mobile';
+import {Grid, List, Button, TextareaItem,WingBlank,ImagePicker,Flex} from 'antd-mobile';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -14,7 +14,7 @@ export default class AdvantageDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            photoData: [{icon: '../../images/img.png'}],
+            files: [{url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',id:1}],
             remark:'我是优点备注',
             advantage:[]
         };
@@ -35,20 +35,18 @@ export default class AdvantageDetail extends Component {
     }
 
     render() {
-
-        let dataArr = this.state.photoData;
-
+        const { files } = this.state;
         return (
-            <View>
-                <Grid data={dataArr}
-                      columnNum={3}
-                      renderItem={(dataItem, index) => {
-                              return (<View style={{padding: 12.5}}>
-                                  <Image source={require('../../images/img.png')} style={{width: 75, height: 75}}/>
-                              </View>)
-                      }}
 
-                />
+            <ScrollView>
+                <WingBlank>
+                    <ImagePicker
+                        files={files}
+                        onImageClick={(index, fs) => console.log(index, fs)}
+                        selectable={false}
+                        multiple={true}
+                    />
+                </WingBlank>
                 <List renderHeader={() => '优点备注'}>
                     <Item>
                         <Brief>{this.state.remark}</Brief>
@@ -56,10 +54,17 @@ export default class AdvantageDetail extends Component {
                 </List>
                 <List>
                     <Item>
-                    <Button size="small" inline onClick={this.onReset}>返回</Button>
+                        {
+                            //<Button size="small" inline onClick={this.onReset}>返回</Button>
+                        }
+                        <Flex>
+                            <Flex.Item></Flex.Item>
+                            <Flex.Item></Flex.Item>
+                            <Flex.Item></Flex.Item>
+                        </Flex>
                     </Item>
                 </List>
-            </View>
+            </ScrollView>
         )
     }
 }

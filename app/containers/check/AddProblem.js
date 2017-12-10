@@ -18,7 +18,7 @@ export default class AddProblem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            files: [{url: '../../images/img.png',id:11}],
+            files: [{url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',id:1}],
             remark:'',
             problem:[]
         };
