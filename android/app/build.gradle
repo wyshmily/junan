@@ -112,8 +112,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        aaptOptions.cruncherEnabled = false
-        aaptOptions.useNewCruncher = false
+        //aaptOptions.cruncherEnabled = false
+        //aaptOptions.useNewCruncher = false
     }
     signingConfigs {
             release {
