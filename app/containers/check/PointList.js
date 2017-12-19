@@ -17,13 +17,9 @@ export default class PointList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pointList: [{id: "0", point: "兵器室大门", num: 3, checkedNum: 2}, {
-                id: "1",
-                point: "手枪柜",
-                num: 5,
-                checkedNum: 0
-            }],
-            readTxtResult:''
+            pointList: [],
+            StandardListLength: 0,
+            PointTypeIndex: 0
         };
     }
 
@@ -32,56 +28,23 @@ export default class PointList extends Component {
     });
 
     componentWillMount() {
-        this.readFile((result)=>{
-            let obj = JSON.parse(result);
-            this.setState({pointList:obj.pointList})
-        });
-    }
+        let inspect = global.inspect;
+        let index = this.navigation.state.params.index;
 
-    /*将文本写入本地 txt*/
-    writeFile(obj) {
-        let str =JSON.stringify({'pointList':obj})
-        // create a path you want to write to
-        const path = RNFS.ExternalDirectoryPath + '/test.json';
-// console.log("================="+path)
-        // write the file
-        RNFS.writeFile(path, str, 'utf8')
-            .then((success) => {
-                console.log('path', path);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-    }
-
-    /*读取txt文件内容*/
-    readFile(callback) {
-        // create a path you want to delete
-        const path = RNFS.ExternalDirectoryPath + '/test.json';
-
-        return RNFS.readFile(path)
-            .then((result) => {
-            if(typeof callback =='function'){
-                callback(result)
-            }
-
-                this.setState({
-                    readTxtResult: result,
-                })
-
-            })
-            .catch((err) => {
-                console.log(err.message);
-
-            });
+        this.setState({
+            pointList: inspect.PositionTypeList[index].PositionList,
+            StandardListLength: inspect.PositionTypeList[index].StandardList.length,
+            PointTypeIndex: index
+        })
     }
 
     newPoint = () => {
-        this.readFile();
+
     }
-    beginCheck = (point) => {
+    beginCheck = (point, index) => {
+        global.currentPoint = {type: this.navigation.state.params.index, point: index}
         const {navigate} = this.props.navigation;
-        navigate("CheckList", {point: point})
+        navigate("CheckList", {point: point,index:index})
     }
 
     render() {
@@ -90,9 +53,11 @@ export default class PointList extends Component {
                 <List className="my-list">
                     {this.state.pointList.map((val, index) => {
                         return (
-                            <Item key={"pointitem" + index} arrow="horizontal" extra={val.checkedNum + '/' + val.num}
+                            <Item key={"pointitem" + index} arrow="horizontal"
+                                  extra={this.state.pointList[index].StateList ? this.state.pointList[index].StateList.length : 0
+                                      + '/' + this.state.StandardListLength}
                                   multipleLine
-                                  onClick={this.beginCheck.bind(this, val.point)}>{val.point}</Item>)
+                                  onClick={this.beginCheck.bind(this, val.Name, index)}>{val.Name}</Item>)
                     })}
                 </List>
                 <Flex style={styles.button}>
@@ -105,13 +70,16 @@ export default class PointList extends Component {
                                 onPress: value => new Promise((resolve) => {
                                     let pointList = this.state.pointList;
                                     pointList.push({
-                                        id: "point" + pointList.length,
-                                        point: value,
-                                        num: 0,
-                                        checkedNum: 0
+                                        Id: pointList.length,
+                                        Name: value,
+                                        StateList: [],
+                                        ProblemList: [],
+                                        AdvantageList: []
                                     })
                                     this.setState({pointList: pointList})
-                                    this.writeFile(pointList);
+                                    let inspect = global.inspect;
+                                    inspect.PositionTypeList[this.state.PointTypeIndex].PositionList = pointList
+                                    global.inspect = inspect;
                                     Toast.info(`新增成功`, 1);
                                     setTimeout(() => {
                                         resolve();

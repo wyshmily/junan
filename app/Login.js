@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native';
 import { List, Modal, Button,InputItem,Flex, Toast,WingBlank,WhiteSpace } from 'antd-mobile';
+import * as stores from './Stores';
 const Item = List.Item;
 const prompt = Modal.prompt
 
@@ -27,8 +28,16 @@ export default class App extends Component<{}> {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            currentUser:{i:0,j:0,user:{Account:'',Password:'',NewPassword:null}}
         };
+    }
+    componentWillMount() {
+        ////test,省略导入文件步骤
+        // stores.writeFile(inspect)
+        stores.readFile((result)=>{
+            global.inspect = result;
+        })
     }
 
     static navigationOptions={
@@ -41,17 +50,63 @@ export default class App extends Component<{}> {
         this.setState(newState);
     }
 
+    //验证用户名密码
+    getUser=(userName)=>{
+        let length = global.inspect.TeamList.length;
+        let user=null,targetI=0,targetJ=0;
+        for(let index=0;index<length;index++){
+            let teamList = global.inspect.TeamList[index].InspectorList;
+            const targetUser = teamList.find((value,i)=>{
+                if(value.Account===userName){
+                    targetJ = i;
+                    return true
+                }
+                return false;
+            })
+            if(targetUser){
+                user=targetUser;
+                targetI = index;
+                break;
+            }
+        }
+        this.setState({
+            currentUser:{i:targetI,j:targetJ,user:user}
+        })
+        global.currentUser={i:targetI,j:targetJ,user:user}
+        return user;
+    }
+
+
     login = () => {
         //首次登陆弹出修改密码窗口
-        console.log(this.state.username,this.state.password)
-        if(this.state.password=='first'){
+        if(!this.state.username||!this.state.password){
+            Toast.info(`请输入用户名密码`, 1);
+            return;
+        }
+        //获取改用户名对应的用户
+        let user = this.getUser(this.state.username);
+        if(!user){
+            Toast.info(`没有该用户`, 1);
+            return
+        }
+        //判断是否第一次登录，第一次登录时，必须修改密码
+        if(!user.NewPassword){
+            if(user.Password!=this.state.password){
+                Toast.info(`用户名或密码错误`, 1);
+                return
+            }
             prompt('设置密码', '密码',
                 [
                     { text: '取消' },
                     {
                         text: '设置',
                         onPress: value => new Promise((resolve) => {
-                            Toast.info(`新密码设置成功：${value}`, 2);
+                            //存储新密码数据
+                            let obj = global.inspect;
+                            obj.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["NewPassword"]=value;
+                            stores.writeFile(obj)
+                            global.inspect = obj;
+                            Toast.info(`新密码设置成功,下次登录请使用新密码登录`, 2);
                             setTimeout(() => {
                                 resolve();
 
@@ -64,6 +119,11 @@ export default class App extends Component<{}> {
                     },
                 ], 'secure-text', null, ['新密码'])
         }else{
+            if(user.NewPassword!=this.state.password){
+                Toast.info(`用户名或密码错误`, 1);
+                return
+            }
+
             //验证成功后跳转页面
             const {navigate} = this.props.navigation;
             navigate("TabBars")

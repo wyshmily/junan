@@ -5,14 +5,23 @@ import {
   View
 } from 'react-native';
 import {Button,WhiteSpace} from 'antd-mobile'
+
 export default class CheckHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '三营安全检查',
-            org: 'test单位',
-            time:(new Date()).toUTCString()
+            name: '',
+            org: '',
+            time:''
         };
+    }
+    componentWillMount() {
+        let result = global.inspect;
+        this.setState({
+                    name:result.Name,
+                    org:result.OrganizerName,
+                    time:result.InspectDate
+                })
     }
     beginCheck=()=>{
         const {navigate} = this.props.navigation;

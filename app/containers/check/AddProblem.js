@@ -18,17 +18,53 @@ export default class AddProblem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            files: [{url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',id:1}],
+            StateList:[],
+            files: [],
             remark:'',
             problem:[]
         };
     }
+
+    componentWillMount() {
+        let inspect =global.inspect;
+        let type = global.currentPoint.type;
+        let point = global.currentPoint.point;
+        let index = this.navigation.state.params.id;//点位的检查项
+
+        this.setState({
+            StateList:inspect.PositionTypeList[type].PositionList[point].StateList
+        })
+    }
+
+    setStateList=(index,value)=>{
+        // let checkI=null;
+        // const currentCheck = this.state.StateList.find((val,i)=>{
+        //     if(val["index"]==index){
+        //         checkI = i;
+        //         return true
+        //
+        //     }
+        //     return false;
+        // })
+        // let stateList = this.state.StateList
+        // if(currentCheck){
+        //     stateList[checkI]["value"]=value
+        // }else{
+        //     stateList.push({"index":index,"value":value})
+        // }
+        // this.setState({StateList:stateList})
+        // let inspect = global.inspect;
+        // inspect.PositionTypeList[global.currentPoint.type].PositionList[global.currentPoint.point]["StateList"] = stateList
+        // global.inspect = inspect;
+    }
+
     onChangePhoto = (files, type, index) => {
         console.log(files, type, index);
         this.setState({
             files,
         });
     }
+
 
     takePhoto = () => {
         //拍照

@@ -4,6 +4,7 @@ import {AppRegistry, StyleSheet} from 'react-native';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 import {Dimensions} from 'react-native';
 
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
@@ -23,7 +24,7 @@ import ProblemList from "./app/containers/record/ProblemList";
 import ProblemDetail from "./app/containers/record/ProblemDetail";
 import AdvantageDetail from "./app/containers/record/AdvantageDetail";
 
-
+import ImagePickers from './app/components/ImagePickers';
 
 const deviceW = Dimensions.get('window').width
 
@@ -114,6 +115,9 @@ const Route = StackNavigator({
     }},
     AdvantageDetail: {screen: AdvantageDetail,navigationOptions: {
         title: '优点详情'
+    }},
+    ImagePickers: {screen: ImagePickers,navigationOptions: {
+        header: null
     }},
 });
 
