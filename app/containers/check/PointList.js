@@ -38,11 +38,15 @@ export default class PointList extends Component {
         })
     }
 
-    //检查该点位
+    /**
+     * 检查该点位
+     * @param point 点位名称
+     * @param index 点位编号
+     */
     beginCheck = (point, index) => {
-        global.currentPoint = {type: this.props.navigation.state.params.index, point: index}
+        global.currentPoint = {type: this.props.navigation.state.params.index, point: index , pointName:point}
         const {navigate} = this.props.navigation;
-        navigate("CheckList", {point: point,index:index})
+        navigate("CheckList", {point: point})
     }
 
     render() {

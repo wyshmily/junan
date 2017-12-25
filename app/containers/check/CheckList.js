@@ -4,7 +4,7 @@ import {
     Text,
     View,ScrollView
 } from 'react-native';
-import {List, Button,Flex} from 'antd-mobile'
+import {List, Button,Flex,Toast} from 'antd-mobile'
 import * as stores from './../../Stores';
 
 const Item = List.Item;
@@ -25,6 +25,16 @@ export default class CheckList extends Component {
     });
 
     componentWillMount() {
+    let inspect =global.inspect;
+        let type = global.currentPoint.type;
+        let point = global.currentPoint.point;
+
+        this.setState({
+            StandardList: inspect.PositionTypeList[type].StandardList,
+            StateList:inspect.PositionTypeList[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
+        })
+    }
+    componentWillReceiveProps() {
         let inspect =global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
@@ -36,13 +46,35 @@ export default class CheckList extends Component {
     }
     setStateList=(index,value)=>{
         let stateList = this.state.StateList
-        stateList[index]=value;
-        this.setState({StateList:stateList})
         let inspect = global.inspect;
-        let currentPoint =global.currentPoint
-        inspect.PositionTypeList[currentPoint.type].PositionList[currentPoint.point]["StateList"] = stateList
+        let type = global.currentPoint.type;
+        let point = global.currentPoint.point;
+        let key=null;
+        if(stateList[index]=="advantage"){
+            key = "AdvantageList"
+        }else if(stateList[index]=="problem"){
+            key = "ProblemList"
+        }
+        if(key){
+            let currentIndex = 0;
+            const current = inspect.PositionTypeList[type].PositionList[point][key].find((val,i)=>{
+                if(val["index"]==index){
+                    currentIndex=i
+                    return true
+                }
+                return false
+            })
+            if(current){
+                inspect.PositionTypeList[type].PositionList[point][key].splice(currentIndex,1);
+            }
+        }
+        stateList[index]=value;
+        inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;
-        stores.writeFile(inspect);
+        stores.writeFile(inspect,()=> {
+            this.setState({StateList:stateList})
+            Toast.info(`设置成功`, 1);
+        })
     }
     /**
      * 设为正常
@@ -57,16 +89,17 @@ export default class CheckList extends Component {
      * @param id
      */
     addAdvantage = (id) => {
-        const {navigate} = this.props.navigation;
-        navigate("AddAdvantage", { id: id })
+        const { state, navigate } = this.props.navigation;
+        navigate('AddAdvantage', { id:id,go_back_key: state.key ,pointName:state.params.point});
+
     }
     /**
      * 新增问题
      * @param id
      */
     addProblem = (id) => {
-        const {navigate} = this.props.navigation;
-        navigate("AddProblem", { id: id })
+        const { state, navigate } = this.props.navigation;
+        navigate('AddProblem', { id:id,go_back_key: state.key  ,pointName:state.params.point});
     }
 
     render() {
@@ -92,12 +125,12 @@ export default class CheckList extends Component {
                                 <Brief>{val.Standard}</Brief>
                                     <Flex>
                                     <Flex.Item><Button key={"button-problem"} type="warning" size="small" inline style={{ marginRight: 10 }}
-                                                       onClick={this.addProblem.bind(this, index)} disabled={itemState==="problem"?"disabled":""}>发现问题</Button></Flex.Item>
+                                                       onClick={this.addProblem.bind(this, index)} disabled={itemState==="problem"?true:false}>发现问题</Button></Flex.Item>
                                         <Flex.Item><Button key={"button-advantage"} type="ghost" size="small" inline style={{ marginRight: 10 }}
                                                            className={"am-button-borderfix"}
-                                                           onClick={this.addAdvantage.bind(this,index)} disabled={itemState==="advantage"?"disabled":""}>记录优点</Button></Flex.Item>
+                                                           onClick={this.addAdvantage.bind(this,index)} disabled={itemState==="advantage"?true:false}>记录优点</Button></Flex.Item>
                                         <Flex.Item><Button key={"button-normal"} type="primary" size="small" inline style={{ marginRight: 10 }}
-                                                           onClick={this.setNormal.bind(this, index)} disabled={itemState==="normal"?"disabled":""}>设为正常</Button></Flex.Item>
+                                                           onClick={this.setNormal.bind(this, index)} disabled={itemState==="normal"?true:false}>设为正常</Button></Flex.Item>
                                     </Flex>
                             </Item>
                         )
