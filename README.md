@@ -1,6 +1,10 @@
 # junan
 军安365app
 
+# 安装
+```
+npm run install
+```
 ## 调试
 ```
 npm run android
@@ -14,7 +18,11 @@ adb devices
 ```
 react-native log-android
 ```
-
+## 显示具体错误信息
+```
+gradlew compileDebug --stacktrace
+```
+显示一些具体出错的信息
 
 ## 发布apk
 ```
