@@ -110,8 +110,8 @@ export default class AddAdvantage extends Component {
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            // goBack(params.go_back_key);
-            navigate("CheckList", {point: params.pointName})
+            goBack(params.go_back_key);
+            // navigate("CheckList", {point: params.pointName})
 
         });
     }
