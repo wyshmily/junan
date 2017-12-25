@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,ScrollView
 } from 'react-native';
 import {List, Button,Flex} from 'antd-mobile'
+import * as stores from './../../Stores';
 
 const Item = List.Item;
 const Brief = Item.Brief;
-
+const StateObj = {"normal":'正常','problem':'有问题','advantage':'有优点'}
 
 export default class CheckList extends Component {
     constructor(props) {
@@ -27,31 +28,21 @@ export default class CheckList extends Component {
         let inspect =global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
+
         this.setState({
             StandardList: inspect.PositionTypeList[type].StandardList,
-            StateList:inspect.PositionTypeList[type].PositionList[point].StateList
+            StateList:inspect.PositionTypeList[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
         })
     }
     setStateList=(index,value)=>{
-        let checkI=null;
-        const currentCheck = this.state.StateList.find((val,i)=>{
-            if(val["index"]==index){
-                checkI = i;
-                return true
-
-            }
-            return false;
-        })
         let stateList = this.state.StateList
-        if(currentCheck){
-            stateList[checkI]["value"]=value
-        }else{
-            stateList.push({"index":index,"value":value})
-        }
+        stateList[index]=value;
         this.setState({StateList:stateList})
         let inspect = global.inspect;
-        inspect.PositionTypeList[global.currentPoint.type].PositionList[global.currentPoint.point]["StateList"] = stateList
+        let currentPoint =global.currentPoint
+        inspect.PositionTypeList[currentPoint.type].PositionList[currentPoint.point]["StateList"] = stateList
         global.inspect = inspect;
+        stores.writeFile(inspect);
     }
     /**
      * 设为正常
@@ -80,9 +71,11 @@ export default class CheckList extends Component {
 
     render() {
         return (
-            <View>
+            <ScrollView>
                 <List className="my-list">
-                    {this.state.pointList.map((val, index) => {
+                    {this.state.StandardList.map((val, index) => {
+                        let itemState=this.state.StateList[index];
+                        let itemStateText=this.state.StateList[index]?StateObj[this.state.StateList[index]]:'未检查'
                         return (
                             <Item
                                 key={"pointitem" + index}
@@ -90,23 +83,27 @@ export default class CheckList extends Component {
                                 multipleLine
                                 platform="android"
                             >
-                                {val.Category}
+                                <View style={styles.view}>
+                                    <Text style={styles.title}>{val.Category}</Text>
+                                    <Text style={styles.right}>{itemStateText}</Text>
+                                </View>
+
 
                                 <Brief>{val.Standard}</Brief>
                                     <Flex>
                                     <Flex.Item><Button key={"button-problem"} type="warning" size="small" inline style={{ marginRight: 10 }}
-                                                       onClick={this.addProblem.bind(this, index)}>发现问题</Button></Flex.Item>
+                                                       onClick={this.addProblem.bind(this, index)} disabled={itemState==="problem"?"disabled":""}>发现问题</Button></Flex.Item>
                                         <Flex.Item><Button key={"button-advantage"} type="ghost" size="small" inline style={{ marginRight: 10 }}
                                                            className={"am-button-borderfix"}
-                                                           onClick={this.addAdvantage.bind(this,index)}>记录优点</Button></Flex.Item>
+                                                           onClick={this.addAdvantage.bind(this,index)} disabled={itemState==="advantage"?"disabled":""}>记录优点</Button></Flex.Item>
                                         <Flex.Item><Button key={"button-normal"} type="primary" size="small" inline style={{ marginRight: 10 }}
-                                                           onClick={this.setNormal.bind(this, index)}>设为正常</Button></Flex.Item>
+                                                           onClick={this.setNormal.bind(this, index)} disabled={itemState==="normal"?"disabled":""}>设为正常</Button></Flex.Item>
                                     </Flex>
                             </Item>
                         )
                     })}
                 </List>
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -115,4 +112,13 @@ const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
     },
+    title: {
+        fontSize: 17,
+        color: '#000',
+    },
+    right:{
+        position:'absolute',
+        top:5,
+        right:10,
+    }
 });

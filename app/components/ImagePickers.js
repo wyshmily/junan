@@ -28,7 +28,7 @@ export default class ImagePickers extends React.Component {
             maxHeight: 500,
             storageOptions: {
                 skipBackup: true,
-                path:'junan/images',//will save the image at Documents/[path]/ rather than the root Documents
+                path:'junan365/images',//will save the image at Documents/[path]/ rather than the root Documents
                 cameraRoll:true,
             },
             permissionDenied:{

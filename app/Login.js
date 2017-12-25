@@ -102,10 +102,10 @@ export default class App extends Component<{}> {
                         text: '设置',
                         onPress: value => new Promise((resolve) => {
                             //存储新密码数据
-                            let obj = global.inspect;
-                            obj.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["NewPassword"]=value;
-                            stores.writeFile(obj)
-                            global.inspect = obj;
+                            let inspect = global.inspect;
+                            inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["NewPassword"]=value;
+                            stores.writeFile(inspect)
+                            global.inspect = inspect;
                             Toast.info(`新密码设置成功,下次登录请使用新密码登录`, 2);
                             setTimeout(() => {
                                 resolve();

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import {List, Modal, Button, Flex, Toast} from 'antd-mobile';
 
-var RNFS = require('react-native-fs');
+import * as stores from './../../Stores';
 
 
 const prompt = Modal.prompt;
@@ -29,7 +29,7 @@ export default class PointList extends Component {
 
     componentWillMount() {
         let inspect = global.inspect;
-        let index = this.navigation.state.params.index;
+        let index = this.props.navigation.state.params.index;
 
         this.setState({
             pointList: inspect.PositionTypeList[index].PositionList,
@@ -38,11 +38,9 @@ export default class PointList extends Component {
         })
     }
 
-    newPoint = () => {
-
-    }
+    //检查该点位
     beginCheck = (point, index) => {
-        global.currentPoint = {type: this.navigation.state.params.index, point: index}
+        global.currentPoint = {type: this.props.navigation.state.params.index, point: index}
         const {navigate} = this.props.navigation;
         navigate("CheckList", {point: point,index:index})
     }
@@ -52,9 +50,16 @@ export default class PointList extends Component {
             <View style={styles.container}>
                 <List className="my-list">
                     {this.state.pointList.map((val, index) => {
+                        let checkedNum = 0;
+                        if(this.state.pointList[index].StateList){
+                            this.state.pointList[index].StateList.map((value,i)=>{
+                                if(value)
+                                    checkedNum++;
+                            })
+                        }
                         return (
                             <Item key={"pointitem" + index} arrow="horizontal"
-                                  extra={this.state.pointList[index].StateList ? this.state.pointList[index].StateList.length : 0
+                                  extra={(checkedNum)
                                       + '/' + this.state.StandardListLength}
                                   multipleLine
                                   onClick={this.beginCheck.bind(this, val.Name, index)}>{val.Name}</Item>)
@@ -69,10 +74,12 @@ export default class PointList extends Component {
                                 text: '保存',
                                 onPress: value => new Promise((resolve) => {
                                     let pointList = this.state.pointList;
+                                    let length= this.state.StandardListLength
+                                    let stateList=new Array(length);
                                     pointList.push({
                                         Id: pointList.length,
                                         Name: value,
-                                        StateList: [],
+                                        StateList: stateList,
                                         ProblemList: [],
                                         AdvantageList: []
                                     })
@@ -80,6 +87,7 @@ export default class PointList extends Component {
                                     let inspect = global.inspect;
                                     inspect.PositionTypeList[this.state.PointTypeIndex].PositionList = pointList
                                     global.inspect = inspect;
+                                    stores.writeFile(inspect);
                                     Toast.info(`新增成功`, 1);
                                     setTimeout(() => {
                                         resolve();
