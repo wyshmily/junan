@@ -39,6 +39,7 @@ export default class AddProblem extends Component {
             return false
         })
         this.setState({
+
             IssueList:inspect.PositionTypeList[type].StandardList[index]["IssueList"],
             files:currentProblem?currentProblem["value"]["images"]:[],
         })
@@ -81,6 +82,8 @@ export default class AddProblem extends Component {
                 inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].splice(currentIndex,1);
             }
         }else if(stateList[index]=="problem"){
+            
+
                 let currentIndex = 0;
                 const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
                     if(val["index"]==index){
@@ -202,7 +205,10 @@ export default class AddProblem extends Component {
     }
     onSubmit = () => {
         //将问题保存至问题列表
-        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark}
+        let index = this.props.navigation.state.params.id;
+        let category=inspect.PositionTypeList[global.currentPoint.type].StandardList[index]["IssueList"]
+        // :inspect.PositionTypeList[type].StandardList[index]["IssueList"],
+        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,category:category}
         //记录当前检查项为问题项目
         this.setStateList(this.props.navigation.state.params.id,'problem',problem)
     }

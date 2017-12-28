@@ -69,6 +69,7 @@ export default class CheckList extends Component {
             }
         }
         stateList[index]=value;
+        inspect.PositionTypeList[type].PositionList[point]["DepartmentId"] = global.departmentId
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;
         stores.writeFile(inspect,()=> {

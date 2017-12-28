@@ -82,7 +82,7 @@ export default class Login extends Component {
             Toast.info(`请输入用户名密码`, 1);
             return;
         }
-        //获取改用户名对应的用户
+        //获取该用户名对应的用户
         let user = this.getUser(this.state.username);
         if(!user){
             Toast.info(`没有该用户`, 1);
@@ -102,7 +102,14 @@ export default class Login extends Component {
                         onPress: value => new Promise((resolve) => {
                             //存储新密码数据
                             let inspect = global.inspect;
+                            // 设置新密码
                             inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["NewPassword"]=value;
+                            // 修改旧密码
+                            inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Password"]=value;
+                            // 存储用户信息
+                            inspect.Record.InspectorName=inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Name"];
+                            inspect.Record.InspectorAccount=inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Account"];
+
                             stores.writeFile(inspect)
                             global.inspect = inspect;
                             Toast.info(`新密码设置成功,下次登录请使用新密码登录`, 2);

@@ -1,42 +1,42 @@
 // require the module
 var RNFS = require('react-native-fs');
 //路径
-const path =  RNFS.ExternalStorageDirectoryPath+ '/junan365/inspect.json';//ExternalStorageDirectoryPath
+const path = RNFS.ExternalStorageDirectoryPath + '/junan365/inspect.json';//ExternalStorageDirectoryPath
 //ExternalDirectoryPath
 //RNFS.ExternalStorageDirectoryPath
 
 // get a list of files and directories in the main bundle
-export function readDir(){
-RNFS.readDir(path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-    .then((result) => {
-        console.log('GOT RESULT', result);
+export function readDir() {
+    RNFS.readDir(path) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+        .then((result) => {
+            console.log('GOT RESULT', result);
 
-        // stat the first file
-        return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-    })
-    .then((statResult) => {
-        if (statResult[0].isFile()) {
-            // if we have a file, read it
-            return RNFS.readFile(statResult[1], 'utf8');
-        }
+            // stat the first file
+            return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+        })
+        .then((statResult) => {
+            if (statResult[0].isFile()) {
+                // if we have a file, read it
+                return RNFS.readFile(statResult[1], 'utf8');
+            }
 
-        return 'no file';
-    })
-    .then((contents) => {
-        // log the file contents
-        console.log(contents);
-    })
-    .catch((err) => {
-        console.log(err.message, err.code);
-    });
+            return 'no file';
+        })
+        .then((contents) => {
+            // log the file contents
+            console.log(contents);
+        })
+        .catch((err) => {
+            console.log(err.message, err.code);
+        });
 }
 
 
 /*将文本写入本地 json*/
 export function copyFile() {
     // copy the file
-    let filepath=RNFS.ExternalStorageDirectoryPath+'/Download/inspect.json'
-    RNFS.copyFile(filepath,path)
+    let filepath = RNFS.ExternalStorageDirectoryPath + '/junan365/inspect.json'
+    RNFS.copyFile(filepath, path)
         .then((success) => {
             console.log('path', path);
             // if(typeof callback =='function'){
@@ -50,7 +50,7 @@ export function copyFile() {
 
 
 /*将文本写入本地 json*/
-export function writeFile(obj,callback) {
+export function writeFile(obj, callback) {
 
     let str = JSON.stringify(obj)
     // write the file
@@ -59,7 +59,7 @@ export function writeFile(obj,callback) {
     RNFS.writeFile(path, str, 'utf8')
         .then((success) => {
             // console.log('path', path);
-            if(typeof callback =='function'){
+            if (typeof callback == 'function') {
                 callback(path)
             }
         })
@@ -72,10 +72,10 @@ export function writeFile(obj,callback) {
 
 /*读取json文件内容*/
 export function readFile(callback) {
-// console.log('path======',path)
+    // console.log('path======',path)
     return RNFS.readFile(path)
         .then((result) => {
-            if(typeof callback =='function'){
+            if (typeof callback == 'function') {
                 let obj = JSON.parse(result);
                 callback(obj)
             }

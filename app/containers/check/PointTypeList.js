@@ -16,6 +16,7 @@ export default class PointTypeList extends Component {
     }
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.org}`,
+        
     });
 
     componentWillMount() {
