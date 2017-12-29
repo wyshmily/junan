@@ -124,10 +124,13 @@ export default class AddAdvantage extends Component {
     }
     onSubmit = () => {
         let index = this.props.navigation.state.params.id;
-        let category=inspect.PositionTypeList[global.currentPoint.type].StandardList[index]["Category"]
+        let firstIndex=global.currentPoint.type;
+        let secondIndex=global.currentPoint.point;
+        let category=inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
+
 
         //将优点保存至优点列表
-        let advantage = {"images":this.state.files,remark:this.state.remark,"category":category,positionArr:[global.currentPoint.type,global.currentPoint.point]}
+        let advantage = {"images":this.state.files,remark:this.state.remark,"category":category,positionArr:[inspect.PositionTypeList[firstIndex].Name,inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name,firstIndex,secondIndex]}
         // let advantage = {"images":this.state.files,remark:this.state.remark,category:category}
         //记录当前检查项为优点项目
         this.setStateList(this.props.navigation.state.params.id,'advantage',advantage)

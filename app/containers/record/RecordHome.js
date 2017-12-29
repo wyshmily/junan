@@ -22,8 +22,8 @@ export default class RecordHome extends Component {
         let num1 = 0;
         let num2 = 0;
         inspect.PositionTypeList.forEach(element => {
-            num1=3
-            if (element.PositionList.lenth != 0) {
+           
+            if (element.PositionList.length != 0) {
                 element.PositionList.forEach(ele => {
                     num1 += ele.ProblemList.length;
                     num2 += ele.AdvantageList.length;

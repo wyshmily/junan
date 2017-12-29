@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View,Toast
+    View
 } from 'react-native';
 import { List } from 'antd-mobile'
 const Item = List.Item;
@@ -17,38 +17,43 @@ export default class PointTypeList extends Component {
         };
     }
     static navigationOptions = ({ navigation }) => ({
-        // title: `${navigation.state.params.org}`,
-        title: global.department.Id
+        title: `${navigation.state.params.org}`,
+        // title: global.inspect.PositionTypeList[0].PositionList[0].departmentId
 
 
     });
 
     componentWillMount() {
+
         let inspect = global.inspect;
+ 
+        let positionListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
 
-        let positionLists = inspect.PositionTypeList;
-        // positionLists.filter(element => {
-        //     return element.PositionList.filter(ele => {
-        //         return ele.departmentId==global.department.Id
-        //     });
-        // });
-        // inspect.PositionTypeList.forEach(function (element, i) {
-            
-        //     element.PositionList.forEach(function (ele, index) {
+ 
+        positionListArr.forEach(function (element, i) {
 
-        //         if (ele.departmentId){
-        //             if (ele.departmentId != global.department.Id) {
-        //                 Toast.info(ele.departmentId)
-        //                 positionLists[i].PositionList.splice(index,1)
-        //             }
-        //         }
-               
-        //     });
-        // });
+            element.PositionList.forEach(function (ele, index) {
+                
+                if (ele.departmentId) {
+                    if (ele.departmesntId != global.department.Id) {
+
+                        positionListArr[i].PositionList.splice(index, 1);
+
+                    }
+                }
+
+            });
+
+          return positionListArr;
+         
+
+        });
 
         this.setState({
-            pointList: inspect.PositionTypeList
-        });
+            pointList: positionListArr
+        })
+
+      
 
     }
     beginCheck = (pointName, index) => {
