@@ -22,6 +22,7 @@ export default class CheckList extends Component {
 
     static navigationOptions = ({navigation}) => ({
         title: `${navigation.state.params.point}`,
+        // title:global.department.Id
     });
 
     componentWillMount() {
@@ -69,7 +70,9 @@ export default class CheckList extends Component {
             }
         }
         stateList[index]=value;
-        inspect.PositionTypeList[type].PositionList[point]["DepartmentId"] = global.departmentId
+        inspect.PositionTypeList[type].PositionList[point]["DepartmentId"] = global.department.Id
+        inspect.PositionTypeList[type].PositionList[0]["DepartmentId"] = global.department.Id
+        
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;
         stores.writeFile(inspect,()=> {

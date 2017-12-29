@@ -69,7 +69,7 @@ export default class AddAdvantage extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
                 if(val["index"]==index){
-                    currentIndex=i
+                    currentIndex=i+1
                     return true
                 }
                 return false
@@ -111,6 +111,7 @@ export default class AddAdvantage extends Component {
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
             goBack(params.go_back_key);
+            params.go_back_key=params.go_back_key-1;
             // navigate("CheckList", {point: params.pointName})
 
         });
@@ -122,8 +123,12 @@ export default class AddAdvantage extends Component {
         this.setState({"remark":value})
     }
     onSubmit = () => {
+        let index = this.props.navigation.state.params.id;
+        let category=inspect.PositionTypeList[global.currentPoint.type].StandardList[index]["Category"]
+
         //将优点保存至优点列表
-        let advantage = {"images":this.state.files,remark:this.state.remark}
+        let advantage = {"images":this.state.files,remark:this.state.remark,"category":category,positionArr:[global.currentPoint.type,global.currentPoint.point]}
+        // let advantage = {"images":this.state.files,remark:this.state.remark,category:category}
         //记录当前检查项为优点项目
         this.setStateList(this.props.navigation.state.params.id,'advantage',advantage)
     }

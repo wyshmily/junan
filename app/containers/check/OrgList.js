@@ -24,7 +24,7 @@ export default class OrgList extends Component {
     beginCheck=(org)=>{
         const {navigate} = this.props.navigation;
         // 存点位Id
-        global.departmentId =org.Id;
+        global.department=org;
         navigate("PointTypeList", { org: org.Name })
     }
     render() {

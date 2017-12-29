@@ -86,7 +86,7 @@ export default class PointList extends Component {
                                         StateList: stateList,
                                         ProblemList: [],
                                         AdvantageList: [],
-                                        departmentId:global.departmentId
+                                        departmentId:global.department.Id
                                     })
                                     this.setState({pointList: pointList})
                                     let inspect = global.inspect;

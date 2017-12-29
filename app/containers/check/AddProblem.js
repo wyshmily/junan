@@ -52,7 +52,7 @@ export default class AddProblem extends Component {
         let currentIndex = 0;
         const currentProblem = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
             if(val["index"]==index){
-                currentIndex=i
+                currentIndex=i+1
                 return true
             }
             return false
@@ -115,8 +115,9 @@ export default class AddProblem extends Component {
             })
             const { state, navigate,goBack } = this.props.navigation;
             const params = state.params || {};
-            // goBack(params.go_back_key);
-            navigate("CheckList", {point: params.pointName})
+            goBack(params.go_back_key);
+            params.go_back_key=params.go_back_key-1;
+            // navigate("CheckList", {point: params.pointName})
         });
     }
 
@@ -206,9 +207,8 @@ export default class AddProblem extends Component {
     onSubmit = () => {
         //将问题保存至问题列表
         let index = this.props.navigation.state.params.id;
-        let category=inspect.PositionTypeList[global.currentPoint.type].StandardList[index]["IssueList"]
-        // :inspect.PositionTypeList[type].StandardList[index]["IssueList"],
-        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,category:category}
+        let category=inspect.PositionTypeList[global.currentPoint.type].StandardList[index]["Category"]
+        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,"category":category}
         //记录当前检查项为问题项目
         this.setStateList(this.props.navigation.state.params.id,'problem',problem)
     }
