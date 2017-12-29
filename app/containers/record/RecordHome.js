@@ -5,7 +5,7 @@ import {
     View,
     TouchableHighlight
 } from 'react-native';
-import { WingBlank, WhiteSpace, Flex } from 'antd-mobile';
+import { WingBlank,Toast,WhiteSpace, Flex } from 'antd-mobile';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
@@ -22,7 +22,7 @@ export default class RecordHome extends Component {
         let num1 = 0;
         let num2 = 0;
         inspect.PositionTypeList.forEach(element => {
-           
+         
             if (element.PositionList.length != 0) {
                 element.PositionList.forEach(ele => {
                     num1 += ele.ProblemList.length;

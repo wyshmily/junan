@@ -1,12 +1,19 @@
+
 import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View,Image,ScrollView
+    View,Image,ScrollView,PixelRatio,
+    TouchableOpacity,
 } from 'react-native';
-import {Flex, List, Checkbox,Button, TextareaItem,WingBlank,ImagePicker,Toast} from 'antd-mobile';
+import {Flex, List,Grid, Checkbox,Button, TextareaItem,WingBlank,Toast} from 'antd-mobile';
+import ImagePicker from 'react-native-image-picker';
+
 import * as stores from './../../Stores';
+
+const CheckboxItem = Checkbox.CheckboxItem;
 const Item = List.Item;
+
 
 
 export default class AddAdvantage extends Component {
@@ -20,6 +27,8 @@ export default class AddAdvantage extends Component {
 
         };
     }
+ 
+
     componentWillMount() {
         let inspect =global.inspect;
         let type = global.currentPoint.type;
@@ -53,6 +62,59 @@ export default class AddAdvantage extends Component {
         this.setState({
             files:currentAdvantage?currentAdvantage["value"]["images"]:[],
         })
+
+    }
+        
+    selectPhotoTapped = (index) => {
+        const options = {
+            title: '选择一张照片',
+            cancelButtonTitle: '取消',
+            takePhotoButtonTitle: '拍照',
+            chooseFromLibraryButtonTitle: '从手机相册选择',
+            quality: 1.0,
+            maxWidth: 500,
+            maxHeight: 500,
+            storageOptions: {
+                skipBackup: true,
+                path: 'junan356/images',//will save the image at Documents/[path]/ rather than the root Documents
+                cameraRoll: true,
+            },
+            permissionDenied: {
+                title: '权限被拒绝',
+                text: '请用相机拍照，并从手机相册选择照片..',
+                reTryTitle: '重试',
+                okTitle: '确定',
+            },
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = {uri: response.uri};
+
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let files = this.state.files;
+
+                if (files.length >= index) {
+                    files[index] = source;
+                } else
+                    files.push(source)
+                this.setState({
+                    files: files
+                });
+            }
+        });
     }
     onChangePhoto = (files, type, index) => {
         this.setState({
@@ -139,16 +201,29 @@ export default class AddAdvantage extends Component {
     render() {
         const { files } = this.state;
 
+        const photoLength=files.length;
+        if (photoLength == 0 || files[photoLength - 1].uri) {
+            files.push({uri:null})
+        }
         return (
             <ScrollView>
                 <WingBlank>
-                    <ImagePicker
-                        files={files}
-                        onChange={this.onChangePhoto}
-                        onImageClick={(index, fs) => console.log(index, fs)}
-                        selectable={files.length < 9}
-                        multiple={true}
+
+                <Grid data={this.state.files}
+                          columnNum={3}
+                          renderItem={(dataItem, index) => {
+                              return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this,index)}>
+                                  <View style={[styles.avatar, styles.avatarContainer]}>
+                                  { !dataItem.uri ? <Text>+</Text> :
+                                      <Image style={styles.avatar} source={dataItem} />
+                                  }
+                                  </View>
+                              </TouchableOpacity>
+
+                          }}
+
                     />
+                  
                 </WingBlank>
                 <List renderHeader={() => '优点备注'}>
                     <TextareaItem
@@ -171,9 +246,20 @@ export default class AddAdvantage extends Component {
         )
     }
 }
+ 
 
 const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
     },
+    avatarContainer: {
+        borderColor: '#9B9B9B',
+        borderWidth: 1 / PixelRatio.get(),
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    avatar:{
+        width:100,
+        height:100,
+    }
 });

@@ -4,7 +4,7 @@ import {
     Text,
     View
 } from 'react-native';
-import { List, Button } from 'antd-mobile'
+import { Toast,List, Button } from 'antd-mobile'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const Item = List.Item;
@@ -15,28 +15,7 @@ export default class AdvantageList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [{
-                id: "check1",
-                pointType: "二连",
-                point: "兵器室",
-                list: [],
-                remark: "我是优点备注",
-            },
-            {
-                id: "check2",
-                pointType: "二连",
-                point: "手枪柜",
-                list: [],
-                remark: "我是优点备注",
-            },
-            {
-                id: "check2",
-                pointType: "二连",
-                point: "手枪柜",
-                list: [],
-                remark: "我是优点备注",
-            }
-            ]
+            list:[]
         };
     }
 
@@ -49,13 +28,17 @@ export default class AdvantageList extends Component {
                 element.PositionList.forEach(ele => {
 
                     if (ele.AdvantageList.length) {
-                        lists.push(ele.AdvantageList)
+                        ele.AdvantageList.forEach(item=>{
+                            lists.push(item)
+                        })
+                        
                     }
                 }
 
                 )
             }
 
+            return lists;
 
         });
 
@@ -68,9 +51,9 @@ export default class AdvantageList extends Component {
      * 问题详情
      * @param id
      */
-    toProblem = (id) => {
+    toProblem = (params) => {
         const { navigate } = this.props.navigation;
-        navigate("AdvantageDetail", { id: id })
+        navigate("AdvantageDetail", { item: params })
     }
 
     render() {
@@ -83,15 +66,13 @@ export default class AdvantageList extends Component {
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine
-                                onClick={this.toProblem.bind(this, val.index)}
+                                onClick={this.toProblem.bind(this, val.value)}
                             >
                                 <View style={styles.view}>
                                     <Icon name="check-circle-o" size={22} color={'#3e9ce9'} />
                                     <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
-                                {val.list.map((value, i) => {
-                                    return <Brief>{value.name}</Brief>
-                                })}
+                               
                                 <Brief>{val.value.remark}</Brief>
                             </Item>
                         )
