@@ -114,7 +114,8 @@ const Route = StackNavigator({
         title: '问题详情'
     }},
     AdvantageDetail: {screen: AdvantageDetail,navigationOptions: {
-        title: '优点详情'
+        title: '优点详情',
+        initialRouteParams :{}
     }},
     ImagePickers: {screen: ImagePickers,navigationOptions: {
         header: null

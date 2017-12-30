@@ -21,7 +21,8 @@ export default class ProblemDetail extends Component {
         this.state = {
             files: [{url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',id:1}],
             remark:'我是问题备注',
-            problem:[]
+            problem:[],
+            title:"编辑"
         };
     }
 
@@ -32,7 +33,8 @@ export default class ProblemDetail extends Component {
     };
 
     onEdit=()=>{
-
+ 
+         
     }
 
     onReset = () => {

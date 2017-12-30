@@ -66,7 +66,7 @@ export default class AdvantageList extends Component {
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine
-                                onClick={this.toProblem.bind(this, val.value)}
+                                onClick={this.toProblem.bind(this, val)}
                             >
                                 <View style={styles.view}>
                                     <Icon name="check-circle-o" size={22} color={'#3e9ce9'} />

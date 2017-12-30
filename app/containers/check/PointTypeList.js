@@ -27,30 +27,30 @@ export default class PointTypeList extends Component {
 
         let inspect = global.inspect;
  
-        let positionListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
+        let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
 
  
-        positionListArr.forEach(function (element, i) {
+        positionTypeListArr.forEach(function (element, i) {
 
             element.PositionList.forEach(function (ele, index) {
                 
                 if (ele.departmentId) {
                     if (ele.departmesntId != global.department.Id) {
 
-                        positionListArr[i].PositionList.splice(index, 1);
+                        positionTypeListArr[i].PositionList.splice(index, 1);
 
                     }
                 }
 
             });
 
-          return positionListArr;
+          return positionTypeListArr;
          
 
         });
 
         this.setState({
-            pointList: positionListArr
+            pointList: positionTypeListArr
         })
 
       

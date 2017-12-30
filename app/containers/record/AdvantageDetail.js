@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View, Image, ScrollView,PixelRatio,
+    View, Image, ScrollView, PixelRatio,
     TouchableOpacity,
 } from 'react-native';
-import { Grid, List, Button, TextareaItem, WingBlank,  Flex } from 'antd-mobile';
+import { Grid, List, TextareaItem, WingBlank, Toast, Flex, Button } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
 import * as stores from './../../Stores';
 const Item = List.Item;
@@ -16,28 +16,75 @@ export default class AdvantageDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // files: [{ url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg', id: 1 },{url:'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg', id: 2 }],
-            files: [{ uri: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg', id: 1 },{uri:'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg', id: 2 }],
-            advantage:{}
+            files: [{ uri: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg', id: 1 }, { uri: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg', id: 2 }],
+            advantage: {},
+            name: "编辑"
         };
     }
 
-    static navigationOptions = ({ navigation }) => ({
-        // title: `${navigation.state.params.point}`,
-        // title:global.department.Id
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { params = {
+            button: 'edit'
+        } } = navigation.state;
 
-    static navigationOptions = {
-        headerRight: <Button title="编辑" onClick={this.onEdit} type="ghost"
-            className={"am-button-borderfix"}>编辑</Button>,
+        let headerRight = (
+            <Button
+                onClick={params.handleEdit ? params.handleEdit : () => null}
+            >编辑</Button>
+        );
+
+        if (params.button === 'save') {
+            headerRight = (
+                <Button
+                    onClick={params.handleSave ? params.handleSave : () => null}
+                >保存</Button>
+            );
+        }
+        return { headerRight };
     };
+
+    onEdit = () => {
+        Toast.info('on edit');
+        this.props.navigation.setParams({ button: 'save' });
+        // navigationOptions = {
+        //     headerRight: <Button title="保存" onClick={this.onSave} type="ghost"
+        //         className={"am-button-borderfix"}>保存</Button>,
+        // }
+    }
+
+    onSave = () => {
+        Toast.info('on save');
+        // navigationOptions = {
+        //     headerRight: <Button title="保存" onClick={this.onSave} type="ghost"
+        //         className={"am-button-borderfix"}>保存</Button>,
+        // }
+    }
+
+    componentDidMount() {
+        // We can only set the function after the component has been initialized
+        this.props.navigation.setParams({ handleEdit: this.onEdit });
+        this.props.navigation.setParams({ handleSave: this.onSave });
+    }
 
     componentWillMount() {
         let paramsObject = this.props.navigation.state.params.item
 
+        let inspect = global.inspect;
+        let firstIndex = paramsObject.value.positionArr[2];
+        let secondIndex = paramsObject.value.positionArr[3];
+        let currentObject = inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList;
+        let currentAdvantage = {};
+
+        for (var i = 0; i < currentObject.length; i++) {
+            if (currentObject[i].index == paramsObject.index) {
+                currentAdvantage = currentObject[i]
+            }
+        }
+
 
         this.setState({
-            advantage:paramsObject
+            advantage: currentAdvantage.value,
+            files: currentAdvantage.value.images
         })
     }
 
@@ -80,7 +127,7 @@ export default class AdvantageDetail extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = {uri: response.uri};
+                let source = { uri: response.uri };
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -101,59 +148,59 @@ export default class AdvantageDetail extends Component {
             files,
         });
     }
-    setStateList=(index,value,advantage)=>{
+    setStateList = (index, value, advantage) => {
         let inspect = global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
         let stateList = inspect.PositionTypeList[type].PositionList[point].StateList
 
-        if(stateList[index]=="problem"){
+        if (stateList[index] == "problem") {
             let currentIndex = 0;
-            const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
-                if(val["index"]==index){
-                    currentIndex=i+1
+            const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
+                if (val["index"] == index) {
+                    currentIndex = i + 1
                     return true
                 }
                 return false
             })
-            if(current){
-                inspect.PositionTypeList[type].PositionList[point]["ProblemList"].splice(currentIndex,1);
+            if (current) {
+                inspect.PositionTypeList[type].PositionList[point]["ProblemList"].splice(currentIndex, 1);
             }
-        }else if(stateList[index]=="advantage"){
+        } else if (stateList[index] == "advantage") {
             let currentIndex = 0;
-            const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val,i)=>{
-                if(val["index"]==index){
-                    currentIndex=i
+            const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val, i) => {
+                if (val["index"] == index) {
+                    currentIndex = i
                     return true
                 }
                 return false
             })
-            if(current){
-                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"][currentIndex]["value"]=advantage;
-            }else{
+            if (current) {
+                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"][currentIndex]["value"] = advantage;
+            } else {
                 inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
-                    "index":index,"value":advantage
+                    "index": index, "value": advantage
                 })
             }
-        }else{
+        } else {
             inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
-                "index":index,"value":advantage
+                "index": index, "value": advantage
             })
         }
 
-        stateList[index]=value;
+        stateList[index] = value;
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;
-        this.setState({isLoading:true})
-        stores.writeFile(inspect,()=>{
+        this.setState({ isLoading: true })
+        stores.writeFile(inspect, () => {
             Toast.info(`保存成功`, 1);
             this.setState({
-                isLoading:false
+                isLoading: false
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
             goBack(params.go_back_key);
-            params.go_back_key=params.go_back_key-1;
+            params.go_back_key = params.go_back_key - 1;
             // navigate("CheckList", {point: params.pointName})
 
         });
@@ -161,11 +208,9 @@ export default class AdvantageDetail extends Component {
     takePhoto = () => {
         //拍照
     }
-   
 
-    onEdit = () => {
 
-    }
+
 
     onReset = () => {
         //返回
@@ -174,33 +219,39 @@ export default class AdvantageDetail extends Component {
 
     render() {
         const { files } = this.state;
-        const photoLength=files.length;
+        const photoLength = files.length;
         if (photoLength == 0 || files[photoLength - 1].uri) {
-            files.push({uri:null})
+            files.push({ uri: null })
         }
         return (
             <ScrollView>
                 <WingBlank>
 
-                <Grid data={this.state.files}
-                          columnNum={3}
-                          renderItem={(dataItem, index) => {
-                              return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this,index)}>
-                                  <View style={[styles.avatar, styles.avatarContainer]}>
-                                  { !dataItem.uri ? <Text>+</Text> :
-                                      <Image style={styles.avatar} source={dataItem} />
-                                  }
-                                  </View>
-                              </TouchableOpacity>
+                    <Grid data={this.state.files}
+                        columnNum={3}
+                        renderItem={(dataItem, index) => {
+                            return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                <View style={[styles.avatar, styles.avatarContainer]}>
+                                    {!dataItem.uri ? <Text>+</Text> :
+                                        <Image style={styles.avatar} source={dataItem} />
+                                    }
+                                </View>
+                            </TouchableOpacity>
 
-                          }}
+                        }}
 
                     />
-                  
+
                 </WingBlank>
                 <List renderHeader={() => '优点备注'}>
                     <Item>
-                        <Brief>{this.state.advantage.remark}</Brief>
+                        {/* <Brief>{this.state.advantage.remark}</Brief> */}
+
+                        <TextareaItem
+                            value={this.state.advantage.remark}
+                            onChange={this.changeRemark}
+                            rows={5}
+                        />
                     </Item>
                 </List>
                 <List>
@@ -236,8 +287,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    avatar:{
-        width:100,
-        height:100,
+    avatar: {
+        width: 100,
+        height: 100,
     }
 });

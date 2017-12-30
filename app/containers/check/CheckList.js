@@ -30,9 +30,34 @@ export default class CheckList extends Component {
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
 
+        let inspect = global.inspect;
+ 
+        let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
+
+ 
+        positionTypeListArr.forEach(function (element, i) {
+
+            element.PositionList.forEach(function (ele, index) {
+                
+                if (ele.departmentId) {
+                    if (ele.departmesntId != global.department.Id) {
+
+                        positionTypeListArr[i].PositionList.splice(index, 1);
+
+                    }
+                }
+
+            });
+
+          return positionTypeListArr;
+         
+
+        });
+
         this.setState({
             StandardList: inspect.PositionTypeList[type].StandardList,
-            StateList:inspect.PositionTypeList[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
+            StateList:positionTypeListArr[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
+            // StateList:inspect.PositionTypeList[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
         })
     }
     componentWillReceiveProps() {
@@ -40,9 +65,33 @@ export default class CheckList extends Component {
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
 
+        let inspect = global.inspect;
+ 
+        let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
+
+ 
+        positionTypeListArr.forEach(function (element, i) {
+
+            element.PositionList.forEach(function (ele, index) {
+                
+                if (ele.departmentId) {
+                    if (ele.departmesntId != global.department.Id) {
+
+                        positionTypeListArr[i].PositionList.splice(index, 1);
+
+                    }
+                }
+
+            });
+
+          return positionTypeListArr;
+         
+
+        });
+
         this.setState({
             StandardList: inspect.PositionTypeList[type].StandardList,
-            StateList:inspect.PositionTypeList[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
+            StateList:positionTypeListArr[type].PositionList[point].StateList?inspect.PositionTypeList[type].PositionList[point].StateList:[]
         })
     }
     setStateList=(index,value)=>{
