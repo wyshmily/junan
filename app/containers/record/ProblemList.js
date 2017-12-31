@@ -15,31 +15,46 @@ export default class ProblemList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [{
-                id: "check1",
-                pointType: "二连",
-                point:"兵器室",
-                list:[],
-                remark: "我是问题备注",
-            },
-                {
-                    id: "check2",
-                    pointType: "二连",
-                    point:"手枪柜",
-                    list:[],
-                    remark: "我是问题备注",
-                }
+            list: [ 
             ]
         };
+    }
+
+    componentWillMount() {
+        let inspect = global.inspect;
+        let lists = [];
+        inspect.PositionTypeList.forEach(element => {
+
+            if (element.PositionList.length != 0) {
+                element.PositionList.forEach(ele => {
+
+                    if (ele.ProblemList.length) {
+                        ele.ProblemList.forEach(item=>{
+                            lists.push(item)
+                        })
+                        
+                    }
+                }
+
+                )
+            }
+
+            return lists;
+
+        });
+
+        this.setState({
+            list:lists
+        })
     }
 
     /**
      * 问题详情
      * @param id
      */
-    toProblem = (id) => {
+    toProblem = (params) => {
         const {navigate} = this.props.navigation;
-        navigate("ProblemDetail", { id: id })
+        navigate("ProblemDetail", { item: params })
     }
 
     render() {
@@ -52,16 +67,16 @@ export default class ProblemList extends Component {
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine
-                                onClick={this.toProblem.bind(this,val.id)}
+                                onClick={this.toProblem.bind(this,val)}
                             >
                                 <View style={styles.view}>
                                     <Icon name="warning" size={22} color={'#e94f4f'} />
-                                    <Text style={styles.title}>{val.pointType+'-'+val.point}</Text>
+                                    <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
-                                {val.list.map((value,i)=>{
+                                {/* {val.list.map((value,i)=>{
                                     return <Brief>{value.name}</Brief>
-                                })}
-                                <Brief>{val.remark}</Brief>
+                                })} */}
+                                <Brief>{val.value.remark}</Brief>
                             </Item>
                         )
                     })}

@@ -4,7 +4,7 @@ import {
     Text,
     View
 } from 'react-native';
-import { List } from 'antd-mobile'
+import { List, Toast } from 'antd-mobile'
 const Item = List.Item;
 
 export default class PointTypeList extends Component {
@@ -18,42 +18,21 @@ export default class PointTypeList extends Component {
     }
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.org}`,
-        // title: global.inspect.PositionTypeList[0].PositionList[0].departmentId
-
-
+     
     });
 
     componentWillMount() {
-
-        let inspect = global.inspect;
- 
-        let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
-
- 
-        positionTypeListArr.forEach(function (element, i) {
-
-            element.PositionList.forEach(function (ele, index) {
-                
-                if (ele.departmentId) {
-                    if (ele.departmesntId != global.department.Id) {
-
-                        positionTypeListArr[i].PositionList.splice(index, 1);
-
-                    }
-                }
-
-            });
-
-          return positionTypeListArr;
-         
-
+        
+        global.inspect.PositionTypeList.forEach(positionType => {
+            positionType.PositionCount = positionType.PositionList
+                .filter(position => position.departmentId == global.department.Id).length
         });
 
         this.setState({
-            pointList: positionTypeListArr
+            pointList: global.inspect.PositionTypeList
         })
 
-      
+
 
     }
     beginCheck = (pointName, index) => {
@@ -67,7 +46,7 @@ export default class PointTypeList extends Component {
         return (
             <List className="my-list">
                 {this.state.pointList.map((val, index) => {
-                    return (<Item key={"pointitem" + index} arrow="horizontal" extra={val.PositionList.length} multipleLine
+                    return (<Item key={"pointitem" + index} arrow="horizontal" extra={val.PositionCount} multipleLine
                         onClick={this.beginCheck.bind(this, val.Name, index)}>{val.Name}</Item>)
                 })}
             </List>

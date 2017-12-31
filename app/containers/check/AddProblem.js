@@ -206,9 +206,17 @@ export default class AddProblem extends Component {
     }
     onSubmit = () => {
         //将问题保存至问题列表
+
         let index = this.props.navigation.state.params.id;
-        let category=inspect.PositionTypeList[global.currentPoint.type].StandardList[index]["Category"]
-        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,"category":category}
+        
+        let firstIndex=global.currentPoint.type;
+        let secondIndex=global.currentPoint.point;
+        let category=inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
+
+
+        //将缺点保存至优点列表
+       
+        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,"category":category,positionArr:[inspect.PositionTypeList[firstIndex].Name,inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name,firstIndex,secondIndex]}
         //记录当前检查项为问题项目
         this.setStateList(this.props.navigation.state.params.id,'problem',problem)
     }

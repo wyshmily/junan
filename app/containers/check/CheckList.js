@@ -26,31 +26,21 @@ export default class CheckList extends Component {
     });
 
     componentWillMount() {
-    let inspect =global.inspect;
+        let inspect =global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
 
-        let inspect = global.inspect;
  
         let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
 
  
-        positionTypeListArr.forEach(function (element, i) {
+        positionTypeListArr=positionTypeListArr.filter(function (element, i) {
 
-            element.PositionList.forEach(function (ele, index) {
+            return   element.PositionList.filter(function (ele, index) {
                 
-                if (ele.departmentId) {
-                    if (ele.departmesntId != global.department.Id) {
-
-                        positionTypeListArr[i].PositionList.splice(index, 1);
-
-                    }
-                }
-
-            });
-
-          return positionTypeListArr;
-         
+                return ele.departmentId== global.department.Id 
+                      
+           });
 
         });
 
@@ -65,27 +55,18 @@ export default class CheckList extends Component {
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
 
-        let inspect = global.inspect;
  
         let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
 
  
-        positionTypeListArr.forEach(function (element, i) {
+        positionTypeListArr.filter(function (element, i) {
 
-            element.PositionList.forEach(function (ele, index) {
+            return    element.PositionList.filter(function (ele, index) {
                 
-                if (ele.departmentId) {
-                    if (ele.departmesntId != global.department.Id) {
-
-                        positionTypeListArr[i].PositionList.splice(index, 1);
-
-                    }
-                }
-
+                 return ele.departmentId === global.department.Id 
+                       
             });
 
-          return positionTypeListArr;
-         
 
         });
 
