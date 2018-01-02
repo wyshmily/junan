@@ -10,11 +10,9 @@ const Item = List.Item;
 export default class PointTypeList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            pointList: [],
-
-
-        };
+        // this.state = {
+        //     pointList: [],
+        // };
     }
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.org}`,

@@ -217,7 +217,7 @@ export default class AdvantageDetail extends Component {
                         <Grid data={this.state.files}
                             columnNum={3}
                             renderItem={(dataItem, index) => {
-                                return <TouchableOpacity onPress={this.props.navigation.state.params.button == "save" ? this.selectPhotoTapped.bind(this, index) : ""}>
+                                return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                     <View style={[styles.avatar, styles.avatarContainer]}>
                                         {!dataItem.uri ? <Text>+</Text> :
                                             <Image style={styles.avatar} source={dataItem} />

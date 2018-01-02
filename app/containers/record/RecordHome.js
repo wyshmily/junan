@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View,
+    View, Image,
     TouchableHighlight
 } from 'react-native';
-import { WingBlank,Toast,WhiteSpace, Flex } from 'antd-mobile';
+import { WingBlank, Toast, WhiteSpace, Flex } from 'antd-mobile';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
@@ -22,7 +22,7 @@ export default class RecordHome extends Component {
         let num1 = 0;
         let num2 = 0;
         inspect.PositionTypeList.forEach(element => {
-         
+
             if (element.PositionList.length != 0) {
                 element.PositionList.forEach(ele => {
                     num1 += ele.ProblemList.length;
@@ -31,7 +31,7 @@ export default class RecordHome extends Component {
 
                 )
             }
-         
+
 
         });
 
@@ -55,7 +55,11 @@ export default class RecordHome extends Component {
                         <View>
                             <Flex>
                                 <Flex.Item style={styles.inner}>
-                                    <Icon name="warning" size={22} color={'#e94f4f'} />
+
+                                <Image source={require('../../iconImages/problem.png')} style={{width:25, height: 25}} />
+                                    {/* <Image
+                                        source={{uri: '../../iconImages/problem.png'}} style={{width: 40, height: 40}}
+                                    />) */}
                                     <Text style={styles.title}>{"问题记录"}</Text>
                                 </Flex.Item>
                                 <Flex.Item><Text
@@ -71,7 +75,11 @@ export default class RecordHome extends Component {
                         <View>
                             <Flex>
                                 <Flex.Item style={styles.inner}>
-                                    <Icon name="check-circle-o" size={22} color={'#3e9ce9'} />
+                                    {/* <Image
+                                        source={require('../../iconImages/advantage.png')}
+                                        style={[styles.icon]}
+                                    />) */}
+                                     <Image source={require('../../iconImages/advantage.png')} style={{width:25, height: 25}} />
                                     <Text style={styles.title}>{"优点记录"}</Text>
                                 </Flex.Item>
                                 <Flex.Item><Text
@@ -108,4 +116,8 @@ const styles = StyleSheet.create({
     num: {
         textAlign: 'right',
     },
+    icon: {
+        width: 26,
+        height: 26,
+    }
 });

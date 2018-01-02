@@ -73,7 +73,7 @@ export default class AddProblem extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val,i)=>{
                 if(val["index"]==index){
-                    currentIndex=i
+                    currentIndex=i+1
                     return true
                 }
                 return false
@@ -87,7 +87,7 @@ export default class AddProblem extends Component {
                 let currentIndex = 0;
                 const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
                     if(val["index"]==index){
-                        currentIndex=i
+                        currentIndex=i+1
                         return true
                     }
                     return false
@@ -115,9 +115,9 @@ export default class AddProblem extends Component {
             })
             const { state, navigate,goBack } = this.props.navigation;
             const params = state.params || {};
-            goBack(params.go_back_key);
+            // goBack(params.go_back_key);
             params.go_back_key=params.go_back_key-1;
-            // navigate("CheckList", {point: params.pointName})
+            navigate("CheckList", {point: params.pointName})
         });
     }
 
@@ -186,6 +186,7 @@ export default class AddProblem extends Component {
     //问题项
     onChange = (value) => {
         let issue = this.state.issue;
+        // let 
         let currentIndex=0;
         const currentIssue = this.state.issue.find((val,index)=>{
             if(val==value){
@@ -201,6 +202,8 @@ export default class AddProblem extends Component {
         }
         this.setState({"issue":issue})
     }
+
+
     changeRemark=(value)=>{
         this.setState({"remark":value})
     }

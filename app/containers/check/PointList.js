@@ -17,7 +17,7 @@ export default class PointList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pointList: [],
+            // pointList: [],
             StandardListLength: 0,
             PointTypeIndex: 0
         };

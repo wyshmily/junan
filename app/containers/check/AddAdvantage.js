@@ -37,7 +37,7 @@ export default class AddAdvantage extends Component {
         let currentIndex = 0;
         const currentAdvantage = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val,i)=>{
             if(val["index"]==index){
-                currentIndex=i
+                currentIndex=i+1
                 return true
             }
             return false
@@ -143,7 +143,7 @@ export default class AddAdvantage extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val,i)=>{
                 if(val["index"]==index){
-                    currentIndex=i
+                    currentIndex=i+1
                     return true
                 }
                 return false
@@ -172,9 +172,10 @@ export default class AddAdvantage extends Component {
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            goBack(params.go_back_key);
-            params.go_back_key=params.go_back_key-1;
-            // navigate("CheckList", {point: params.pointName})
+            //  params.go_back_key=params.go_back_key ;
+            // goBack(params.go_back_key);
+            params.go_back_key=params.go_back_key-2;
+            navigate("CheckList", {point: params.pointName})
 
         });
     }

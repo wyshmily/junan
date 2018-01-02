@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View,ScrollView
+    View,ScrollView,
+    Image
 } from 'react-native';
 import {List, Button,Flex,Toast} from 'antd-mobile'
 import * as stores from './../../Stores';
 
 const Item = List.Item;
 const Brief = Item.Brief;
-const StateObj = {"normal":'正常','problem':'有问题','advantage':'有优点'}
+const StateObj = {"normal":'正常','problem':'有缺点','advantage':'有优点'}
 
 export default class CheckList extends Component {
     constructor(props) {
@@ -143,6 +144,8 @@ export default class CheckList extends Component {
                     {this.state.StandardList.map((val, index) => {
                         let itemState=this.state.StateList[index];
                         let itemStateText=this.state.StateList[index]?StateObj[this.state.StateList[index]]:'未检查'
+                        // let icon=itemStateText=="有优点"?require('../../iconImages/advantage.png'):(itemStateText=="有缺点"?require('../../iconImages/problem.png'):require('../../iconImages/advantage.svg'))
+                        let icon=itemStateText=="有优点"?require('../../iconImages/thumpup.png'):(itemStateText=="有缺点"?require('../../iconImages/thumpdown.png'):itemStateText=="正常"?require('../../iconImages/normal.png'):require('../../iconImages/advantage.svg'))
                         return (
                             <Item
                                 key={"pointitem" + index}
@@ -152,7 +155,9 @@ export default class CheckList extends Component {
                             >
                                 <View style={styles.view}>
                                     <Text style={styles.title}>{val.Category}</Text>
-                                    <Text style={styles.right}>{itemStateText}</Text>
+
+                                    <Image source={icon}  style={[styles.right, {width:15, height: 16}]} />
+                                  
                                 </View>
 
 
