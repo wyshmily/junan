@@ -255,6 +255,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     avatarContainer: {
+        marginTop:10,
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',

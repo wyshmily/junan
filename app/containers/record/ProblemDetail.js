@@ -381,9 +381,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     view: {
+       
         flexDirection: 'row',
     },
     avatarContainer: {
+        marginTop:10,
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',

@@ -51,7 +51,7 @@ export default class PointTypeList extends Component {
         return (
             <List className="my-list">
                 {this.state.pointList.map((val, index) => {
-                    return (<Item key={"pointitem" + index} arrow="horizontal" extra={val.PositionCount} multipleLine
+                    return (<Item key={"pointitem" + index} arrow="horizontal" extra={val.PositionCount?val.PositionCount:'0'} multipleLine
                         onClick={this.beginCheck.bind(this, val.Name, index)}>{val.Name}</Item>)
                 })}
             </List>

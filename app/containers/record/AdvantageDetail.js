@@ -292,9 +292,7 @@ export default class AdvantageDetail extends Component {
 
                     <List renderHeader={() => '优点备注'}>
 
-
-
-
+ 
 
                         <Item>
                             <Brief>{this.state.advantageRemark}</Brief>
@@ -325,15 +323,17 @@ export default class AdvantageDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop:20,
+        
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
     view: {
         flexDirection: 'row',
+       
     },
     avatarContainer: {
+        marginTop:10,
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
