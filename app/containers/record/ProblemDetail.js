@@ -87,9 +87,10 @@ export default class ProblemDetail extends Component {
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            // goBack(params.go_back_key);
-            params.go_back_key = params.go_back_key - 1;
-            navigate("ProblemList")
+            goBack(params.go_back_key);
+            this.props.navigation.state.params.updateData(global.inspect);
+            // params.go_back_key = params.go_back_key - 1;
+            // navigate("ProblemList")
 
         });
 

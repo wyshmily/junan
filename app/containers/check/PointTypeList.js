@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    DeviceEventEmitter
 } from 'react-native';
 import { List, Toast } from 'antd-mobile'
 const Item = List.Item;
@@ -10,17 +11,16 @@ const Item = List.Item;
 export default class PointTypeList extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     pointList: [],
-        // };
+
+      
     }
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.org}`,
-     
+
     });
 
     componentWillMount() {
-        
+ 
         global.inspect.PositionTypeList.forEach(positionType => {
             positionType.PositionCount = positionType.PositionList
                 .filter(position => position.departmentId == global.department.Id).length
@@ -29,14 +29,21 @@ export default class PointTypeList extends Component {
         this.setState({
             pointList: global.inspect.PositionTypeList
         })
-
-
-
+ 
     }
+
+    componentDidMount() {
+        DeviceEventEmitter.addListener('ChangeIndex', (dic) => {
+            this.componentWillMount();
+        });
+    }
+
+
+     
     beginCheck = (pointName, index) => {
         console.log("selected:", pointName)
         const { navigate } = this.props.navigation;
-        navigate("PointList", { pointType: pointName, index: index })
+        navigate("PointList", { pointType: pointName, index: index  })
 
     }
 

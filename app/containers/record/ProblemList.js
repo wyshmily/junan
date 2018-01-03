@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    Image
 } from 'react-native';
 import {List, Button,Flex} from 'antd-mobile'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -19,6 +20,8 @@ export default class ProblemList extends Component {
             ]
         };
     }
+
+
 
     componentWillMount() {
         let inspect = global.inspect;
@@ -48,13 +51,19 @@ export default class ProblemList extends Component {
         })
     }
 
+    updateData = (data) => {
+
+        this.componentWillMount();
+
+    };
+
     /**
      * 问题详情
      * @param id
      */
     toProblem = (params) => {
         const {navigate} = this.props.navigation;
-        navigate("ProblemDetail", { item: params })
+        navigate("ProblemDetail", { item: params , updateData: this.updateData})
     }
 
     render() {
@@ -70,7 +79,8 @@ export default class ProblemList extends Component {
                                 onClick={this.toProblem.bind(this,val)}
                             >
                                 <View style={styles.view}>
-                                    <Icon name="warning" size={22} color={'#e94f4f'} />
+                                <Image source={require('../../iconImages/problem.png')} style={{width:15, height: 15}} />
+                                    {/* <Icon name="warning" size={22} color={'#e94f4f'} /> */}
                                     <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
                                 {/* {val.list.map((value,i)=>{

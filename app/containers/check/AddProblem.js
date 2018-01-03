@@ -117,7 +117,9 @@ export default class AddProblem extends Component {
             const params = state.params || {};
             // goBack(params.go_back_key);
             params.go_back_key=params.go_back_key-1;
-            navigate("CheckList", {point: params.pointName})
+             goBack(params.go_back_key);
+             this.props.navigation.state.params.updateData(global.inspect);
+            // navigate("CheckList", {point: params.pointName})
         });
     }
 

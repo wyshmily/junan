@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    Image
 } from 'react-native';
-import { Toast,List, Button } from 'antd-mobile'
+import { Toast, List, Button } from 'antd-mobile'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const Item = List.Item;
@@ -15,9 +16,17 @@ export default class AdvantageList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list:[]
+            list: []
         };
     }
+
+
+    updateData = (data) => {
+
+        this.componentWillMount();
+
+    };
+
 
     componentWillMount() {
         let inspect = global.inspect;
@@ -28,10 +37,10 @@ export default class AdvantageList extends Component {
                 element.PositionList.forEach(ele => {
 
                     if (ele.AdvantageList.length) {
-                        ele.AdvantageList.forEach(item=>{
+                        ele.AdvantageList.forEach(item => {
                             lists.push(item)
                         })
-                        
+
                     }
                 }
 
@@ -43,9 +52,11 @@ export default class AdvantageList extends Component {
         });
 
         this.setState({
-            list:lists
+            list: lists
         })
     }
+
+
 
     /**
      * 问题详情
@@ -53,8 +64,10 @@ export default class AdvantageList extends Component {
      */
     toProblem = (params) => {
         const { navigate } = this.props.navigation;
-        navigate("AdvantageDetail", { item: params })
+        navigate("AdvantageDetail", { item: params, updateData: this.updateData })
     }
+
+
 
     render() {
         return (
@@ -69,10 +82,11 @@ export default class AdvantageList extends Component {
                                 onClick={this.toProblem.bind(this, val)}
                             >
                                 <View style={styles.view}>
-                                    <Icon name="check-circle-o" size={22} color={'#3e9ce9'} />
+                                    <Image source={require('../../iconImages/advantage.png')} style={{ width: 15, height: 15 }} />
+                                    {/* <Icon name="check-circle-o" size={22} color={'#3e9ce9'} /> */}
                                     <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
-                               
+
                                 <Brief>{val.value.remark}</Brief>
                             </Item>
                         )

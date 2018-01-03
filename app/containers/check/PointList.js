@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    DeviceEventEmitter
 } from 'react-native';
 import { List, Modal, Button, Flex, Toast } from 'antd-mobile';
 
@@ -21,22 +22,37 @@ export default class PointList extends Component {
             StandardListLength: 0,
             PointTypeIndex: 0
         };
+
     }
 
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.pointType}`,
     });
 
+
+    componentDidMount() {
+        DeviceEventEmitter.addListener('ChangeIndex', (dic) => {
+            this.componentWillMount();
+        });
+    }
+
+    componentWillUnmount() {
+        DeviceEventEmitter.emit('ChangeIndex', {});
+    }
+
+
+
     componentWillMount() {
+
 
         let inspect = global.inspect;
         let index = this.props.navigation.state.params.index;
 
         let positionListArr = inspect.PositionTypeList[index].PositionList
-                .filter(ele => ele.departmentId == global.department.Id);
- 
+            .filter(ele => ele.departmentId == global.department.Id);
+
         this.setState({
-           
+
             pointList: positionListArr,
             StandardListLength: inspect.PositionTypeList[index].StandardList.length,
             PointTypeIndex: index
@@ -44,6 +60,7 @@ export default class PointList extends Component {
 
     }
 
+ 
     /**
      * 检查该点位
      * @param point 点位名称
@@ -52,7 +69,7 @@ export default class PointList extends Component {
     beginCheck = (point, index) => {
         global.currentPoint = { type: this.props.navigation.state.params.index, point: index, pointName: point }
         const { navigate } = this.props.navigation;
-        navigate("CheckList", { point: point })
+        navigate("CheckList", { point: point})
     }
 
     render() {
@@ -99,6 +116,7 @@ export default class PointList extends Component {
                                     inspect.PositionTypeList[this.state.PointTypeIndex].PositionList = pointList
                                     global.inspect = inspect;
                                     stores.writeFile(inspect);
+
                                     Toast.info(`新增成功`, 1);
                                     setTimeout(() => {
                                         resolve();

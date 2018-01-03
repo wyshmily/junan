@@ -172,11 +172,12 @@ export default class AddAdvantage extends Component {
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            //  params.go_back_key=params.go_back_key ;
-            // goBack(params.go_back_key);
-            params.go_back_key=params.go_back_key-2;
-            navigate("CheckList", {point: params.pointName})
+             params.go_back_key=params.go_back_key-1 ;
+            goBack(params.go_back_key);
+            // params.go_back_key=params.go_back_key-2;
+            // navigate("CheckList", {point: params.pointName})
 
+            this.props.navigation.state.params.updateData(global.inspect);
         });
     }
     takePhoto = () => {

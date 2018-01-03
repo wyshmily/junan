@@ -79,9 +79,11 @@ export default class AdvantageDetail extends Component {
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            // goBack(params.go_back_key);
-            params.go_back_key=params.go_back_key-1;
-            navigate("AdvantageList")
+            goBack(params.go_back_key);
+
+            this.props.navigation.state.params.updateData(global.inspect);
+            // params.go_back_key=params.go_back_key-1;
+            // navigate("AdvantageList")
 
         });
 
@@ -323,6 +325,7 @@ export default class AdvantageDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop:20,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
