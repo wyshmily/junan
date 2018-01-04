@@ -120,7 +120,7 @@ export default class CheckList extends Component {
             Toast.info(`设置成功`, 1);
         })
 
-        this.props.navigation.state.params.updateData(global.inspect);
+        // this.props.navigation.state.params.updateData(global.inspect);
     }
     /**
      * 设为正常
@@ -154,9 +154,10 @@ export default class CheckList extends Component {
                 <List className="my-list">
                     {this.state.StandardList.map((val, index) => {
                         let itemState = this.state.StateList[index];
-                        let itemStateText = this.state.StateList[index] ? StateObj[this.state.StateList[index]] : '未检查'
-                        // let icon=itemStateText=="有优点"?require('../../iconImages/advantage.png'):(itemStateText=="有缺点"?require('../../iconImages/problem.png'):require('../../iconImages/advantage.svg'))
-                        let icon = itemStateText == "有优点" ? require('../../iconImages/thumpup.png') : (itemStateText == "有缺点" ? require('../../iconImages/thumpdown.png') : itemStateText == "正常" ? require('../../iconImages/normal.png') : require('../../iconImages/advantage.svg'))
+                        // let itemStateText = this.state.StateList[index] ? StateObj[this.state.StateList[index]] : '未检查'
+                        let icon=itemState=="advantage"?require('../../iconImages/advantage.png'):(itemState=="problem"?require('../../iconImages/problem.png'):require('../../iconImages/advantage.svg'))
+                        // let icon = itemState == "advantage" ? require('../../iconImages/thumpup.png') : (itemState == "problem" ? require('../../iconImages/thumpdown.png') : itemState == "normal" ? require('../../iconImages/normal.png') : require('../../iconImages/advantage.svg'))
+                        // let icon = itemState == "advantage" ? require('../../iconImages/thumpup.png') : (itemState == "problem" ? require('../../iconImages/thumpdown.png') : itemState == "normal" ? require('../../iconImages/normal.png') : require('../../iconImages/advantage.svg'))
                         return (
                             <Item
                                 key={"pointitem" + index}
