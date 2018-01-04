@@ -75,11 +75,8 @@ export default class RecordHome extends Component {
                         <View>
                             <Flex>
                                 <Flex.Item style={styles.inner}>
-                                    {/* <Image
-                                        source={require('../../iconImages/advantage.png')}
-                                        style={[styles.icon]}
-                                    />) */}
-                                     <Image source={require('../../iconImages/advantage.png')} style={{width:25, height: 25}} />
+                                    
+                                     <Image source={require('../../iconImages/advantages.png')} style={{width:25, height: 25}} />
                                     <Text style={styles.title}>{"优点记录"}</Text>
                                 </Flex.Item>
                                 <Flex.Item><Text

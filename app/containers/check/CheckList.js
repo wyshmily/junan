@@ -155,7 +155,7 @@ export default class CheckList extends Component {
                     {this.state.StandardList.map((val, index) => {
                         let itemState = this.state.StateList[index];
                         // let itemStateText = this.state.StateList[index] ? StateObj[this.state.StateList[index]] : '未检查'
-                        let icon=itemState=="advantage"?require('../../iconImages/advantage.png'):(itemState=="problem"?require('../../iconImages/problem.png'):require('../../iconImages/normal.png'))
+                        let icon=itemState=="advantage"?require('../../iconImages/advantages.png'):(itemState=="problem"?require('../../iconImages/problem.png'):require('../../iconImages/normal.png'))
                         return (
                             <Item
                                 key={"pointitem" + index}
