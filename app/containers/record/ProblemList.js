@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    ScrollView,
 } from 'react-native';
-import {List, Button,Flex} from 'antd-mobile'
+import { List, Button, Flex } from 'antd-mobile'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const Item = List.Item;
@@ -16,7 +17,7 @@ export default class ProblemList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [ 
+            list: [
             ]
         };
     }
@@ -32,10 +33,10 @@ export default class ProblemList extends Component {
                 element.PositionList.forEach(ele => {
 
                     if (ele.ProblemList.length) {
-                        ele.ProblemList.forEach(item=>{
+                        ele.ProblemList.forEach(item => {
                             lists.push(item)
                         })
-                        
+
                     }
                 }
 
@@ -47,7 +48,7 @@ export default class ProblemList extends Component {
         });
 
         this.setState({
-            list:lists
+            list: lists
         })
     }
 
@@ -62,13 +63,13 @@ export default class ProblemList extends Component {
      * @param id
      */
     toProblem = (params) => {
-        const {navigate} = this.props.navigation;
-        navigate("ProblemDetail", { item: params , updateData: this.updateData})
+        const { navigate } = this.props.navigation;
+        navigate("ProblemDetail", { item: params, updateData: this.updateData })
     }
 
     render() {
         return (
-            <View>
+            <ScrollView>
                 <List className="my-list">
                     {this.state.list.map((val, index) => {
                         return (
@@ -76,10 +77,10 @@ export default class ProblemList extends Component {
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine
-                                onClick={this.toProblem.bind(this,val)}
+                                onClick={this.toProblem.bind(this, val)}
                             >
                                 <View style={styles.view}>
-                                <Image source={require('../../iconImages/problem.png')} style={{width:15, height: 15}} />
+                                    <Image source={require('../../iconImages/problem.png')} style={{ width: 15, height: 15 }} />
                                     {/* <Icon name="warning" size={22} color={'#e94f4f'} /> */}
                                     <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
@@ -91,18 +92,18 @@ export default class ProblemList extends Component {
                         )
                     })}
                 </List>
-            </View>
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    view:{
+    view: {
         flexDirection: 'row'
     },
-    title:{
-        textAlign:'left',
-        fontSize:16,
-        marginLeft:20,
+    title: {
+        textAlign: 'left',
+        fontSize: 16,
+        marginLeft: 20,
     },
 });

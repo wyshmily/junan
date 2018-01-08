@@ -52,6 +52,7 @@ export default class CheckList extends Component {
     }
 
 
+    
     componentWillUnmount() {
         DeviceEventEmitter.emit('ChangeIndex', {});
     }

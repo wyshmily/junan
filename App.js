@@ -18,6 +18,7 @@ import PointList from './app/containers/check/PointList'
 import CheckList from './app/containers/check/CheckList'
 import AddProblem from "./app/containers/check/AddProblem";
 import AddAdvantage from "./app/containers/check/AddAdvantage";
+import Test from "./app/containers/check/Test";
 
 import AdvantageList from "./app/containers/record/AdvantageList";
 import ProblemList from "./app/containers/record/ProblemList";
@@ -25,6 +26,11 @@ import ProblemDetail from "./app/containers/record/ProblemDetail";
 import AdvantageDetail from "./app/containers/record/AdvantageDetail";
 
 import ImagePickers from './app/components/ImagePickers';
+
+import {Toast} from 'antd-mobile';
+import {
+    Button
+} from 'react-native';
 
 const deviceW = Dimensions.get('window').width
 
@@ -34,8 +40,12 @@ function px2dp(px) {
     return px * deviceW / basePx
 }
 
+  
+
 
 const MainNavigator = TabNavigator({
+    
+
     Check: {
         screen: CheckHome,
         navigationOptions: {
@@ -46,6 +56,8 @@ const MainNavigator = TabNavigator({
                     source={require('./app/iconImages/check.png')}
                     style={[styles.icon, { tintColor: tintColor }]}
                 />),
+
+                
         }
     },
     RecordHome: {
@@ -57,6 +69,9 @@ const MainNavigator = TabNavigator({
                 source={require('./app/iconImages/record.png')}
                 style={[styles.icon, { tintColor: tintColor }]}
             />),
+
+            
+
         }
     },
 }, {
@@ -84,6 +99,10 @@ const MainNavigator = TabNavigator({
                 fontSize: 12, // 文字大小
             },
         },
+
+        
+        
+       
     },
 )
 
@@ -133,6 +152,12 @@ const Route = StackNavigator({
     AdvantageDetail: {
         screen: AdvantageDetail, navigationOptions: {
             title: '优点详情',
+            initialRouteParams: {}
+        }
+    },
+    Test: {
+        screen: Test, navigationOptions: {
+            title: '测试Art',
             initialRouteParams: {}
         }
     },

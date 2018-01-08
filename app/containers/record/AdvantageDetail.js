@@ -4,12 +4,16 @@ import {
     Text,
     View, Image, ScrollView, PixelRatio,
     TouchableOpacity,
+    Easing,
 } from 'react-native';
 import { Grid, List, TextareaItem, WingBlank, Toast, Flex, Button } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
+import ZoomImage from 'react-native-zoom-image';
 import * as stores from './../../Stores';
 const Item = List.Item;
 const Brief = Item.Brief;
+
+ 
 
 
 export default class AdvantageDetail extends Component {
@@ -89,7 +93,7 @@ export default class AdvantageDetail extends Component {
 
 
 
-        Toast.info(this.props.navigation.state.params.button);
+        
         
 
     }
@@ -222,8 +226,17 @@ export default class AdvantageDetail extends Component {
                                 return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                     <View style={[styles.avatar, styles.avatarContainer]}>
                                         {!dataItem.uri ? <Text>+</Text> :
-                                            <Image style={styles.avatar} source={dataItem} />
-                                        }
+                                            // <Image style={styles.avatar} source={dataItem} />
+                                            <ZoomImage
+                                            source={dataItem}
+                                            imgStyle={{ width: 250, height: 230 }}
+                                            style={styles.avatar}
+                                            duration={200}
+                                            enableScaling={false}
+                                            easingFunc={Easing.ease}
+                                        />
+                                       
+                                       }
                                     </View>
                                 </TouchableOpacity>
 
@@ -278,7 +291,15 @@ export default class AdvantageDetail extends Component {
                                 return <TouchableOpacity onPress={this.props.navigation.state.params.button == "save" ? this.selectPhotoTapped.bind(this, index) : ""}>
                                     <View style={[styles.avatar, styles.avatarContainer]}>
                                         {!dataItem.uri ? <Text>+</Text> :
-                                            <Image style={styles.avatar} source={dataItem} />
+                                            // <Image style={styles.avatar} source={dataItem} />
+                                            <ZoomImage
+                                            source={dataItem}
+                                            imgStyle={{ width: 250, height: 230 }}
+                                            style={styles.avatar}
+                                            duration={200}
+                                            enableScaling={false}
+                                            easingFunc={Easing.ease}
+                                        />
                                         }
                                     </View>
                                 </TouchableOpacity>

@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    ScrollView,
 } from 'react-native';
 import { Toast, List, Button } from 'antd-mobile'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -71,7 +72,8 @@ export default class AdvantageList extends Component {
 
     render() {
         return (
-            <View>
+            <ScrollView>
+
                 <List className="my-list">
                     {this.state.list.map((val, index) => {
                         return (
@@ -92,7 +94,7 @@ export default class AdvantageList extends Component {
                         )
                     })}
                 </List>
-            </View>
+            </ScrollView>
         )
     }
 }

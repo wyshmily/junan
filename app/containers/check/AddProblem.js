@@ -4,9 +4,11 @@ import {
     Text,
     View,Image,ScrollView,PixelRatio,
     TouchableOpacity,
+    Easing
 } from 'react-native';
 import {Flex, List,Grid, Checkbox,Button, TextareaItem,WingBlank,Toast} from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
+import ZoomImage from 'react-native-zoom-image';
 
 import * as stores from './../../Stores';
 
@@ -221,7 +223,7 @@ export default class AddProblem extends Component {
 
         //将缺点保存至优点列表
        
-        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,"category":category,positionArr:[inspect.PositionTypeList[firstIndex].Name,inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name,firstIndex,secondIndex]}
+        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,"category":category,positionArr:[inspect.PositionTypeList[firstIndex].Name,inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name,firstIndex,secondIndex,index]}
         //记录当前检查项为问题项目
         this.setStateList(this.props.navigation.state.params.id,'problem',problem)
     }
@@ -245,7 +247,15 @@ export default class AddProblem extends Component {
                               return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this,index)}>
                                   <View style={[styles.avatar, styles.avatarContainer]}>
                                   { !dataItem.uri ? <Text>+</Text> :
-                                      <Image style={styles.avatar} source={dataItem} />
+
+                                      <ZoomImage
+                                            source={dataItem}
+                                            imgStyle={{ width: 250, height: 230 }}
+                                            style={styles.avatar}
+                                            duration={200}
+                                            enableScaling={false}
+                                            easingFunc={Easing.ease}
+                                        />
                                   }
                                   </View>
                               </TouchableOpacity>

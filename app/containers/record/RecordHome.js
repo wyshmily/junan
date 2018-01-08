@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View, Image,
-    TouchableHighlight
+    TouchableHighlight,
+    DeviceEventEmitter
 } from 'react-native';
 import { WingBlank, Toast, WhiteSpace, Flex } from 'antd-mobile';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -18,6 +19,7 @@ export default class RecordHome extends Component {
         };
     }
     componentWillMount() {
+     
         let inspect = global.inspect;
         let num1 = 0;
         let num2 = 0;
@@ -34,12 +36,20 @@ export default class RecordHome extends Component {
 
 
         });
+        
 
         this.setState({
             problem: { num: num1 },
             advantage: { num: num2 }
         })
     }
+
+  
+    componentWillReceiveProps(){
+        this.componentWillMount();
+    }
+
+     
 
     toList = (uri) => {
         const { navigate } = this.props.navigation;

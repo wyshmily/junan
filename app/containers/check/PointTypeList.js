@@ -38,6 +38,7 @@ export default class PointTypeList extends Component {
         });
     }
 
+    
 
      
     beginCheck = (pointName, index) => {

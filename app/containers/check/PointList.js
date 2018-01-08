@@ -40,6 +40,8 @@ export default class PointList extends Component {
         DeviceEventEmitter.emit('ChangeIndex', {});
     }
 
+    
+
 
 
     componentWillMount() {

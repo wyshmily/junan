@@ -3,10 +3,12 @@ import {
     StyleSheet,
     Text,
     View, Image, ScrollView, PixelRatio,
-    TouchableOpacity
+    TouchableOpacity,
+    Easing,
 } from 'react-native';
 import { Grid, List, Checkbox, Button, TextareaItem, Toast, WingBlank, Flex } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
+import ZoomImage from 'react-native-zoom-image';
 const CheckboxItem = Checkbox.CheckboxItem;
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -62,6 +64,7 @@ export default class ProblemDetail extends Component {
         let inspect = global.inspect;
         let firstIndex = paramsObject.value.positionArr[2];
         let secondIndex = paramsObject.value.positionArr[3];
+        let lastIndex = paramsObject.value.positionArr[3];
         let currentObject = inspect.PositionTypeList[firstIndex].PositionList[secondIndex].ProblemList;
         let currentProblem = {};
         let currentIndex = 0;
@@ -112,6 +115,7 @@ export default class ProblemDetail extends Component {
         let inspect = global.inspect;
         let firstIndex = paramsObject.value.positionArr[2];
         let secondIndex = paramsObject.value.positionArr[3];
+        let lastIndex = paramsObject.value.positionArr[4];
         let currentObject = inspect.PositionTypeList[firstIndex].PositionList[secondIndex].ProblemList;
         let currentProblem = {};
 
@@ -126,10 +130,10 @@ export default class ProblemDetail extends Component {
             problemRemark: currentProblem.value.remark,
             files: currentProblem.value.images,
             issue: currentProblem.value.issue,
-            issueList: inspect.PositionTypeList[firstIndex].StandardList[secondIndex]["IssueList"],
+            issueList: inspect.PositionTypeList[firstIndex].StandardList[lastIndex]["IssueList"],
         })
 
-        let issueList = inspect.PositionTypeList[firstIndex].StandardList[secondIndex]["IssueList"]
+        let issueList = inspect.PositionTypeList[firstIndex].StandardList[lastIndex]["IssueList"]
 
    
         let that=this;
@@ -263,7 +267,14 @@ export default class ProblemDetail extends Component {
                                 return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                     <View style={[styles.avatar, styles.avatarContainer]}>
                                         {!dataItem.uri ? <Text>+</Text> :
-                                            <Image style={styles.avatar} source={dataItem} />
+                                            <ZoomImage
+                                            source={dataItem}
+                                            imgStyle={{ width: 250, height: 230 }}
+                                            style={styles.avatar}
+                                            duration={200}
+                                            enableScaling={false}
+                                            easingFunc={Easing.ease}
+                                        />
                                         }
                                     </View>
                                 </TouchableOpacity>
@@ -327,8 +338,16 @@ export default class ProblemDetail extends Component {
                                 return <TouchableOpacity  >
                                     <View style={[styles.avatar, styles.avatarContainer]}>
                                         {!dataItem.uri ? <Text>+</Text> :
-                                            <Image style={styles.avatar} source={dataItem} />
-                                        }
+                                            // <Image style={styles.avatar} source={dataItem} />
+                                            <ZoomImage
+                                            source={dataItem}
+                                            imgStyle={{ width: 250, height: 230 }}
+                                            style={styles.avatar}
+                                            duration={200}
+                                            enableScaling={false}
+                                            easingFunc={Easing.ease}
+                                        />
+                                      }
                                     </View>
                                 </TouchableOpacity>
 
