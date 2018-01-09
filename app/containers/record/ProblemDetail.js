@@ -273,7 +273,7 @@ export default class ProblemDetail extends Component {
                                     renderItem={(dataItem, index) => {
                                         return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                             <View style={[styles.avatar, styles.avatarContainer]}>
-                                                {!dataItem.uri ? <Text>+</Text> :
+                                                {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
                                                     <ZoomImage
                                                         source={dataItem}
                                                         imgStyle={{ width: 250, height: 230 }}
@@ -349,7 +349,7 @@ export default class ProblemDetail extends Component {
                                     renderItem={(dataItem, index) => {
                                         return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                             <View style={[styles.avatar, styles.avatarContainer]}>
-                                                {!dataItem.uri ? <Text>+</Text> :
+                                                {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
                                                     <ZoomImage
                                                         source={dataItem}
                                                         imgStyle={{ width: 250, height: 230 }}
@@ -425,8 +425,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     avatarContainer: {
-        marginTop: 10,
-        borderColor: '#9B9B9B',
+        borderColor: '#fff',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
         alignItems: 'center'
