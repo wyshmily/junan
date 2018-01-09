@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    View,Image,ScrollView,PixelRatio,
+    View, Image, ScrollView, PixelRatio,
     TouchableOpacity,
     Easing
 } from 'react-native';
-import {Flex, List,Grid, Checkbox,Button, TextareaItem,WingBlank,Toast} from 'antd-mobile';
+import { Flex, Card, List, Grid, WhiteSpace, Checkbox, Button, TextareaItem, WingBlank, Toast } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
 import ZoomImage from 'react-native-zoom-image';
 
@@ -20,107 +20,107 @@ export default class AddProblem extends Component {
         super(props);
         this.state = {
             files: [],
-            remark:'',
-            issue:[],
-            IssueList:[],
-            isLoading :false,
+            remark: '',
+            issue: [],
+            IssueList: [],
+            isLoading: false,
         };
     }
 
     componentWillMount() {
-        let inspect =global.inspect;
+        let inspect = global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
         let index = this.props.navigation.state.params.id;//点位的检查项
         let currentIndex = 0;
-        const currentProblem = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
-            if(val["index"]==index){
-                currentIndex=i
+        const currentProblem = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
+            if (val["index"] == index) {
+                currentIndex = i
                 return true
             }
             return false
         })
         this.setState({
 
-            IssueList:inspect.PositionTypeList[type].StandardList[index]["IssueList"],
-            files:currentProblem?currentProblem["value"]["images"]:[],
+            IssueList: inspect.PositionTypeList[type].StandardList[index]["IssueList"],
+            files: currentProblem ? currentProblem["value"]["images"] : [],
         })
     }
     componentWillReceiveProps() {
-        let inspect =global.inspect;
+        let inspect = global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
         let index = this.props.navigation.state.params.id;//点位的检查项
         let currentIndex = 0;
-        const currentProblem = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
-            if(val["index"]==index){
-                currentIndex=i+1
+        const currentProblem = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
+            if (val["index"] == index) {
+                currentIndex = i + 1
                 return true
             }
             return false
         })
         this.setState({
-            IssueList:inspect.PositionTypeList[type].StandardList[index]["IssueList"],
-            files:currentProblem?currentProblem["value"]["images"]:[],
+            IssueList: inspect.PositionTypeList[type].StandardList[index]["IssueList"],
+            files: currentProblem ? currentProblem["value"]["images"] : [],
         })
     }
 
-    setStateList=(index,value,problem)=>{
+    setStateList = (index, value, problem) => {
         let inspect = global.inspect;
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
         let stateList = inspect.PositionTypeList[type].PositionList[point].StateList
 
-        if(stateList[index]=="advantage"){
+        if (stateList[index] == "advantage") {
             let currentIndex = 0;
-            const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val,i)=>{
-                if(val["index"]==index){
-                    currentIndex=i+1
+            const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val, i) => {
+                if (val["index"] == index) {
+                    currentIndex = i + 1
                     return true
                 }
                 return false
             })
-            if(current){
-                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].splice(currentIndex,1);
+            if (current) {
+                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].splice(currentIndex, 1);
             }
-        }else if(stateList[index]=="problem"){
-            
+        } else if (stateList[index] == "problem") {
 
-                let currentIndex = 0;
-                const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val,i)=>{
-                    if(val["index"]==index){
-                        currentIndex=i+1
-                        return true
-                    }
-                    return false
-                })
-                if(current){
-                    inspect.PositionTypeList[type].PositionList[point]["ProblemList"][currentIndex]["value"]=problem;
-                }else{
-                    inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
-                        "index":index,"value":problem
-                    })
+
+            let currentIndex = 0;
+            const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
+                if (val["index"] == index) {
+                    currentIndex = i + 1
+                    return true
                 }
-        }else{
+                return false
+            })
+            if (current) {
+                inspect.PositionTypeList[type].PositionList[point]["ProblemList"][currentIndex]["value"] = problem;
+            } else {
+                inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
+                    "index": index, "value": problem
+                })
+            }
+        } else {
             inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
-                "index":index,"value":problem
+                "index": index, "value": problem
             })
         }
-        stateList[index]=value;
+        stateList[index] = value;
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;
-        this.setState({isLoading:true})
-        stores.writeFile(inspect,()=>{
+        this.setState({ isLoading: true })
+        stores.writeFile(inspect, () => {
             Toast.info(`保存成功`, 1);
             this.setState({
-                isLoading:false
+                isLoading: false
             })
-            const { state, navigate,goBack } = this.props.navigation;
+            const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
             // goBack(params.go_back_key);
-            params.go_back_key=params.go_back_key-1;
-             goBack(params.go_back_key);
-             this.props.navigation.state.params.updateData(global.inspect);
+            params.go_back_key = params.go_back_key - 1;
+            goBack(params.go_back_key);
+            this.props.navigation.state.params.updateData(global.inspect);
             // navigate("CheckList", {point: params.pointName})
         });
     }
@@ -167,7 +167,7 @@ export default class AddProblem extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = {uri: response.uri};
+                let source = { uri: response.uri };
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -191,41 +191,41 @@ export default class AddProblem extends Component {
     onChange = (value) => {
         let issue = this.state.issue;
         // let 
-        let currentIndex=0;
-        const currentIssue = this.state.issue.find((val,index)=>{
-            if(val==value){
-                currentIndex=index;
+        let currentIndex = 0;
+        const currentIssue = this.state.issue.find((val, index) => {
+            if (val == value) {
+                currentIndex = index;
                 return true;
             }
             return false;
         })
-        if(currentIssue){
-            issue.splice(currentIndex,1)
-        }else{
+        if (currentIssue) {
+            issue.splice(currentIndex, 1)
+        } else {
             issue.push(value)
         }
-        this.setState({"issue":issue})
+        this.setState({ "issue": issue })
     }
 
 
-    changeRemark=(value)=>{
-        this.setState({"remark":value})
+    changeRemark = (value) => {
+        this.setState({ "remark": value })
     }
     onSubmit = () => {
         //将问题保存至问题列表
 
         let index = this.props.navigation.state.params.id;
-        
-        let firstIndex=global.currentPoint.type;
-        let secondIndex=global.currentPoint.point;
-        let category=inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
+
+        let firstIndex = global.currentPoint.type;
+        let secondIndex = global.currentPoint.point;
+        let category = inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
 
 
         //将缺点保存至优点列表
-       
-        let problem = {"images":this.state.files,issue:this.state.issue,remark:this.state.remark,"category":category,positionArr:[inspect.PositionTypeList[firstIndex].Name,inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name,firstIndex,secondIndex,index]}
+
+        let problem = { "images": this.state.files, issue: this.state.issue, remark: this.state.remark, "category": category, positionArr: [inspect.PositionTypeList[firstIndex].Name, inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name, firstIndex, secondIndex, index] }
         //记录当前检查项为问题项目
-        this.setStateList(this.props.navigation.state.params.id,'problem',problem)
+        this.setStateList(this.props.navigation.state.params.id, 'problem', problem)
     }
 
 
@@ -233,59 +233,88 @@ export default class AddProblem extends Component {
 
         const { files } = this.state;
 
-        const photoLength=files.length;
+        const photoLength = files.length;
         if (photoLength == 0 || files[photoLength - 1].uri) {
-            files.push({uri:null})
+            files.push({ uri: null })
         }
 
         return (
             <ScrollView>
-                <WingBlank>
-                    <Grid data={this.state.files}
-                          columnNum={3}
-                          renderItem={(dataItem, index) => {
-                              return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this,index)}>
-                                  <View style={[styles.avatar, styles.avatarContainer]}>
-                                  { !dataItem.uri ? <Text>+</Text> :
 
-                                      <ZoomImage
-                                            source={dataItem}
-                                            imgStyle={{ width: 250, height: 230 }}
-                                            style={styles.avatar}
-                                            duration={200}
-                                            enableScaling={false}
-                                            easingFunc={Easing.ease}
-                                        />
-                                  }
-                                  </View>
-                              </TouchableOpacity>
-
-                          }}
-
+                <Card>
+                    <Card.Header
+                        title="添加照片"
                     />
 
-            </WingBlank>
+                    <Card.Body>
+                        <WingBlank>
+                            <Grid data={this.state.files}
+                                columnNum={3}
+                                renderItem={(dataItem, index) => {
+                                    return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                        <View style={[styles.avatar, styles.avatarContainer]}>
+                                            {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
 
-                <List renderHeader={() => '存在问题'}>
-                    {this.state.IssueList.map((val,i) => (
-                        <CheckboxItem key={i} onChange={this.onChange.bind(this,val)}>
-                            {val}
-                        </CheckboxItem>
-                    ))}
-                </List>
-                <List renderHeader={() => '问题备注'}>
-                    <TextareaItem
-                        value={this.state.remark}
-                        onChange={this.changeRemark}
-                        rows={5}
+                                                <ZoomImage
+                                                    source={dataItem}
+                                                    imgStyle={{ width: 250, height: 230 }}
+                                                    style={styles.avatar}
+                                                    duration={200}
+                                                    enableScaling={false}
+                                                    easingFunc={Easing.ease}
+                                                />
+                                            }
+                                        </View>
+                                    </TouchableOpacity>
+
+                                }}
+
+                            />
+                        </WingBlank>
+
+                    </Card.Body>
+                </Card>
+
+                <WhiteSpace size="lg" />
+                <Card>
+                    <Card.Header
+                        title="存在问题"
                     />
-                </List>
+                    <Card.Body>
+                        {this.state.IssueList.map((val, i) => (
+                            <CheckboxItem key={i} onChange={this.onChange.bind(this, val)}>
+                                {val}
+                            </CheckboxItem>
+                        ))}
+                    </Card.Body>
+                </Card>
+
+                <WhiteSpace size="lg" />
+
+
+
+                <Card>
+                    <Card.Header
+                        title="问题备注"
+                    />
+                    <Card.Body>
+                        <TextareaItem
+                            value={this.state.remark}
+                            onChange={this.changeRemark}
+                            rows={5}
+                        />
+                    </Card.Body>
+                </Card>
+
+                <WhiteSpace size="lg" />
+
+
                 <List>
                     <Item style={styles.view}>
                         <Flex>
                             <Flex.Item></Flex.Item>
                             <Flex.Item><Button type="primary" loading={this.state.isLoading}
-                                               onClick={this.onSubmit}>保存</Button></Flex.Item>
+                                onClick={this.onSubmit}>保存</Button></Flex.Item>
                             <Flex.Item></Flex.Item>
                         </Flex>
                     </Item>
@@ -301,14 +330,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     avatarContainer: {
-        marginTop:10,
-        borderColor: '#9B9B9B',
+        borderColor: '#fff',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
         alignItems: 'center'
     },
-    avatar:{
-        width:100,
-        height:100,
+    avatar: {
+        width: 96,
+        height: 80,
     }
 });

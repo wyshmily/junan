@@ -26,7 +26,7 @@ gradlew compileDebug --stacktrace
 
 ## 发布apk
 ```
-cd android && ./gradlew assembleRelease
+cd android && ./gradlew assembleRelease --console plain
 ```
 
 生成的APK文件位于android/app/build/outputs/apk/app-release.apk

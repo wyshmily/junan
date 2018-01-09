@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     Easing,
 } from 'react-native';
-import { Grid, List, Checkbox, Button, TextareaItem, Toast, WingBlank, Flex } from 'antd-mobile';
+import { Card, WhiteSpace, Grid, List, Checkbox, Button, TextareaItem, Toast, WingBlank, Flex } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
 import ZoomImage from 'react-native-zoom-image';
 const CheckboxItem = Checkbox.CheckboxItem;
@@ -98,13 +98,13 @@ export default class ProblemDetail extends Component {
         });
 
 
- 
+
 
 
     }
 
     componentDidMount() {
-        
+
         this.props.navigation.setParams({ handleEdit: this.onEdit });
         this.props.navigation.setParams({ handleSave: this.onSave });
     }
@@ -135,8 +135,8 @@ export default class ProblemDetail extends Component {
 
         let issueList = inspect.PositionTypeList[firstIndex].StandardList[lastIndex]["IssueList"]
 
-   
-        let that=this;
+
+        let that = this;
         currentProblem.value.issue.forEach(ele => {
 
             issueList.forEach(function (element, index) {
@@ -147,7 +147,7 @@ export default class ProblemDetail extends Component {
 
         })
 
-       
+
 
     }
 
@@ -259,134 +259,155 @@ export default class ProblemDetail extends Component {
 
         if (this.props.navigation.state.params.button == "save") {
             return (
-                <View>
-                    <WingBlank>
-                        <Grid data={this.state.files}
-                            columnNum={3}
-                            renderItem={(dataItem, index) => {
-                                return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
-                                    <View style={[styles.avatar, styles.avatarContainer]}>
-                                        {!dataItem.uri ? <Text>+</Text> :
-                                            <ZoomImage
-                                            source={dataItem}
-                                            imgStyle={{ width: 250, height: 230 }}
-                                            style={styles.avatar}
-                                            duration={200}
-                                            enableScaling={false}
-                                            easingFunc={Easing.ease}
-                                        />
-                                        }
-                                    </View>
-                                </TouchableOpacity>
+                <ScrollView>
 
-                            }}
+                    <Card>
 
+                        <Card.Header
+                            title="添加照片"
                         />
-                    </WingBlank>
-                    <List renderHeader={() => '存在问题'}>
-                        {/* {data.map(i => (
-                        <CheckboxItem disabled key={i.value}>
-                            {i.label}
-                        </CheckboxItem>
-                    ))} */}
+                        <Card.Body>
+                            <WingBlank>
+                                <Grid data={this.state.files}
+                                    columnNum={3}
+                                    renderItem={(dataItem, index) => {
+                                        return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                            <View style={[styles.avatar, styles.avatarContainer]}>
+                                                {!dataItem.uri ? <Text>+</Text> :
+                                                    <ZoomImage
+                                                        source={dataItem}
+                                                        imgStyle={{ width: 250, height: 230 }}
+                                                        style={styles.avatar}
+                                                        duration={200}
+                                                        enableScaling={false}
+                                                        easingFunc={Easing.ease}
+                                                    />
+                                                }
+                                            </View>
+                                        </TouchableOpacity>
 
-                        {this.state.issueList.map((val, i) => (
-                            <CheckboxItem key={i} defaultChecked={this.state.issueIndex.indexOf(i)!=-1} onChange={this.onChange.bind(this, val)}>
-                                {val}
-                            </CheckboxItem>
+                                    }}
+
+                                />
+                            </WingBlank>
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+                    <Card>
+                        <Card.Header
+                            title="存在问题"
+                        />
+                        <Card.Body>
+                            {this.state.issueList.map((val, i) => (
+                                <CheckboxItem key={i} defaultChecked={this.state.issueIndex.indexOf(i) != -1} onChange={this.onChange.bind(this, val)}>
+                                    {val}
+                                </CheckboxItem>
 
 
-                        ))}
+                            ))}
+                        </Card.Body>
+                    </Card>
 
-                     
+                    <WhiteSpace size="lg" />
 
-                    </List>
-                    <List renderHeader={() => '问题备注'}>
-                        <Item>
 
+
+                    <Card>
+                        <Card.Header
+                            title="问题备注"
+                        />
+                        <Card.Body>
                             <TextareaItem
                                 value={this.state.problemRemark}
                                 onChange={this.changeRemark}
                                 rows={5}
                             />
-                        </Item>
- 
-                    </List>
-                    <List>
-                        <Item>
+                        </Card.Body>
+                    </Card>
 
-                            {
-                                //<Button size="small" inline onClick={this.onReset}>返回</Button>
-                            }
-                            <Flex>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                            </Flex>
-                        </Item>
-                    </List>
-                </View>
+                    <WhiteSpace size="lg" />
+
+
+
+                </ScrollView>
             )
 
         } else {
             return (
-                <View>
-                    <WingBlank>
-                        <Grid data={this.state.files}
-                            columnNum={3}
-                            renderItem={(dataItem, index) => {
-                                return <TouchableOpacity  >
-                                    <View style={[styles.avatar, styles.avatarContainer]}>
-                                        {!dataItem.uri ? <Text>+</Text> :
-                                            // <Image style={styles.avatar} source={dataItem} />
-                                            <ZoomImage
-                                            source={dataItem}
-                                            imgStyle={{ width: 250, height: 230 }}
-                                            style={styles.avatar}
-                                            duration={200}
-                                            enableScaling={false}
-                                            easingFunc={Easing.ease}
-                                        />
-                                      }
-                                    </View>
-                                </TouchableOpacity>
 
-                            }}
+                <ScrollView>
 
+                    <Card>
+                        <Card.Header
+                            title="添加照片"
                         />
-                    </WingBlank>
-                    <List renderHeader={() => '存在问题'}>
-                        {/* {data.map(i => (
-                        <CheckboxItem disabled key={i.value}>
-                            {i.label}
-                        </CheckboxItem>
-                    ))} */}
+                        <Card.Body>
+                            <WingBlank>
+                                <Grid data={this.state.files}
+                                    columnNum={3}
+                                    renderItem={(dataItem, index) => {
+                                        return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                            <View style={[styles.avatar, styles.avatarContainer]}>
+                                                {!dataItem.uri ? <Text>+</Text> :
+                                                    <ZoomImage
+                                                        source={dataItem}
+                                                        imgStyle={{ width: 250, height: 230 }}
+                                                        style={styles.avatar}
+                                                        duration={200}
+                                                        enableScaling={false}
+                                                        easingFunc={Easing.ease}
+                                                    />
+                                                }
+                                            </View>
+                                        </TouchableOpacity>
 
-                        {this.state.issueList.map((val, i) => (
-                            <CheckboxItem key={i} disabled defaultChecked={this.state.issueIndex.indexOf(i)!=-1}   onChange={this.onChange.bind(this, val)}>
-                                {val}
-                            </CheckboxItem>
-                        ))}
+                                    }}
 
-                    </List>
-                    <List renderHeader={() => '问题备注'}>
-                        <Item>
-                            <Brief>{this.state.problemRemark}</Brief>
-                        </Item>
-                    </List>
-                    <List>
-                        <Item>
-                            {
-                                //<Button size="small" inline onClick={this.onReset}>返回</Button>
-                            }
-                            <Flex>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                            </Flex>
-                        </Item>
-                    </List>
-                </View>
+                                />
+                            </WingBlank>
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+                    <Card>
+                        <Card.Header
+                            title="存在问题"
+                        />
+                        <Card.Body>
+                            {this.state.issueList.map((val, i) => (
+                                <CheckboxItem key={i} defaultChecked={this.state.issueIndex.indexOf(i) != -1} onChange={this.onChange.bind(this, val)}>
+                                    {val}
+                                </CheckboxItem>
+
+
+                            ))}
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+
+
+
+                    <Card>
+                        <Card.Header
+                            title="问题备注"
+                        />
+                        <Card.Body>
+                            <WingBlank>
+
+                                <Brief>{this.state.problemRemark}</Brief>
+                            </WingBlank>
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+
+
+
+                </ScrollView>
+
+
             )
         }
     }
@@ -400,18 +421,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     view: {
-       
+
         flexDirection: 'row',
     },
     avatarContainer: {
-        marginTop:10,
+        marginTop: 10,
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
         alignItems: 'center'
     },
     avatar: {
-        width: 100,
-        height: 100,
+        width: 96,
+        height: 80,
     }
 });

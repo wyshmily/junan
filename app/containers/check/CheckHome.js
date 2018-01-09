@@ -47,10 +47,10 @@ export default class CheckHome extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
-                    {this.state.name}
+                    检查名称:{this.state.name}
                 </Text>
                 <Text style={styles.instructions}>
-                    {this.state.org}
+                    检查单位:{this.state.org}
                 </Text>
                 <Text style={styles.instructions}>
                     检查人:{this.state.inspectorName}
@@ -58,12 +58,12 @@ export default class CheckHome extends Component {
 
                 
                 <Text style={styles.instructions}>
-                    {this.state.time}
+                    检查时间:{this.state.time}
                 </Text>
                 <WhiteSpace size="lg" />
                 <WhiteSpace size="lg" />
                 <Button type="primary" onClick={this.beginCheck}>开始检查</Button>
-                <Button type="primary" onClick={this.test}>测试</Button>
+                {/* <Button type="primary" onClick={this.test}>测试</Button> */}
                 <WhiteSpace size="lg" />
                 <WhiteSpace size="lg" />
             </View>

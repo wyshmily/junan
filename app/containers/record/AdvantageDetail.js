@@ -6,14 +6,14 @@ import {
     TouchableOpacity,
     Easing,
 } from 'react-native';
-import { Grid, List, TextareaItem, WingBlank, Toast, Flex, Button } from 'antd-mobile';
+import { Card, WhiteSpace, Grid, List, TextareaItem, WingBlank, Toast, Flex, Button } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
 import ZoomImage from 'react-native-zoom-image';
 import * as stores from './../../Stores';
 const Item = List.Item;
 const Brief = Item.Brief;
 
- 
+
 
 
 export default class AdvantageDetail extends Component {
@@ -46,9 +46,9 @@ export default class AdvantageDetail extends Component {
     };
 
     onEdit = () => {
-         
+
         this.props.navigation.setParams({ button: 'save' });
- 
+
     }
 
     onSave = () => {
@@ -62,24 +62,24 @@ export default class AdvantageDetail extends Component {
         let secondIndex = paramsObject.value.positionArr[3];
         let currentObject = inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList;
         let currentAdvantage = {};
-        let currentIndex=0;
+        let currentIndex = 0;
 
         for (var i = 0; i < currentObject.length; i++) {
             if (currentObject[i].index == paramsObject.index) {
                 // currentAdvantage = currentObject[i];
-                currentIndex=i;
+                currentIndex = i;
             }
         }
 
-        inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList[currentIndex].value.images=this.state.files
-        inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList[currentIndex].value.remark=this.state.advantageRemark
-        
+        inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList[currentIndex].value.images = this.state.files
+        inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList[currentIndex].value.remark = this.state.advantageRemark
+
         global.inspect = inspect;
-        this.setState({isLoading:true})
-        stores.writeFile(inspect,()=>{
+        this.setState({ isLoading: true })
+        stores.writeFile(inspect, () => {
             Toast.info(`保存成功`, 1);
             this.setState({
-                isLoading:false
+                isLoading: false
             })
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
@@ -93,8 +93,8 @@ export default class AdvantageDetail extends Component {
 
 
 
-        
-        
+
+
 
     }
 
@@ -190,7 +190,7 @@ export default class AdvantageDetail extends Component {
             files,
         });
     }
-     
+
     takePhoto = () => {
         //拍照
     }
@@ -203,9 +203,9 @@ export default class AdvantageDetail extends Component {
 
     }
 
-    changeRemark=(value)=>{
-         
-        this.setState({advantageRemark:value})
+    changeRemark = (value) => {
+
+        this.setState({ advantageRemark: value })
     }
 
     render() {
@@ -218,63 +218,61 @@ export default class AdvantageDetail extends Component {
 
             return (
                 <ScrollView>
-                    <WingBlank>
 
+                    <Card>
+                        <Card.Header
+                            title="添加照片"
+                        />
+                        <Card.Body>
+                        <WingBlank>
                         <Grid data={this.state.files}
                             columnNum={3}
                             renderItem={(dataItem, index) => {
                                 return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                     <View style={[styles.avatar, styles.avatarContainer]}>
-                                        {!dataItem.uri ? <Text>+</Text> :
+                                        {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
                                             // <Image style={styles.avatar} source={dataItem} />
                                             <ZoomImage
-                                            source={dataItem}
-                                            imgStyle={{ width: 250, height: 230 }}
-                                            style={styles.avatar}
-                                            duration={200}
-                                            enableScaling={false}
-                                            easingFunc={Easing.ease}
-                                        />
-                                       
-                                       }
+                                                source={dataItem}
+                                                imgStyle={{ width: 250, height: 230 }}
+                                                style={styles.avatar}
+                                                duration={200}
+                                                enableScaling={false}
+                                                easingFunc={Easing.ease}
+                                            />
+
+                                        }
                                     </View>
                                 </TouchableOpacity>
 
                             }}
 
                         />
-
-                    </WingBlank>
-
-
-                    <List renderHeader={() => '优点备注'}>
+                        </WingBlank>
+                        </Card.Body>
+                    </Card>
 
 
+                    <WhiteSpace size="lg" />
 
 
 
-                        <Item>
-                            {/* <Brief>{this.state.advantage.remark}</Brief> */}
-
-                            <TextareaItem
+                    <Card>
+                        <Card.Header
+                            title="优点备注"
+                        />
+                        <Card.Body>
+                        <TextareaItem
                                 value={this.state.advantageRemark}
                                 onChange={this.changeRemark}
                                 rows={5}
                             />
-                        </Item>
-                    </List>
-                    <List>
-                        <Item>
-                            {
-                                //<Button size="small" inline onClick={this.onReset}>返回</Button>
-                            }
-                            <Flex>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                            </Flex>
-                        </Item>
-                    </List>
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+
+                   
                 </ScrollView>
             )
 
@@ -283,23 +281,30 @@ export default class AdvantageDetail extends Component {
 
             return (
                 <ScrollView>
-                    <WingBlank>
+                 
 
+                 <Card>
+                        <Card.Header
+                            title="添加照片"
+                        />
+                        <Card.Body>
+                        <WingBlank>
                         <Grid data={this.state.files}
                             columnNum={3}
                             renderItem={(dataItem, index) => {
-                                return <TouchableOpacity onPress={this.props.navigation.state.params.button == "save" ? this.selectPhotoTapped.bind(this, index) : ""}>
+                                return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                     <View style={[styles.avatar, styles.avatarContainer]}>
-                                        {!dataItem.uri ? <Text>+</Text> :
+                                        {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
                                             // <Image style={styles.avatar} source={dataItem} />
                                             <ZoomImage
-                                            source={dataItem}
-                                            imgStyle={{ width: 250, height: 230 }}
-                                            style={styles.avatar}
-                                            duration={200}
-                                            enableScaling={false}
-                                            easingFunc={Easing.ease}
-                                        />
+                                                source={dataItem}
+                                                imgStyle={{ width: 250, height: 230 }}
+                                                style={styles.avatar}
+                                                duration={200}
+                                                enableScaling={false}
+                                                easingFunc={Easing.ease}
+                                            />
+
                                         }
                                     </View>
                                 </TouchableOpacity>
@@ -307,32 +312,30 @@ export default class AdvantageDetail extends Component {
                             }}
 
                         />
+                        </WingBlank>
+                        </Card.Body>
+                    </Card>
 
-                    </WingBlank>
+
+                    <WhiteSpace size="lg" />
 
 
-                    <List renderHeader={() => '优点备注'}>
 
+                    <Card>
+                        <Card.Header
+                            title="优点备注"
+                        />
+                        <Card.Body>
+                        <WingBlank>
+                        <Brief>{this.state.advantageRemark}</Brief>
+                        </WingBlank>
+
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
  
-
-                        <Item>
-                            <Brief>{this.state.advantageRemark}</Brief>
-
-                           
-                        </Item>
-                    </List>
-                    <List>
-                        <Item>
-                            {
-                                //<Button size="small" inline onClick={this.onReset}>返回</Button>
-                            }
-                            <Flex>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item></Flex.Item>
-                            </Flex>
-                        </Item>
-                    </List>
+                   
                 </ScrollView>
             )
 
@@ -344,24 +347,23 @@ export default class AdvantageDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
+
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
     view: {
         flexDirection: 'row',
-       
+
     },
     avatarContainer: {
-        marginTop:10,
-        borderColor: '#9B9B9B',
+        borderColor: '#fff',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
         alignItems: 'center'
     },
     avatar: {
-        width: 100,
-        height: 100,
+        width: 96,
+        height: 80,
     }
 });

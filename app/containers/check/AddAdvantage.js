@@ -7,8 +7,9 @@ import {
     TouchableOpacity,
     Image,
     Easing,
+
 } from 'react-native';
-import { Flex, List, Grid, Checkbox, Button, TextareaItem, WingBlank, Toast } from 'antd-mobile';
+import { Flex, List, Card, Grid, Checkbox, WhiteSpace, Button, TextareaItem, WingBlank, Toast } from 'antd-mobile';
 import ImagePicker from 'react-native-image-picker';
 
 import ZoomImage from 'react-native-zoom-image';
@@ -220,14 +221,19 @@ export default class AddAdvantage extends Component {
         }
         return (
             <ScrollView>
-                <WingBlank>
 
+                <Card>
+                    <Card.Header
+                        title="添加照片"
+                    />
+                    <Card.Body>
+                    <WingBlank>
                     <Grid data={this.state.files}
                         columnNum={3}
                         renderItem={(dataItem, index) => {
                             return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
                                 <View style={[styles.avatar, styles.avatarContainer]}>
-                                    {!dataItem.uri ? <Text>+</Text> :
+                                    {!dataItem.uri ? <Text  style={{fontSize:30}}>+</Text> :
                                         <ZoomImage
                                             source={dataItem}
                                             imgStyle={{ width: 250, height: 230 }}
@@ -249,15 +255,31 @@ export default class AddAdvantage extends Component {
                         }}
 
                     />
+                    </WingBlank>
+                    </Card.Body>
+                </Card>
 
-                </WingBlank>
-                <List renderHeader={() => '优点备注'}>
+                
+                <WhiteSpace size="lg" />
+                
+                
+
+                <Card>
+                    <Card.Header
+                        title="优点备注"
+                    />
+                    <Card.Body>
                     <TextareaItem
                         value={this.state.remark}
                         onChange={this.changeRemark}
                         rows={5}
                     />
-                </List>
+                    </Card.Body>
+                </Card>
+
+                <WhiteSpace size="lg" />
+
+
                 <List>
                     <Item style={styles.view}>
                         <Flex>
@@ -279,14 +301,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     avatarContainer: {
-        paddingTop: 10,
-        borderColor: '#9B9B9B',
+        borderColor: '#fff',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
         alignItems: 'center'
     },
     avatar: {
-        width: 100,
-        height: 100,
-    }
+        width: 96,
+        height: 80,
+    },
+    
 });
