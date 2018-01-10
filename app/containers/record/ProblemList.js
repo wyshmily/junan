@@ -80,7 +80,7 @@ export default class ProblemList extends Component {
                                 onClick={this.toProblem.bind(this, val)}
                             >
                                 <View style={styles.view}>
-                                    <Image source={require('../../iconImages/problem.png')} style={{ width: 15, height: 15 }} />
+                                    <Image source={require('../../iconImages/problem.png')} style={{ width: 15, height: 15,marginTop:5 }} />
                                     {/* <Icon name="warning" size={22} color={'#e94f4f'} /> */}
                                     <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
@@ -99,7 +99,9 @@ export default class ProblemList extends Component {
 
 const styles = StyleSheet.create({
     view: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height:22,
+        lineHeight:22
     },
     title: {
         textAlign: 'left',
