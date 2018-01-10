@@ -285,14 +285,14 @@ export default class AdvantageDetail extends Component {
 
                  <Card>
                         <Card.Header
-                            title="添加照片"
+                            title="照片记录"
                         />
                         <Card.Body>
                         <WingBlank>
                         <Grid data={this.state.files}
                             columnNum={3}
                             renderItem={(dataItem, index) => {
-                                return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                return <TouchableOpacity  >
                                     <View style={[styles.avatar, styles.avatarContainer]}>
                                         {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
                                             // <Image style={styles.avatar} source={dataItem} />

@@ -194,6 +194,7 @@ export default class AddAdvantage extends Component {
     changeRemark = (value) => {
         this.setState({ "remark": value })
     }
+ 
     onSubmit = () => {
         let index = this.props.navigation.state.params.id;
         let firstIndex = global.currentPoint.type;
@@ -283,7 +284,7 @@ export default class AddAdvantage extends Component {
                 <List>
                     <Item style={styles.view}>
                         <Flex>
-                            <Flex.Item></Flex.Item>
+                             
                             <Flex.Item><Button type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
                                 onClick={this.onSubmit}>保存</Button></Flex.Item>
                             <Flex.Item></Flex.Item>

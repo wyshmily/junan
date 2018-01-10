@@ -340,14 +340,14 @@ export default class ProblemDetail extends Component {
 
                     <Card>
                         <Card.Header
-                            title="添加照片"
+                            title="照片记录"
                         />
                         <Card.Body>
                             <WingBlank>
                                 <Grid data={this.state.files}
                                     columnNum={3}
                                     renderItem={(dataItem, index) => {
-                                        return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                        return <TouchableOpacity  >
                                             <View style={[styles.avatar, styles.avatarContainer]}>
                                                 {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
                                                     <ZoomImage
@@ -376,7 +376,7 @@ export default class ProblemDetail extends Component {
                         />
                         <Card.Body>
                             {this.state.issueList.map((val, i) => (
-                                <CheckboxItem key={i} defaultChecked={this.state.issueIndex.indexOf(i) != -1} onChange={this.onChange.bind(this, val)}>
+                                <CheckboxItem key={i} disabled defaultChecked={this.state.issueIndex.indexOf(i) != -1} onChange={this.onChange.bind(this, val)}>
                                     {val}
                                 </CheckboxItem>
 
