@@ -13,41 +13,17 @@ export default class RecordHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            problem: { num: 0 },
-            advantage: { num: 0 }
+            problem: { num: 5},
+            advantage: { num: 6 }
         };
     }
     componentWillMount() {
      
-        let inspect = global.inspect;
-        let num1 = 0;
-        let num2 = 0;
-        inspect.PositionTypeList.forEach(element => {
-
-            if (element.PositionList.length != 0) {
-                element.PositionList.forEach(ele => {
-                    num1 += ele.ProblemList.length;
-                    num2 += ele.AdvantageList.length;
-                }
-
-                )
-            }
-
-
-        });
-        
-
-        this.setState({
-            problem: { num: num1 },
-            advantage: { num: num2 }
-        })
+     
     }
 
   
-    componentWillReceiveProps(){
-        this.componentWillMount();
-    }
-
+ 
      
 
     toList = (uri) => {
@@ -65,7 +41,6 @@ export default class RecordHome extends Component {
                             <Flex>
                                 <Flex.Item style={styles.inner}>
 
-                                <Image source={require('../../iconImages/problem.png')} style={{width:25, height: 25}} />
                                     
                                     <Text style={styles.title}>{"问题记录"}</Text>
                                 </Flex.Item>
@@ -83,7 +58,6 @@ export default class RecordHome extends Component {
                             <Flex>
                                 <Flex.Item style={styles.inner}>
                                     
-                                     <Image source={require('../../iconImages/advantages.png')} style={{width:25, height: 25}} />
                                     <Text style={styles.title}>{"优点记录"}</Text>
                                 </Flex.Item>
                                 <Flex.Item><Text

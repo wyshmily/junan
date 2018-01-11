@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet,
     Text,
-    View, Image, ScrollView, PixelRatio,
+    View, Image,
+    ScrollView,
+    StyleSheet, PixelRatio,
     TouchableOpacity,
     Easing,
-} from 'react-native';
-import { Card, Picker, WhiteSpace, Grid, List, TextareaItem, WingBlank, Toast, Flex, Button } from 'antd-mobile';
-import ImagePicker from 'react-native-image-picker';
-import ZoomImage from 'react-native-zoom-image';
-import * as stores from './../../Stores';
-const Item = List.Item;
-const Brief = Item.Brief;
 
+} from 'react-native';
+import { Picker, Accordion, Grid, Button, Checkbox, Radio, Flex, List, Card, TextareaItem, WhiteSpace, WingBlank, SegmentedControl } from 'antd-mobile';
+
+import ZoomImage from 'react-native-zoom-image';
+import ImagePicker from 'react-native-image-picker';
+
+import JSONTree from 'react-native-json-tree'
+const CheckboxItem = Checkbox.CheckboxItem;
+const AgreeItem = Checkbox.AgreeItem;
 const district = [{
     "value": "340000",
     "label": "安徽省",
@@ -833,8 +836,14 @@ const district = [{
         "label": "杭州市",
         "children": [{
             "value": "330108",
-            "label": "滨江区",
-            "children": []
+            "label": "滨1江区",
+            "children": [
+                {
+                    "value": "330127",
+                    "label": "淳安县",
+                    "children": []
+                }
+            ]
         }, {
             "value": "330127",
             "label": "淳安县",
@@ -1279,126 +1288,64 @@ const district = [{
     }]
 }];
 
-
-
-export default class AdvantageDetail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            files: [],
-            pickerValue: []
-        };
+const json = {
+    array: [1, 2, 3],
+    bool: true,
+    object: {
+        foo: 'bar'
     }
+}
 
-    static navigationOptions = ({ navigation }) => {
-        const { params = {
-            button: 'edit'
-        } } = navigation.state;
+const data = [
+    {
+        url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
+        id: '2121',
+    }, {
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '2122',
+    },
+    {
+        url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
+        id: '2121',
+    }, {
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '2122',
+    }, {
+        url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
+        id: '2121',
+    }, {
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '2122',
+    }, {
+        url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
+        id: '2121',
+    }, {
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '2122',
+    }
+];
 
-        let headerRight = (
-            <Button
-                onClick={params.handleEdit ? params.handleEdit : () => null}
-            >编辑</Button>
-        );
 
-        if (params.button === 'save') {
-            headerRight = (
-                <Button
-                    onClick={params.handleSave ? params.handleSave : () => null}
-                >保存</Button>
-            );
-        }
-        return { headerRight };
+
+
+
+
+const Item = List.Item;
+const Brief = Item.Brief;
+
+export default class Check extends Component {
+    state = {
+        advantageRemark: '继续',
+        data: [],
+        cols: 1,
+        files: [],
+        pickerValue: [],
+
+
     };
 
-    onEdit = () => {
-
-        this.props.navigation.setParams({ button: 'save' });
-
-    }
-
-    onSave = () => {
-
-        this.props.navigation.setParams({ button: 'edit' });
-
-        let paramsObject = this.props.navigation.state.params.item
-
-        let inspect = global.inspect;
-        let firstIndex = paramsObject.value.positionArr[2];
-        let secondIndex = paramsObject.value.positionArr[3];
-        let currentObject = inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList;
-        let currentAdvantage = {};
-        let currentIndex = 0;
-
-        for (var i = 0; i < currentObject.length; i++) {
-            if (currentObject[i].index == paramsObject.index) {
-                // currentAdvantage = currentObject[i];
-                currentIndex = i;
-            }
-        }
-
-        inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList[currentIndex].value.images = this.state.files
-        inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList[currentIndex].value.remark = this.state.advantageRemark
-
-        global.inspect = inspect;
-        this.setState({ isLoading: true })
-        stores.writeFile(inspect, () => {
-            Toast.info(`保存成功`, 1);
-            this.setState({
-                isLoading: false
-            })
-            const { state, navigate, goBack } = this.props.navigation;
-            const params = state.params || {};
-            goBack(params.go_back_key);
-
-            this.props.navigation.state.params.updateData(global.inspect);
-            // params.go_back_key=params.go_back_key-1;
-            // navigate("AdvantageList")
-
-        });
-
-
-
-
-
-
-    }
-
-    componentDidMount() {
-        // We can only set the function after the component has been initialized
-        this.props.navigation.setParams({ handleEdit: this.onEdit });
-        this.props.navigation.setParams({ handleSave: this.onSave });
-    }
-
-    componentWillMount() {
-        let paramsObject = this.props.navigation.state.params.item
-
-        let inspect = global.inspect;
-        let firstIndex = paramsObject.value.positionArr[2];
-        let secondIndex = paramsObject.value.positionArr[3];
-        let currentObject = inspect.PositionTypeList[firstIndex].PositionList[secondIndex].AdvantageList;
-        let currentAdvantage = {};
-
-        for (var i = 0; i < currentObject.length; i++) {
-            if (currentObject[i].index == paramsObject.index) {
-                currentAdvantage = currentObject[i]
-            }
-        }
-
-
-        this.setState({
-            advantageRemark: currentAdvantage.value.remark,
-            files: currentAdvantage.value.images
-        })
-    }
-
-    componentWillReceiveProps() {
-    }
-
-
+    // 选择照片
     selectPhotoTapped = (index) => {
-
-
         const options = {
             title: '选择一张照片',
             cancelButtonTitle: '取消',
@@ -1433,7 +1380,8 @@ export default class AdvantageDetail extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                // let time=new Date()
+                let source = { uri: response.uri, cTime: new Data() };
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -1448,8 +1396,6 @@ export default class AdvantageDetail extends Component {
                 });
             }
         });
-
-
     }
     onChangePhoto = (files, type, index) => {
         this.setState({
@@ -1457,197 +1403,306 @@ export default class AdvantageDetail extends Component {
         });
     }
 
-    takePhoto = () => {
-        //拍照
+    onChangeO = (key) => {
+        console.log(key);
     }
 
-
-
-
-
-
-    onReset = () => {
-        //返回
-
-    }
+    onChange = (files, type, index) => {
+        console.log(files, type, index);
+        this.setState({
+            files,
+        });
+    };
+    onAddImageClick = (e) => {
+        e.preventDefault();
+        this.setState({
+            files: this.state.files.concat({
+                url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+                id: '3',
+            }),
+        });
+    };
+    onTabChange = (key) => {
+        console.log(key);
+    };
 
     changeRemark = (value) => {
 
         this.setState({ advantageRemark: value })
     }
 
+
+    onChangeR = (value) => {
+        console.log('checkbox');
+
+    };
+
+    onSubmit = () => {
+
+        this.setState({ isLoading: true })
+        // let index = this.props.navigation.state.params.id;
+        // let firstIndex = global.currentPoint.type;
+        // let secondIndex = global.currentPoint.point;
+        // let category = inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
+
+
+        // //将优点保存至优点列表
+        // let advantage = { "images": this.state.files, remark: this.state.remark, "category": category, positionArr: [inspect.PositionTypeList[firstIndex].Name, inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name, firstIndex, secondIndex, index] }
+        // // let advantage = {"images":this.state.files,remark:this.state.remark,category:category}
+        // //记录当前检查项为优点项目
+        // this.setStateList(this.props.navigation.state.params.id, 'advantage', advantage)
+    }
+
+
+    setStateList = (index, value, advantage) => {
+        let inspect = global.inspect;
+        let type = global.currentPoint.type;
+        let point = global.currentPoint.point;
+        let stateList = inspect.PositionTypeList[type].PositionList[point].StateList
+
+        if (stateList[index] == "problem") {
+            let currentIndex = 0;
+            const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
+                if (val["index"] == index) {
+                    currentIndex = i + 1
+                    return true
+                }
+                return false
+            })
+            if (current) {
+                inspect.PositionTypeList[type].PositionList[point]["ProblemList"].splice(currentIndex, 1);
+            }
+        } else if (stateList[index] == "advantage") {
+            let currentIndex = 0;
+            const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val, i) => {
+                if (val["index"] == index) {
+                    currentIndex = i + 1
+                    return true
+                }
+                return false
+            })
+            if (current) {
+                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"][currentIndex]["value"] = advantage;
+            } else {
+                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
+                    "index": index, "value": advantage
+                })
+            }
+        } else {
+            inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
+                "index": index, "value": advantage
+            })
+        }
+
+
+        stateList[index] = value;
+        inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
+        global.inspect = inspect;
+        this.setState({ isLoading: true })
+        stores.writeFile(inspect, () => {
+            Toast.info(`保存成功`, 1);
+            this.setState({
+                isLoading: false
+            })
+
+            ++global.advantageIndex;
+            const { state, navigate, goBack } = this.props.navigation;
+            const params = state.params || {};
+            params.go_back_key = params.go_back_key - 1;
+            goBack(params.go_back_key);
+            // params.go_back_key=params.go_back_key-2;
+            // navigate("CheckList", {point: params.pointName})
+
+            this.props.navigation.state.params.updateData(global.inspect);
+        });
+    }
+
+
     render() {
+        // const { value, files } = this.state;
+        const datas = [
+            { value: 0, label: '优点' },
+            { value: 1, label: '缺点' },
+        ];
 
         const { files } = this.state;
+
         const photoLength = files.length;
         if (photoLength == 0 || files[photoLength - 1].uri) {
             files.push({ uri: null })
         }
-        if (this.props.navigation.state.params.button == "save") {
+        return (
+            <ScrollView>
+                <Card>
+                    <Card.Header
+                        title="添加照片"
+                    />
+                    <Card.Body>
+                        <WingBlank>
+                            <Grid data={this.state.files}
+                                columnNum={3}
+                                renderItem={(dataItem, index) => {
+                                    return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                        <View style={[styles.avatar, styles.avatarContainer]}>
+                                            {!dataItem.uri ? <Text style={{ fontSize: 30 }}>+</Text> :
+                                                <ZoomImage
+                                                    source={dataItem}
+                                                    imgStyle={{ width: 250, height: 230 }}
+                                                    style={styles.avatar}
+                                                    duration={200}
+                                                    enableScaling={false}
+                                                    easingFunc={Easing.ease}
+                                                />
 
-            return (
-                <ScrollView>
-
-                    <Card>
-                        <Card.Header
-                            title="添加照片"
-                        />
-                        <Card.Body>
-                            <WingBlank>
-                                <Grid data={this.state.files}
-                                    columnNum={3}
-                                    renderItem={(dataItem, index) => {
-                                        return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
-                                            <View style={[styles.avatar, styles.avatarContainer]}>
-                                                {!dataItem.uri ? <Text style={{ fontSize: 30 }}>+</Text> :
-                                                    // <Image style={styles.avatar} source={dataItem} />
-                                                    <ZoomImage
-                                                        source={dataItem}
-                                                        imgStyle={{ width: 250, height: 230 }}
-                                                        style={styles.avatar}
-                                                        duration={200}
-                                                        enableScaling={false}
-                                                        easingFunc={Easing.ease}
-                                                    />
-
-                                                }
-                                            </View>
-                                        </TouchableOpacity>
-
-                                    }}
-
-                                />
-                            </WingBlank>
-                        </Card.Body>
-                    </Card>
-
-
-                    <WhiteSpace size="lg" />
+                                            }
 
 
 
-                    <Card>
-                        <Card.Header
-                            title="优点备注"
-                        />
-                        <Card.Body>
-                            <TextareaItem
-                                value={this.state.advantageRemark}
-                                onChange={this.changeRemark}
-                                rows={5}
+
+
+                                        </View>
+                                    </TouchableOpacity>
+
+                                }}
+
                             />
-                        </Card.Body>
-                    </Card>
+                        </WingBlank>
+                    </Card.Body>
+                </Card>
+                <WhiteSpace size="lg" />
 
-                    <WhiteSpace size="lg" />
+                {/* <Card>
+                    <Card.Header
+                        title="问题类型"
+                    />
+                    <Card.Body> */}
 
-                    <Picker
-                        title="受检单位"
-                        extra="请选择(可选)"
-                        data={district}
-                        value={this.state.pickerValue}
-                        onChange={v => this.setState({ pickerValue: v })}
-                        onOk={v => this.setState({ pickerValue: v })}
-                    >
-                        <List.Item arrow="horizontal">选择受检单位</List.Item>
-                    </Picker>
-                    <WhiteSpace size="lg" />
+                <Flex style={{ backgroundColor: '#fff' }}>
+                    <Flex.Item>
 
-
-                </ScrollView>
-            )
-
-        } else {
+                        <CheckboxItem style={{ borderColor: '#fff' }} key='0' onChange={() => this.onChangeR()}>
+                            优秀
+                        </CheckboxItem>
 
 
-            return (
-                <ScrollView>
+                    </Flex.Item>
+                    <Flex.Item>
+                        <CheckboxItem style={{ borderColor: '#fff' }} key='0' onChange={() => this.onChangeR()}>
+                            不合格
+                        </CheckboxItem>
+
+                    </Flex.Item>
+
+                    <Flex.Item>
+                        <Text></Text>
+                    </Flex.Item>
+                    <Flex.Item>
+                        <Text></Text>
+                    </Flex.Item>
 
 
-                    <Card>
-                        <Card.Header
-                            title="照片记录"
+                </Flex>
+
+                <WhiteSpace size="lg" />
+
+
+                <Picker
+                    title="受检单位"
+                    extra="请选择(可选)"
+                    data={district}
+                    value={this.state.pickerValue}
+                    onChange={v => this.setState({ pickerValue: v })}
+                    onOk={v => this.setState({ pickerValue: v })}
+                >
+                    <List.Item arrow="horizontal">选择受检单位</List.Item>
+                </Picker>
+                <WhiteSpace size="lg" />
+
+
+                <WhiteSpace size="lg" />
+
+
+                 
+
+                <Card>
+                    <Card.Header
+                        title="问题类型"
+                    />
+                    <Card.Body>
+                        <Accordion accordion openAnimation={{}} onChange={this.onChangeO}>
+                            <Accordion.Panel header="建筑材料">
+                                <List>
+                                    {datas.map(i => (
+                                        <CheckboxItem key={i.value} onChange={() => this.onChangeR(i.value)}>
+                                            {i.label}
+                                        </CheckboxItem>
+                                    ))}
+                                </List>
+                            </Accordion.Panel>
+                            <Accordion.Panel header="卫生标准" className="pad">
+                                <List>
+                                    {datas.map(i => (
+                                        <CheckboxItem key={i.value} onChange={() => this.onChangeR(i.value)}>
+                                            {i.label}
+                                        </CheckboxItem>
+                                    ))}
+                                </List>
+                            </Accordion.Panel>
+                            <Accordion.Panel header="人员履职" className="pad">
+                                <List>
+                                    {datas.map(i => (
+                                        <CheckboxItem key={i.value} onChange={() => this.onChangeR(i.value)}>
+                                            {i.label}
+                                        </CheckboxItem>
+                                    ))}
+                                </List>
+                            </Accordion.Panel>
+                        </Accordion>
+                    </Card.Body>
+                </Card>
+
+                <WhiteSpace size="lg" />
+
+                <Card>
+                    <Card.Header
+                        title="问题描述"
+                    />
+                    <Card.Body>
+                        <TextareaItem
+                            value={this.state.advantageRemark}
+                            onChange={this.changeRemark}
+                            rows={4}
                         />
-                        <Card.Body>
-                            <WingBlank>
-                                <Grid data={this.state.files}
-                                    columnNum={3}
-                                    renderItem={(dataItem, index) => {
-                                        return <TouchableOpacity  >
-                                            <View style={[styles.avatar, styles.avatarContainer]}>
-                                                {!dataItem.uri ? <Text style={{ fontSize: 30 }}>+</Text> :
-                                                    // <Image style={styles.avatar} source={dataItem} />
-                                                    <ZoomImage
-                                                        source={dataItem}
-                                                        imgStyle={{ width: 250, height: 230 }}
-                                                        style={styles.avatar}
-                                                        duration={200}
-                                                        enableScaling={false}
-                                                        easingFunc={Easing.ease}
-                                                    />
-
-                                                }
-                                            </View>
-                                        </TouchableOpacity>
-
-                                    }}
-
-                                />
-                            </WingBlank>
-                        </Card.Body>
-                    </Card>
+                    </Card.Body>
+                </Card>
 
 
-                    <WhiteSpace size="lg" />
+                <JSONTree data={json} />
 
+                <WhiteSpace size="lg" />
 
+                <List>
+                    <Item style={styles.view}>
+                        <Flex>
+                            <Flex.Item></Flex.Item>
+                            <Flex.Item><Button type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+                                onClick={this.onSubmit}>保存</Button></Flex.Item>
+                            <Flex.Item></Flex.Item>
+                        </Flex>
+                    </Item>
+                </List>
 
-                    <Card>
-                        <Card.Header
-                            title="优点备注"
-                        />
-                        <Card.Body>
-                            <WingBlank>
-                                <Brief>{this.state.advantageRemark}</Brief>
-                            </WingBlank>
+                <WhiteSpace size="lg" />
 
-                        </Card.Body>
-                    </Card>
-
-                    <WhiteSpace size="lg" />
-
-                    <Picker
-                        title="受检单位"
-                        extra="请选择(可选)"
-                        data={district}
-                        value={this.state.pickerValue}
-                        onChange={v => this.setState({ pickerValue: v })}
-                        onOk={v => this.setState({ pickerValue: v })}
-                    >
-                        <List.Item arrow="horizontal">选择受检单位</List.Item>
-                    </Picker>
-                    <WhiteSpace size="lg" />
-
-
-                </ScrollView>
-            )
-
-        }
-
+            </ScrollView>
+        );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
 
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
+const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
-
     },
     avatarContainer: {
         borderColor: '#fff',
@@ -1658,5 +1713,13 @@ const styles = StyleSheet.create({
     avatar: {
         width: 96,
         height: 80,
-    }
+    },
+
 });
+
+
+
+
+
+
+

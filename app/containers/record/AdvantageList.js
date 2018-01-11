@@ -7,7 +7,6 @@ import {
     ScrollView,
 } from 'react-native';
 import { Toast, List, Button } from 'antd-mobile'
-import Icon from 'react-native-vector-icons/FontAwesome'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -84,8 +83,7 @@ export default class AdvantageList extends Component {
                                 onClick={this.toProblem.bind(this, val)}
                             >
                                 <View style={styles.view}>
-                                    <Image source={require('../../iconImages/advantages.png')} style={{ width: 15, height: 15 }} />
-                                    {/* <Icon name="check-circle-o" size={22} color={'#3e9ce9'} /> */}
+                                    <Image source={require('../../iconImages/advantages.png')} style={{ width: 15, height: 15,marginTop:5 }} />
                                     <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
                                 </View>
 
@@ -101,7 +99,9 @@ export default class AdvantageList extends Component {
 
 const styles = StyleSheet.create({
     view: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height:22,
+        lineHeight:22
     },
     title: {
         textAlign: 'left',

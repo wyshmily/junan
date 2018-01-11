@@ -4,21 +4,12 @@ import { AppRegistry, StyleSheet, Image } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Dimensions } from 'react-native';
 
-
-import Icon from 'react-native-vector-icons/FontAwesome'
-
-
 import Login from './app/Login'
-import CheckHome from './app/containers/check/CheckHome'
+import Check from './app/containers/Check'
+// import Record from './app/containers/Record'
+
 import RecordHome from './app/containers/record/RecordHome'
 
-import OrgList from './app/containers/check/OrgList'
-import PointTypeList from './app/containers/check/PointTypeList'
-import PointList from './app/containers/check/PointList'
-import CheckList from './app/containers/check/CheckList'
-import AddProblem from "./app/containers/check/AddProblem";
-import AddAdvantage from "./app/containers/check/AddAdvantage";
-import Test from "./app/containers/check/Test";
 
 import AdvantageList from "./app/containers/record/AdvantageList";
 import ProblemList from "./app/containers/record/ProblemList";
@@ -27,7 +18,7 @@ import AdvantageDetail from "./app/containers/record/AdvantageDetail";
 
 import ImagePickers from './app/components/ImagePickers';
 
-import {Toast} from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 import {
     Button
 } from 'react-native';
@@ -40,14 +31,13 @@ function px2dp(px) {
     return px * deviceW / basePx
 }
 
-  
 
+//进行导航的注册
 
 const MainNavigator = TabNavigator({
-    
 
     Check: {
-        screen: CheckHome,
+        screen: Check,
         navigationOptions: {
             tabBarLabel: '检查',
             header: null,
@@ -57,7 +47,7 @@ const MainNavigator = TabNavigator({
                     style={[styles.icon, { tintColor: tintColor }]}
                 />),
 
-                
+
         }
     },
     RecordHome: {
@@ -70,7 +60,7 @@ const MainNavigator = TabNavigator({
                 style={[styles.icon, { tintColor: tintColor }]}
             />),
 
-            
+
 
         }
     },
@@ -100,13 +90,9 @@ const MainNavigator = TabNavigator({
             },
         },
 
-        
-        
-       
     },
 )
 
-//进行导航的注册
 const Route = StackNavigator({
     initialRouteName: { screen: Login },
     Login: {
@@ -116,24 +102,7 @@ const Route = StackNavigator({
         }
     },
     TabBars: { screen: MainNavigator },
-    OrgList: {
-        screen: OrgList, navigationOptions: {
-            title: '受检单位'
-        }
-    },
-    PointTypeList: { screen: PointTypeList },
-    PointList: { screen: PointList },
-    CheckList: { screen: CheckList },
-    AddProblem: {
-        screen: AddProblem, navigationOptions: {
-            title: '新增问题'
-        }
-    },
-    AddAdvantage: {
-        screen: AddAdvantage, navigationOptions: {
-            title: '新增优点'
-        }
-    },
+
     AdvantageList: {
         screen: AdvantageList, navigationOptions: {
             title: '优点记录'
@@ -155,12 +124,8 @@ const Route = StackNavigator({
             initialRouteParams: {}
         }
     },
-    Test: {
-        screen: Test, navigationOptions: {
-            title: '测试Art',
-            initialRouteParams: {}
-        }
-    },
+
+
     ImagePickers: {
         screen: ImagePickers, navigationOptions: {
             header: null
