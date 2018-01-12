@@ -32,5 +32,7 @@ cd android && ./gradlew assembleRelease --console plain
 生成的APK文件位于android/app/build/outputs/apk/app-release.apk
 ### 测试应用的发行版本
 ```
-cd android && ./gradlew installRelease
+cd android && ./gradlew installRelease   
+
+
 ```

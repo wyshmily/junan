@@ -75,7 +75,7 @@ export default class AddProblem extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val, i) => {
                 if (val["index"] == index) {
-                    currentIndex = i + 1
+                    currentIndex = i  
                     return true
                 }
                 return false
@@ -83,29 +83,12 @@ export default class AddProblem extends Component {
             if (current) {
                 inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].splice(currentIndex, 1);
             }
-        } else if (stateList[index] == "problem") {
-
-
-            let currentIndex = 0;
-            const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
-                if (val["index"] == index) {
-                    currentIndex = i + 1
-                    return true
-                }
-                return false
-            })
-            if (current) {
-                inspect.PositionTypeList[type].PositionList[point]["ProblemList"][currentIndex]["value"] = problem;
-            } else {
-                inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
-                    "index": index, "value": problem
-                })
-            }
-        } else {
+        } 
+        
             inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
                 "index": index, "value": problem
             })
-        }
+       
         stateList[index] = value;
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;

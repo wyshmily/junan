@@ -136,7 +136,7 @@ export default class AddAdvantage extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
                 if (val["index"] == index) {
-                    currentIndex = i + 1
+                    currentIndex = i  
                     return true
                 }
                 return false
@@ -144,27 +144,12 @@ export default class AddAdvantage extends Component {
             if (current) {
                 inspect.PositionTypeList[type].PositionList[point]["ProblemList"].splice(currentIndex, 1);
             }
-        } else if (stateList[index] == "advantage") {
-            let currentIndex = 0;
-            const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val, i) => {
-                if (val["index"] == index) {
-                    currentIndex = i + 1
-                    return true
-                }
-                return false
-            })
-            if (current) {
-                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"][currentIndex]["value"] = advantage;
-            } else {
-                inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
-                    "index": index, "value": advantage
-                })
-            }
-        } else {
-            inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
-                "index": index, "value": advantage
-            })
         }
+        
+
+        inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
+            "index": index, "value": advantage
+        })
 
 
         stateList[index] = value;

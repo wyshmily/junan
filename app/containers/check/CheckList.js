@@ -6,7 +6,7 @@ import {
     Image,
     DeviceEventEmitter
 } from 'react-native';
-import { List, Button, WingBlank,Flex, Toast } from 'antd-mobile'
+import { List, Button, WingBlank, Flex, Toast } from 'antd-mobile'
 import * as stores from './../../Stores';
 
 const Item = List.Item;
@@ -19,10 +19,10 @@ export default class CheckList extends Component {
         this.state = {
             StandardList: [],
             StateList: [],
-            Numbers:{
+            Numbers: {
                 aNumber: 0,
-                pNumber:0,
-                nNumber:0
+                pNumber: 0,
+                nNumber: 0
             }
         };
     }
@@ -37,7 +37,7 @@ export default class CheckList extends Component {
         let type = global.currentPoint.type;
         let point = global.currentPoint.point;
 
-         
+
         let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
 
         positionTypeListArr = positionTypeListArr.filter(function (element, i) {
@@ -50,19 +50,19 @@ export default class CheckList extends Component {
 
         });
 
-        
-        let aNumber=0;nNumber=0;pNumber=0;
 
-         
+        let aNumber = 0; nNumber = 0; pNumber = 0;
 
-        for( i=0;i<positionTypeListArr[type].PositionList[point].StateList.length;i++){
-           let stateList=positionTypeListArr[type].PositionList[point].StateList
+
+
+        for (i = 0; i < positionTypeListArr[type].PositionList[point].StateList.length; i++) {
+            let stateList = positionTypeListArr[type].PositionList[point].StateList
             if (stateList[i] == "advantage") {
-               
+
                 aNumber++;
             } else if (stateList[i] == "problem") {
                 pNumber++
-            }else if (stateList[i] == "normal") {
+            } else if (stateList[i] == "normal") {
                 nNumber++
             }
         }
@@ -70,15 +70,15 @@ export default class CheckList extends Component {
         this.setState({
             StandardList: inspect.PositionTypeList[type].StandardList,
             StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : [],
-            Numbers:{
-            aNumber: aNumber,
-            pNumber:pNumber,
-            nNumber:nNumber
+            Numbers: {
+                aNumber: aNumber,
+                pNumber: pNumber,
+                nNumber: nNumber
             }
         })
 
- 
-        
+
+
     }
 
 
@@ -94,52 +94,7 @@ export default class CheckList extends Component {
     componentWillReceiveProps() {
 
         this.componentWillMount();
-        // let inspect = global.inspect;
-        // let type = global.currentPoint.type;
-        // let point = global.currentPoint.point;
-
-
-        // let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
-
-
-        // positionTypeListArr.filter(function (element, i) {
-
-        //     return element.PositionList.filter(function (ele, index) {
-
-        //         return ele.departmentId === global.department.Id
-
-        //     });
-
-
-        // });
-
-        // this.setState({
-        //     StandardList: inspect.PositionTypeList[type].StandardList,
-        //     StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : []
-        // })
-
-        // for( i=0;i<positionTypeListArr[type].PositionList[point].StateList.length;i++){
-        //     let stateList=positionTypeListArr[type].PositionList[point].StateList
-        //      if (stateList[i] == "advantage") {
-                
-        //          aNumber++;
-        //      } else if (stateList[i] == "problem") {
-        //          pNumber++
-        //      }else if (stateList[i] == "normal") {
-        //          nNumber++
-        //      }
-        //  }
- 
-        //  this.setState({
-        //     StandardList: inspect.PositionTypeList[type].StandardList,
-        //     StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : [],
-        //      Numbers:{
-                 
-        //      aNumber: aNumber,
-        //      pNumber:pNumber,
-        //      nNumber:nNumber
-        //      }
-        //  })
+     
     }
     setStateList = (index, value) => {
         let stateList = this.state.StateList
@@ -153,6 +108,7 @@ export default class CheckList extends Component {
             key = "ProblemList"
         }
         if (key) {
+
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point][key].find((val, i) => {
                 if (val["index"] == index) {
@@ -172,7 +128,7 @@ export default class CheckList extends Component {
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList;
 
 
-        
+
         global.inspect = inspect;
         stores.writeFile(inspect, () => {
             this.setState({ StateList: stateList })
@@ -188,29 +144,29 @@ export default class CheckList extends Component {
     setNormal = (id) => {
         console.log(id);
         this.setStateList(id, "normal");
-        let aNumber=0;nNumber=0;pNumber=0;
-        for( i=0;i<this.state.StateList.length;i++){
-            let stateList=this.state.StateList
-             if (stateList[i] == "advantage") {
-                
-                 aNumber++;
-             } else if (stateList[i] == "problem") {
-                 pNumber++
-             }else if (stateList[i] == "normal") {
-                 nNumber++
-             }
-         }
- 
-         this.setState({
-             Numbers:{
-             aNumber: aNumber,
-             pNumber:pNumber,
-             nNumber:nNumber
-             }
-         })
+        let aNumber = 0; nNumber = 0; pNumber = 0;
+        for (i = 0; i < this.state.StateList.length; i++) {
+            let stateList = this.state.StateList
+            if (stateList[i] == "advantage") {
+
+                aNumber++;
+            } else if (stateList[i] == "problem") {
+                pNumber++
+            } else if (stateList[i] == "normal") {
+                nNumber++
+            }
+        }
+
+        this.setState({
+            Numbers: {
+                aNumber: aNumber,
+                pNumber: pNumber,
+                nNumber: nNumber
+            }
+        })
     }
 
-    endCheck=()=>{
+    endCheck = () => {
         // Toast.info('890')
         const { state, navigate, goBack } = this.props.navigation;
         const params = state.params || {};
@@ -245,7 +201,7 @@ export default class CheckList extends Component {
                         {this.state.StandardList.map((val, index) => {
                             let itemState = this.state.StateList[index];
                             // let itemStateText = this.state.StateList[index] ? StateObj[this.state.StateList[index]] : '未检查'
-                            let icon = itemState == "advantage" ? require('../../iconImages/advantages.png') : (itemState == "problem" ? require('../../iconImages/problem.png') : (itemState ? require('../../iconImages/normal.png'):require('../../iconImages/un.png')))
+                            let icon = itemState == "advantage" ? require('../../iconImages/advantages.png') : (itemState == "problem" ? require('../../iconImages/problem.png') : (itemState ? require('../../iconImages/normal.png') : require('../../iconImages/un.png')))
                             return (
                                 <Item
                                     key={"pointitem" + index}
@@ -274,22 +230,22 @@ export default class CheckList extends Component {
                             )
                         })}
                     </List>
- 
+
 
                 </ScrollView>
                 <View style={{ height: 50, backgroundColor: '#fff' }}>
                     <Flex>
                         <Flex.Item style={styles.inner}>
-                        <Image  source={require('../../iconImages/normal.png')} style={{width:20, height: 20}} />
-                        <Text style={{ marginLeft: 4 ,marginRight: 15 }}>{this.state.Numbers.nNumber}</Text>
-                        <Image  source={require('../../iconImages/advantages.png')} style={{width:20, height: 20}} />
-                        <Text style={{ marginLeft: 4 ,marginRight: 15 }}>{this.state.Numbers.aNumber}</Text>
-                        <Image source={require('../../iconImages/problem.png')} style={{width:20, height: 20}} />
-                        <Text style={{ marginLeft: 4 ,marginRight: 15 }}>{this.state.Numbers.pNumber}</Text>
-                            </Flex.Item>
-                        <Flex.Item > 
-                        {/* <Text>结束检查</Text> */}
-                        <Button style={{ height: 50 }} type="primary" size="small" inline  onClick={this.endCheck}>结束检查</Button>
+                            <Image source={require('../../iconImages/normal.png')} style={{ width: 20, height: 20 }} />
+                            <Text style={{ marginLeft: 4, marginRight: 15 }}>{this.state.Numbers.nNumber}</Text>
+                            <Image source={require('../../iconImages/advantages.png')} style={{ width: 20, height: 20 }} />
+                            <Text style={{ marginLeft: 4, marginRight: 15 }}>{this.state.Numbers.aNumber}</Text>
+                            <Image source={require('../../iconImages/problem.png')} style={{ width: 20, height: 20 }} />
+                            <Text style={{ marginLeft: 4, marginRight: 15 }}>{this.state.Numbers.pNumber}</Text>
+                        </Flex.Item>
+                        <Flex.Item >
+                            {/* <Text>结束检查</Text> */}
+                            <Button style={{ height: 50 }} type="primary" size="small" inline onClick={this.endCheck}>结束检查</Button>
                         </Flex.Item>
                     </Flex>
                 </View>
