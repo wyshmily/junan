@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
         height:22,
-        lineHeight:22
     },
     title: {
         textAlign: 'left',

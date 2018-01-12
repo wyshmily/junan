@@ -29,6 +29,8 @@ export default class CheckHome extends Component {
             inspectorName:result.Record.InspectorName
         })
     }
+
+    
     beginCheck = () => {
         const { navigate } = this.props.navigation;
         console.log(navigate)

@@ -50,12 +50,7 @@ export default class CheckList extends Component {
 
         });
 
-        this.setState({
-            StandardList: inspect.PositionTypeList[type].StandardList,
-            StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : []
-        })
-
-
+        
         let aNumber=0;nNumber=0;pNumber=0;
 
          
@@ -73,6 +68,8 @@ export default class CheckList extends Component {
         }
 
         this.setState({
+            StandardList: inspect.PositionTypeList[type].StandardList,
+            StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : [],
             Numbers:{
             aNumber: aNumber,
             pNumber:pNumber,
@@ -80,8 +77,7 @@ export default class CheckList extends Component {
             }
         })
 
-
-
+ 
         
     }
 
@@ -96,50 +92,54 @@ export default class CheckList extends Component {
 
     };
     componentWillReceiveProps() {
-        Toast.info(this.state.StateList.length)
-        let inspect = global.inspect;
-        let type = global.currentPoint.type;
-        let point = global.currentPoint.point;
+
+        this.componentWillMount();
+        // let inspect = global.inspect;
+        // let type = global.currentPoint.type;
+        // let point = global.currentPoint.point;
 
 
-        let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
+        // let positionTypeListArr = [].slice.call(JSON.parse(JSON.stringify(inspect.PositionTypeList)));
 
 
-        positionTypeListArr.filter(function (element, i) {
+        // positionTypeListArr.filter(function (element, i) {
 
-            return element.PositionList.filter(function (ele, index) {
+        //     return element.PositionList.filter(function (ele, index) {
 
-                return ele.departmentId === global.department.Id
+        //         return ele.departmentId === global.department.Id
 
-            });
+        //     });
 
 
-        });
+        // });
 
-        this.setState({
-            StandardList: inspect.PositionTypeList[type].StandardList,
-            StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : []
-        })
+        // this.setState({
+        //     StandardList: inspect.PositionTypeList[type].StandardList,
+        //     StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : []
+        // })
 
-        for( i=0;i<positionTypeListArr[type].PositionList[point].StateList.length;i++){
-            let stateList=positionTypeListArr[type].PositionList[point].StateList
-             if (stateList[i] == "advantage") {
+        // for( i=0;i<positionTypeListArr[type].PositionList[point].StateList.length;i++){
+        //     let stateList=positionTypeListArr[type].PositionList[point].StateList
+        //      if (stateList[i] == "advantage") {
                 
-                 aNumber++;
-             } else if (stateList[i] == "problem") {
-                 pNumber++
-             }else if (stateList[i] == "normal") {
-                 nNumber++
-             }
-         }
+        //          aNumber++;
+        //      } else if (stateList[i] == "problem") {
+        //          pNumber++
+        //      }else if (stateList[i] == "normal") {
+        //          nNumber++
+        //      }
+        //  }
  
-         this.setState({
-             Numbers:{
-             aNumber: aNumber,
-             pNumber:pNumber,
-             nNumber:nNumber
-             }
-         })
+        //  this.setState({
+        //     StandardList: inspect.PositionTypeList[type].StandardList,
+        //     StateList: positionTypeListArr[type].PositionList[point].StateList ? inspect.PositionTypeList[type].PositionList[point].StateList : [],
+        //      Numbers:{
+                 
+        //      aNumber: aNumber,
+        //      pNumber:pNumber,
+        //      nNumber:nNumber
+        //      }
+        //  })
     }
     setStateList = (index, value) => {
         let stateList = this.state.StateList

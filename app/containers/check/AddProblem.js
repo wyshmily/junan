@@ -239,72 +239,77 @@ export default class AddProblem extends Component {
         }
 
         return (
-            <ScrollView>
 
-                <Card>
-                    <Card.Header
-                        title="添加照片"
-                    />
+            <View style={{ flex: 1 }}>
+                <ScrollView>
 
-                    <Card.Body>
-                        <WingBlank>
-                            <Grid data={this.state.files}
-                                columnNum={3}
-                                renderItem={(dataItem, index) => {
-                                    return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
-                                        <View style={[styles.avatar, styles.avatarContainer]}>
-                                            {!dataItem.uri ? <Text style={{fontSize:30}}>+</Text> :
-
-                                                <ZoomImage
-                                                    source={dataItem}
-                                                    imgStyle={{ width: 250, height: 230 }}
-                                                    style={styles.avatar}
-                                                    duration={200}
-                                                    enableScaling={false}
-                                                    easingFunc={Easing.ease}
-                                                />
-                                            }
-                                        </View>
-                                    </TouchableOpacity>
-
-                                }}
-
-                            />
-                        </WingBlank>
-
-                    </Card.Body>
-                </Card>
-
-                <WhiteSpace size="lg" />
-                <Card>
-                    <Card.Header
-                        title="存在问题"
-                    />
-                    <Card.Body>
-                        {this.state.IssueList.map((val, i) => (
-                            <CheckboxItem key={i} onChange={this.onChange.bind(this, val)}>
-                                {val}
-                            </CheckboxItem>
-                        ))}
-                    </Card.Body>
-                </Card>
-
-                <WhiteSpace size="lg" />
-
-
-
-                <Card>
-                    <Card.Header
-                        title="问题备注"
-                    />
-                    <Card.Body>
-                        <TextareaItem
-                            value={this.state.remark}
-                            onChange={this.changeRemark}
-                            rows={5}
+                    <Card>
+                        <Card.Header
+                            title="添加照片"
                         />
-                    </Card.Body>
-                </Card>
+
+                        <Card.Body>
+                            <WingBlank>
+                                <Grid data={this.state.files}
+                                    columnNum={3}
+                                    renderItem={(dataItem, index) => {
+                                        return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                            <View style={[styles.avatar, styles.avatarContainer]}>
+                                                {!dataItem.uri ? <Text style={{ fontSize: 30 }}>+</Text> :
+
+                                                    <ZoomImage
+                                                        source={dataItem}
+                                                        imgStyle={{ width: 250, height: 230 }}
+                                                        style={styles.avatar}
+                                                        duration={200}
+                                                        enableScaling={false}
+                                                        easingFunc={Easing.ease}
+                                                    />
+                                                }
+                                            </View>
+                                        </TouchableOpacity>
+
+                                    }}
+
+                                />
+                            </WingBlank>
+
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+                    <Card>
+                        <Card.Header
+                            title="存在问题"
+                        />
+                        <Card.Body>
+                            {this.state.IssueList.map((val, i) => (
+                                <CheckboxItem key={i} onChange={this.onChange.bind(this, val)}>
+                                    {val}
+                                </CheckboxItem>
+                            ))}
+                        </Card.Body>
+                    </Card>
+
+                    <WhiteSpace size="lg" />
+
+
+
+                    <Card>
+                        <Card.Header
+                            title="问题备注"
+                        />
+                        <Card.Body>
+                            <TextareaItem
+                                value={this.state.remark}
+                                onChange={this.changeRemark}
+                                rows={5}
+                            />
+                        </Card.Body>
+                    </Card>
+
+
+                </ScrollView>
 
                 <WhiteSpace size="lg" />
 
@@ -319,7 +324,7 @@ export default class AddProblem extends Component {
                         </Flex>
                     </Item>
                 </List>
-            </ScrollView>
+            </View >
         )
     }
 }

@@ -194,7 +194,7 @@ export default class AddAdvantage extends Component {
     changeRemark = (value) => {
         this.setState({ "remark": value })
     }
- 
+
     onSubmit = () => {
         let index = this.props.navigation.state.params.id;
         let firstIndex = global.currentPoint.type;
@@ -221,62 +221,67 @@ export default class AddAdvantage extends Component {
             files.push({ uri: null })
         }
         return (
-            <ScrollView>
 
-                <Card>
-                    <Card.Header
-                        title="添加照片"
-                    />
-                    <Card.Body>
-                    <WingBlank>
-                    <Grid data={this.state.files}
-                        columnNum={3}
-                        renderItem={(dataItem, index) => {
-                            return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
-                                <View style={[styles.avatar, styles.avatarContainer]}>
-                                    {!dataItem.uri ? <Text  style={{fontSize:30}}>+</Text> :
-                                        <ZoomImage
-                                            source={dataItem}
-                                            imgStyle={{ width: 250, height: 230 }}
-                                            style={styles.avatar}
-                                            duration={200}
-                                            enableScaling={false}
-                                            easingFunc={Easing.ease}
-                                        />
+            <View style={{ flex: 1 }}>
+                <ScrollView>
 
-                                    }
+                    <Card>
+                        <Card.Header
+                            title="添加照片"
+                        />
+                        <Card.Body>
+                            <WingBlank>
+                                <Grid data={this.state.files}
+                                    columnNum={3}
+                                    renderItem={(dataItem, index) => {
+                                        return <TouchableOpacity onPress={this.selectPhotoTapped.bind(this, index)}>
+                                            <View style={[styles.avatar, styles.avatarContainer]}>
+                                                {!dataItem.uri ? <Text style={{ fontSize: 30 }}>+</Text> :
+                                                    <ZoomImage
+                                                        source={dataItem}
+                                                        imgStyle={{ width: 250, height: 230 }}
+                                                        style={styles.avatar}
+                                                        duration={200}
+                                                        enableScaling={false}
+                                                        easingFunc={Easing.ease}
+                                                    />
+
+                                                }
 
 
 
 
 
-                                </View>
-                            </TouchableOpacity>
+                                            </View>
+                                        </TouchableOpacity>
 
-                        }}
+                                    }}
 
-                    />
-                    </WingBlank>
-                    </Card.Body>
-                </Card>
+                                />
+                            </WingBlank>
+                        </Card.Body>
+                    </Card>
 
-                
-                <WhiteSpace size="lg" />
-                
-                
 
-                <Card>
-                    <Card.Header
-                        title="优点备注"
-                    />
-                    <Card.Body>
-                    <TextareaItem
-                        value={this.state.remark}
-                        onChange={this.changeRemark}
-                        rows={5}
-                    />
-                    </Card.Body>
-                </Card>
+                    <WhiteSpace size="lg" />
+
+
+
+                    <Card>
+                        <Card.Header
+                            title="优点备注"
+                        />
+                        <Card.Body>
+                            <TextareaItem
+                                value={this.state.remark}
+                                onChange={this.changeRemark}
+                                rows={5}
+                            />
+                        </Card.Body>
+                    </Card>
+
+
+                </ScrollView>
 
                 <WhiteSpace size="lg" />
 
@@ -284,14 +289,14 @@ export default class AddAdvantage extends Component {
                 <List>
                     <Item style={styles.view}>
                         <Flex>
-                             
+                            <Flex.Item></Flex.Item>
                             <Flex.Item><Button type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
                                 onClick={this.onSubmit}>保存</Button></Flex.Item>
                             <Flex.Item></Flex.Item>
                         </Flex>
                     </Item>
                 </List>
-            </ScrollView>
+            </View>
         )
     }
 }
@@ -311,5 +316,5 @@ const styles = StyleSheet.create({
         width: 96,
         height: 80,
     },
-    
+
 });

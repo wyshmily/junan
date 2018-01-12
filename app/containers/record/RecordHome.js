@@ -17,6 +17,9 @@ export default class RecordHome extends Component {
             problem: { num: 0 },
             advantage: { num: 0 }
         };
+        setInterval(()=>{  
+            this.componentWillMount()
+        },4000); 
     }
     componentWillMount() {
      
@@ -48,8 +51,7 @@ export default class RecordHome extends Component {
     componentWillReceiveProps(){
         this.componentWillMount();
     }
-
-     
+ 
 
     toList = (uri) => {
         const { navigate } = this.props.navigation;

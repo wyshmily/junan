@@ -280,6 +280,8 @@ export default class AdvantageDetail extends Component {
 
 
             return (
+
+                
                 <ScrollView>
                  
 
