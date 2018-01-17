@@ -8,5 +8,4 @@ project(':react-native-vector-icons').projectDir = new File(rootProject.projectD
 include ':react-native-fs'
 project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')
 
-include ':react-native-baidu-map'
-project(':react-native-baidu-map').projectDir = new File(settingsDir, '../node_modules/react-native-baidu-map/android')
+ 

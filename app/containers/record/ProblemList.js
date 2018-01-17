@@ -24,30 +24,8 @@ export default class ProblemList extends Component {
 
 
     componentWillMount() {
-        let inspect = global.inspect;
-        let lists = [];
-        inspect.PositionTypeList.forEach(element => {
-
-            if (element.PositionList.length != 0) {
-                element.PositionList.forEach(ele => {
-
-                    if (ele.ProblemList.length) {
-                        ele.ProblemList.forEach(item => {
-                            lists.push(item)
-                        })
-
-                    }
-                }
-
-                )
-            }
-
-            return lists;
-
-        });
-
         this.setState({
-            list: lists
+            list: global.inspect.ProblemList
         })
     }
 
@@ -80,10 +58,10 @@ export default class ProblemList extends Component {
                             >
                                 <View style={styles.view}>
                                     <Image source={require('../../iconImages/problem.png')} style={{ width: 15, height: 15,marginTop:5 }} />
-                                    <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
+                                    <Text style={styles.title}>{val.UnitName}</Text>
                                 </View>
                               
-                                <Brief>{val.value.remark}</Brief>
+                                <Brief>{val.remark}</Brief>
                             </Item>
                         )
                     })}

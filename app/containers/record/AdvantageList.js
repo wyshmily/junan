@@ -29,30 +29,9 @@ export default class AdvantageList extends Component {
 
 
     componentWillMount() {
-        let inspect = global.inspect;
-        let lists = [];
-        inspect.PositionTypeList.forEach(element => {
-
-            if (element.PositionList.length != 0) {
-                element.PositionList.forEach(ele => {
-
-                    if (ele.AdvantageList.length) {
-                        ele.AdvantageList.forEach(item => {
-                            lists.push(item)
-                        })
-
-                    }
-                }
-
-                )
-            }
-
-            return lists;
-
-        });
-
+        
         this.setState({
-            list: lists
+            list: global.inspect.AdvantageList
         })
     }
 
@@ -63,6 +42,7 @@ export default class AdvantageList extends Component {
      * @param id
      */
     toProblem = (params) => {
+        // Toast.info(JSON.stringify(params))
         const { navigate } = this.props.navigation;
         navigate("AdvantageDetail", { item: params, updateData: this.updateData })
     }
@@ -84,10 +64,10 @@ export default class AdvantageList extends Component {
                             >
                                 <View style={styles.view}>
                                     <Image source={require('../../iconImages/advantages.png')} style={{ width: 15, height: 15,marginTop:5 }} />
-                                    <Text style={styles.title}>{val.value.positionArr[1] + '-' + val.value.positionArr[0]}</Text>
+                                    <Text style={styles.title}>{val.UnitName}</Text>
                                 </View>
 
-                                <Brief>{val.value.remark}</Brief>
+                                <Brief>{val.remark}</Brief>
                             </Item>
                         )
                     })}

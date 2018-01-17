@@ -1,7 +1,7 @@
 // require the module
 var RNFS = require('react-native-fs');
 //路径
-const path = RNFS.ExternalStorageDirectoryPath + '/junan365/inspect.json';//ExternalStorageDirectoryPath
+const path = RNFS.ExternalStorageDirectoryPath + '/junan365/inspects.json';//ExternalStorageDirectoryPath
 //ExternalDirectoryPath
 //RNFS.ExternalStorageDirectoryPath
 
@@ -35,7 +35,7 @@ export function readDir() {
 /*将文本写入本地 json*/
 export function copyFile() {
     // copy the file
-    let filepath = RNFS.ExternalStorageDirectoryPath + '/junan365/inspect.json'
+    let filepath = RNFS.ExternalStorageDirectoryPath + '/junan365/inspects.json'
     RNFS.copyFile(filepath, path)
         .then((success) => {
             console.log('path', path);

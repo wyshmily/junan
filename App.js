@@ -4,11 +4,13 @@ import { AppRegistry, StyleSheet, Image } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Dimensions } from 'react-native';
 
-import Login from './app/Login'
-import Check from './app/containers/Check'
+import Login from './app/Login';
+import Check from './app/containers/check/Check';
 // import Record from './app/containers/Record'
+import CheckHome from './app/containers/check/CheckHome';
+import RecordHome from './app/containers/record/RecordHome';
 
-import RecordHome from './app/containers/record/RecordHome'
+import Test from './app/containers/check/Test';
 
 
 import AdvantageList from "./app/containers/record/AdvantageList";
@@ -36,8 +38,8 @@ function px2dp(px) {
 
 const MainNavigator = TabNavigator({
 
-    Check: {
-        screen: Check,
+    CheckHome: {
+        screen: CheckHome,
         navigationOptions: {
             tabBarLabel: '检查',
             header: null,
@@ -102,6 +104,16 @@ const Route = StackNavigator({
         }
     },
     TabBars: { screen: MainNavigator },
+    Check: {
+        screen: Check, navigationOptions: {
+            title: '检查'
+        }
+    },
+    Test: {
+        screen: Test, navigationOptions: {
+            title: '测试'
+        }
+    },
 
     AdvantageList: {
         screen: AdvantageList, navigationOptions: {

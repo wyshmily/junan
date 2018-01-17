@@ -28,7 +28,7 @@ export default class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            currentUser:{i:0,j:0,user:{Account:'',Password:'',NewPassword:null}}
+            currentUser:{i:0,user:{account:'',password:'',NewPassword:null}}
         };
     }
     componentWillMount() {
@@ -37,6 +37,7 @@ export default class Login extends Component {
         stores.readFile((result)=>{
             global.inspect = result;
         })
+       
     }
 
     static navigationOptions={
@@ -51,28 +52,24 @@ export default class Login extends Component {
 
     //验证用户名密码
     getUser=(userName)=>{
-        let length = global.inspect.TeamList.length;
-        let user=null,targetI=0,targetJ=0;
-        for(let index=0;index<length;index++){
-            let teamList = global.inspect.TeamList[index].InspectorList;
-            const targetUser = teamList.find((value,i)=>{
-                if(value.Account===userName){
-                    targetJ = i;
-                    return true
-                }
-                return false;
-            })
-            if(targetUser){
-                user=targetUser;
-                targetI = index;
-                break;
+      
+        let length = global.inspect.InspectorList.length;
+        let user=null,targetI=0;
+
+        const targetUser = global.inspect.InspectorList.find((value,i)=>{
+            if(value.Account===userName){
+                targetI = i;
+                return true
             }
-        }
-        this.setState({
-            currentUser:{i:targetI,j:targetJ,user:user}
+            return false;
         })
-        global.currentUser={i:targetI,j:targetJ,user:user}
-        return user;
+        
+     
+        this.setState({
+            currentUser:{i:targetI,user:targetUser}
+        })
+        global.currentUser={i:targetI,user:targetUser}
+        return targetUser;
     }
 
 
@@ -103,12 +100,15 @@ export default class Login extends Component {
                             //存储新密码数据
                             let inspect = global.inspect;
                             // 设置新密码
-                            inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["NewPassword"]=value;
+                            inspect.InspectorList[this.state.currentUser.i]["NewPassword"]=value;
                             // 修改旧密码
-                            inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Password"]=value;
+                          
+                            
+                            inspect.InspectorList[this.state.currentUser.i]["Password"]=value;
+                           
                             // 存储用户信息
-                            inspect.Record.InspectorName=inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Name"];
-                            inspect.Record.InspectorAccount=inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Account"];
+                            inspect.Record.InspectorName=inspect.InspectorList[this.state.currentUser.i]["Name"];
+                            inspect.Record.InspectorAccount=inspect.InspectorList[this.state.currentUser.i]["Account"];
 
                             stores.writeFile(inspect)
                             global.inspect = inspect;

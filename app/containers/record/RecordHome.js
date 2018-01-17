@@ -13,33 +13,15 @@ export default class RecordHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            problem: { num: 0 },
-            advantage: { num: 0 }
+            problem: { num: global.inspect.ProblemList.length },
+            advantage: { num: global.inspect.AdvantageList.length }
         };
     }
     componentWillMount() {
-     
-        let inspect = global.inspect;
-        let num1 = 0;
-        let num2 = 0;
-        inspect.PositionTypeList.forEach(element => {
-
-            if (element.PositionList.length != 0) {
-                element.PositionList.forEach(ele => {
-                    num1 += ele.ProblemList.length;
-                    num2 += ele.AdvantageList.length;
-                }
-
-                )
-            }
-
-
-        });
-        
-
+      
         this.setState({
-            problem: { num: num1 },
-            advantage: { num: num2 }
+            problem: { num:global.inspect.ProblemList.length },
+            advantage: { num:global.inspect.AdvantageList.length }
         })
     }
 
