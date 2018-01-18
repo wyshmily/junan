@@ -27,6 +27,13 @@ gradlew compileDebug --stacktrace
 ## 发布apk
 生成密钥文件，密码为：junanapp
 ```
+MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=my-key-alias
+MYAPP_RELEASE_STORE_PASSWORD=junanapp
+MYAPP_RELEASE_KEY_PASSWORD=junanapp
+```
+
+```
 cd android && ./gradlew assembleRelease
 ```
 
