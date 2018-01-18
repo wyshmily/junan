@@ -87,6 +87,12 @@ export default class extends Component {
         //跳转页面
         navigate("Check")
     }
+    checkRecord = () => {
+      const { navigate } = this.props.navigation;
+      console.log(navigate)
+      //跳转页面
+      navigate("RecordHome")
+  }
   render () {
     return (
       <View style={styles.container}>
@@ -139,7 +145,7 @@ export default class extends Component {
         
       </Flex.Item>
       <Flex.Item>
-      <Button style={{marginLeft:8}} type="primary" onClick={this.beginCheck}>检查记录</Button>
+      <Button style={{marginLeft:8}} type="primary" onClick={this.checkRecord}>检查记录</Button>
         
       </Flex.Item>
       </Flex>

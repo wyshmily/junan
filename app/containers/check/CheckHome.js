@@ -6,7 +6,7 @@ import {
   Dimensions
 } from 'react-native'
 import Swiper from 'react-native-swiper'
-import { List,Button, WhiteSpace, Toast, Carousel } from 'antd-mobile'
+import {  Flex,List,Button, WhiteSpace, Toast, Carousel } from 'antd-mobile'
 const { width } = Dimensions.get('window')
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -87,13 +87,12 @@ export default class extends Component {
         //跳转页面
         navigate("Check")
     }
-
-    test = () => {
-        const { navigate } = this.props.navigation;
-        console.log(navigate)
-        //跳转页面
-        navigate("Test")
-    }
+    checkRecord = () => {
+      const { navigate } = this.props.navigation;
+      console.log(navigate)
+      //跳转页面
+      navigate("RecordHome")
+  }
   render () {
     return (
       <View style={styles.container}>
@@ -118,7 +117,7 @@ export default class extends Component {
             <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/4.png')} />
           </View>
         </Swiper>
-         
+  
         <List  style={{height:80,position:"relative"}} >
       <Image source={require('../../iconImages/name.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
         
@@ -140,9 +139,16 @@ export default class extends Component {
         </Item>
       </List>
       <WhiteSpace size="lg" />
-      <Button type="primary" onClick={this.beginCheck}>开始检查</Button>
-      <WhiteSpace size="lg" />
-      <Button type="primary" onClick={this.test}>测试</Button>
+      <Flex>
+      <Flex.Item>
+      <Button style={{marginRight:8}} type="primary" onClick={this.beginCheck}>开始检查</Button>
+        
+      </Flex.Item>
+      <Flex.Item>
+      <Button style={{marginLeft:8}} type="primary" onClick={this.checkRecord}>检查记录</Button>
+        
+      </Flex.Item>
+      </Flex>
       </View>
     )
   }

@@ -29,7 +29,7 @@ export default class AdvantageList extends Component {
 
 
     componentWillMount() {
-        
+
         this.setState({
             list: global.inspect.AdvantageList
         })
@@ -57,13 +57,14 @@ export default class AdvantageList extends Component {
                     {this.state.list.map((val, index) => {
                         return (
                             <Item
+                                style={{marginTop:20}}
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine
                                 onClick={this.toProblem.bind(this, val)}
                             >
                                 <View style={styles.view}>
-                                    <Image source={require('../../iconImages/advantages.png')} style={{ width: 15, height: 15,marginTop:5 }} />
+                                    <Image source={require('../../iconImages/advantages.png')} style={{ width: 15, height: 15, marginTop: 5 }} />
                                     <Text style={styles.title}>{val.UnitName}</Text>
                                 </View>
 
@@ -80,8 +81,8 @@ export default class AdvantageList extends Component {
 const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
-        height:22,
-        lineHeight:22
+        height: 22,
+        lineHeight: 22
     },
     title: {
         textAlign: 'left',
