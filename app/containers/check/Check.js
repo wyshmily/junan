@@ -14,28 +14,10 @@ import ZoomImage from 'react-native-zoom-image';
 import ImagePicker from 'react-native-image-picker';
 
 import * as stores from './../../Stores';
-
-
-const CustomChildren = props => (
-    <View
-        onClick={props.onClick}
-        style={{ backgroundColor: '#fff', paddingLeft: 15 }}
-    >
-        <View className="test" style={{ display: 'flex', height: '45px', lineHeight: '45px' }}>
-            <View style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{props.children}</View>
-            <View style={{ textAlign: 'right', color: '#888', marginRight: 15 }}>{props.extra}</View>
-        </View>
-    </View>
-);
-
-
-
+ 
 const CheckboxItem = Checkbox.CheckboxItem;
 const RadioItem = Radio.RadioItem;
-const AgreeItem = Checkbox.AgreeItem;
-
-
-
+ 
 const Item = List.Item;
 const Brief = Item.Brief;
 
@@ -44,6 +26,7 @@ export default class Check extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            checkSwitch:false,
             advantageRemark: '',
             files: [],
             lists: global.inspect.StandardClass,
@@ -59,7 +42,7 @@ export default class Check extends Component {
             Units: [],
             UnitId: '',
             UnitName: '请选择',
-            temporaryTeamLists:[]
+            temporaryTeamLists: []
         }
 
     };
@@ -74,8 +57,12 @@ export default class Check extends Component {
 
         this.setState({
             lists: inspect.StandardClass,
-           
+
         })
+
+        // const { state, navigate, goBack } = this.props.navigation;
+        // const params = state.params || {};
+        // params.go_back_key = params.go_back_key -2 ;
 
     }
 
@@ -169,6 +156,35 @@ export default class Check extends Component {
 
         if (!this.state.UnitId) {
             Toast.info("请选择受检单位")
+        } else if (this.state.files.length < 2) {
+            Toast.info("请添加照片")
+        } else if (!this.state.value) {
+            let num = 0;
+            this.state.issue.forEach(val => {
+                if (val.length) {
+                    num = val.length;
+                }
+            })
+
+            if (num) {
+
+                this.setState({ isLoading: true })
+
+
+                if (this.state.value) {
+                    // //将优点保存至优点列表
+                    let advantage = { "images": this.state.files, "remark": this.state.remark, "UnitId": this.state.UnitId, "UnitName": this.state.UnitName, "index": global.inspect.AdvantageList.length }
+                    this.setStateList('advantage', advantage)
+
+                } else {
+                    let problem = { "images": this.state.files, "remark": this.state.remark, "UnitId": this.state.UnitId, "UnitName": this.state.UnitName, "issue": this.state.issue, "index": global.inspect.ProblemList.length }
+                    this.setStateList('problem', problem)
+                }
+
+
+            } else {
+                Toast.info("请选择问题类型")
+            }
         } else {
             this.setState({ isLoading: true })
 
@@ -194,7 +210,6 @@ export default class Check extends Component {
 
         if (index == "problem") {
 
-
             inspect.ProblemList.push(value);
 
         } else {
@@ -211,7 +226,6 @@ export default class Check extends Component {
                 isLoading: false,
                 advantageRemark: '',
                 files: [],
-
                 lists: global.inspect.StandardClass,
                 value: 0,
                 listIndex: 0,
@@ -222,11 +236,18 @@ export default class Check extends Component {
             })
 
             // 刷新页面,置空
-
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            // params.go_back_key = params.go_back_key - 1;
-            navigate("CheckHome")
+            params.go_back_key = params.go_back_key -1 ;
+            // navigate("Check");
+            this.forceUpdate() ;
+            this.setProps() 
+            React.render();
+            // navigate("CheckHome");
+
+            // goBack(params.go_back_key);
+             
+            // this.props.navigation.state.params.updateData(global.inspect);
 
         });
     }
@@ -247,22 +268,22 @@ export default class Check extends Component {
     }
     changeUnit = (val) => {
 
-       
+
         if (val.SubDepartments.length) {
             this.state.Units.push(val.Name)
             this.setState({
-                temporaryTeamLists:this.state.TeamLists,
+                temporaryTeamLists: this.state.TeamLists,
                 TeamLists: val.SubDepartments,
             });
-        }else{
+        } else {
             this.state.Units.push(val.Name)
 
             this.setState({
                 UnitId: val.Id,
                 UnitName: this.state.Units.join(','),
                 modal: false,
-                temporaryTeamLists:[]
-    
+                temporaryTeamLists: []
+
             });
         }
 
@@ -275,7 +296,7 @@ export default class Check extends Component {
             UnitId: val.Id,
             UnitName: this.state.Units.join(','),
             modal: false,
-            temporaryTeamLists:[]
+            temporaryTeamLists: []
 
         });
 
@@ -331,20 +352,20 @@ export default class Check extends Component {
         }
         this.setState({ "issue": issue })
     }
-    goback=()=>{
-        if(this.state.temporaryTeamLists.length){
+    goback = () => {
+        if (this.state.temporaryTeamLists.length) {
             this.state.Units.pop();
             this.setState({
-                TeamLists:this.state.temporaryTeamLists,
+                TeamLists: this.state.temporaryTeamLists,
             });
-           
-        }else{
+
+        } else {
             this.setState({
                 modal: false,
             });
 
         }
-       
+
     }
 
     render() {
@@ -415,7 +436,7 @@ export default class Check extends Component {
 
 
                         <List>
-                            <Item extra={this.state.UnitName} arrow="horizontal" onClick={this.showModal('modal')}>选择受检单位</Item>
+                            <Item extra={this.state.UnitName} arrow="horizontal" onClick={this.showModal('modal')}>受检单位</Item>
 
                         </List>
                         <WhiteSpace size="lg" />
@@ -497,7 +518,7 @@ export default class Check extends Component {
                                         <View style={styles.cell} >
                                             <Button type="ghost" style={{ borderColor: "#fff" }} onClick={this.changeUnit.bind(this, val)}>{val.Name}</Button>
                                         </View>
-                                        <View style={styles.cell} >
+                                        <View style={styles.cells} >
                                         </View>
 
                                         <View style={styles.cells} onClick={this.chooseUnit.bind(this, val)}>
@@ -568,7 +589,7 @@ export default class Check extends Component {
                         <WhiteSpace size="lg" />
 
                         <List>
-                            <Item extra={this.state.UnitName} arrow="horizontal" onClick={this.showModal('modal')}>选择受检单位</Item>
+                            <Item extra={this.state.UnitName} arrow="horizontal" onClick={this.showModal('modal')}>受检单位</Item>
 
                         </List>
                         <WhiteSpace size="lg" />
@@ -617,16 +638,16 @@ export default class Check extends Component {
                                     <Image source={require('../../iconImages/back.png')} style={{ marginTop: 10, marginLeft: 10, width: 25, height: 25 }} />
                                 </View>
                             </TouchableOpacity>
-                            <View style={{ flex: 4 }} ><Text style={{ fontSize: 20, height: 40, marginTop: 10, textAlign: "center" }}>{this.state.departmentName}</Text></View>
+                            <View style={{ flex: 4 }} ><Text style={{ fontSize: 20, height: 40, marginTop: 10, textAlign: "center" }}>{this.state.DepartmentName}</Text></View>
                             <View style={{ flex: 1 }}></View>
                         </View>} className="popup-list">
                             {this.state.TeamLists.map((val, index) => (
                                 <List.Item key={index}  >
                                     <View style={styles.inner} >
                                         <View style={styles.cell} >
-                                            <Button type="ghost" style={{ borderColor: "#fff" }} onClick={this.changeUnit.bind(this, val)}>{val.name}</Button>
+                                            <Button type="ghost" style={{ borderColor: "#fff" }} onClick={this.changeUnit.bind(this, val)}>{val.Name}</Button>
                                         </View>
-                                        <View style={styles.cell} >
+                                        <View style={styles.cells} >
                                         </View>
 
                                         <View style={styles.cells} onClick={this.chooseUnit.bind(this, val)}>

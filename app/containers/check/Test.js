@@ -1,169 +1,149 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
-    StyleSheet,
-    Text,
-    View, Image,
-    TouchableHighlight,
-    DeviceEventEmitter, Span
-} from 'react-native';
-import { WingBlank, Toast, WhiteSpace, Flex, Modal, Item, List, Button } from 'antd-mobile';
+  Text,
+  View,
+  Image,
+  Dimensions
+} from 'react-native'
+import Swiper from 'react-native-swiper'
+import {  Flex,List,Button, WhiteSpace, Toast, Carousel } from 'antd-mobile'
+const { width } = Dimensions.get('window')
+const Item = List.Item;
+const Brief = Item.Brief;
+const styles = {
+  container: {
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+
+  wrapper: {
+  },
+
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+
+  slide1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB'
+  },
+
+  slide2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5'
+  },
+
+  slide3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9'
+  },
+
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
+
+  image: {
+    width,
+    flex: 1
+  }
+}
 
 
 
-export default class Test extends Component {
+export default class extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            modal: false,
-            departmentName:global.inspect.departmentTree.name,
-            TeamLists: global.inspect.departmentTree.subDepartments,
-            Units:[],
-            UnitId:''
+            name: '现场检查',
+            time: '',
+            inspectorName: '',
+
         };
     }
     componentWillMount() {
-
+        let result = global.inspect;
+    
+        let timer = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
         this.setState({
-            problem: { num: global.inspect.ProblemList.length },
-            advantage: { num: global.inspect.AdvantageList.length }
+            time: timer,
+            inspectorName: result.Record.InspectorName
         })
     }
-
-
-    componentWillReceiveProps() {
-        this.componentWillMount();
+    beginCheck = () => {
+        const { navigate } = this.props.navigation;
+        console.log(navigate)
+        //跳转页面
+        navigate("Check")
     }
+  render () {
+    return (
+      <View style={styles.container}>
 
-
-    onClose = key => () => {
-        this.setState({
-            [key]: false,
-        });
-    }
-
-    showModal = key => (e) => {
-        e.preventDefault(); // 修复 Android 上点击穿透
-        this.setState({
-            [key]: true,
-        });
-    }
-    changeUnit = (val) => {
-
-        // Toast.info(val.subDepartments.length)
-        if (val.subDepartments.length) {
-            this.state.Units.push(val.name)
-            this.setState({
-                TeamLists: val.subDepartments,
-            });
-        }
-
-    }
-    chooseUnit = (val) => {
+        <Swiper style={styles.wrapper} height={140}
+          onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
+          dot={<View style={{backgroundColor: 'rgba(0,0,0,.2)', width: 5, height: 5, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
+          activeDot={<View style={{backgroundColor: '#000', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
+          paginationStyle={{
+            bottom: -23, left: null, right: 10
+          }} loop>
+          <View style={styles.slide} title={<Text numberOfLines={1}>Aussie tourist dies at Bali hotel</Text>}>
+            <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/1.png')} />
+          </View>
+          <View style={styles.slide} title={<Text numberOfLines={1}>Big lie behind Nine’s new show</Text>}>
+            <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/2.png')} />
+          </View>
+          <View style={styles.slide} title={<Text numberOfLines={1}>Why Stone split from Garfield</Text>}>
+            <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/3.png')} />
+          </View>
+          <View style={styles.slide} title={<Text numberOfLines={1}>Learn from Kim K to land that job</Text>}>
+            <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/4.png')} />
+          </View>
+        </Swiper>
+  
+        <List  style={{height:80,position:"relative"}} >
+      <Image source={require('../../iconImages/name.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
         
-        this.state.Units.push(val.name)
-
-        this.setState({
-            UnitId:val.id,
-            modal: false,
-            
-        });
-
-
-    }
-
-
-
-
-    render() {
-        return (
-            <View >
-                <WingBlank >
-                    <Button onClick={this.showModal('modal')}>popup</Button>
-                    <WhiteSpace size="lg" />
-
-                    <View style={styles.inner}>
-                        <View style={styles.cell}>
-                            <Text>1</Text>
-                        </View>
-                        <View style={styles.cell}>
-                            <Text>2</Text>
-                        </View>
-
-                    </View>
-
-                    <Modal
-                        popup
-                        visible={this.state.modal}
-                        onClose={this.onClose('modal')}
-                        animationType="slide-up"
-                    >
-                        <List renderHeader={() => <Text style={{ fontSize: 20, height: 40, marginTop: 10, textAlign: "center" }}>{this.state.departmentName}</Text>} className="popup-list">
-                            {this.state.TeamLists.map((val, index) => (
-                                <List.Item key={index}  >
-                                    <View style={styles.inner} >
-                                        <View style={styles.cell} >
-                                            <Button type="ghost" style={{ borderColor: "#fff" }} onClick={this.changeUnit.bind(this, val)}>{val.name}</Button>
-                                        </View>
-                                        <View style={styles.cell} >
-                                        </View>
-
-                                        <View style={styles.cells} onClick={this.chooseUnit.bind(this, val)}>
-                                            <Button type="primary" inline style={{ borderColor: "#fff" }} onClick={this.chooseUnit.bind(this, val)}>确定</Button>
-                                        </View>
-
-                                    </View>
-
-                                    {/* <Text style={styles.cell}>{i}</Text><Text style={styles.cell}>选择</Text> */}
-
-                                </List.Item>
-                            ))}
-                            <List.Item>
-                                <Button type="primary" onClick={this.onClose('modal')}>关闭</Button>
-                            </List.Item>
-                        </List>
-                    </Modal>
-
-                </WingBlank >
-
-
-
-            </View >
-        )
-    }
+        <Item multipleLine   extra=" " style={{fontSize:27,marginLeft:60}}>
+          检查名称<Brief style={{fontSize:20,marginTop:8}}>{this.state.name}</Brief>
+        </Item>
+      </List>
+      <List  style={{height:80,position:"relative"}} >
+      <Image source={require('../../iconImages/person.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
+        <Item multipleLine extra=" "   style={{fontSize:27,marginLeft:60}}>
+          检查人 <Brief style={{fontSize:20,marginTop:8,color:"2e88f5"}}>{this.state.inspectorName}</Brief>
+        </Item>
+      </List>
+      <List  style={{height:80,position:"relative"}} >
+      <Image source={require('../../iconImages/time.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
+      
+        <Item multipleLine extra=" " style={{fontSize:27,marginLeft:60}}>
+          检查时间 <Brief style={{fontSize:20,marginTop:8}}>{this.state.time}</Brief>
+        </Item>
+      </List>
+      <WhiteSpace size="lg" />
+      <Flex>
+      <Flex.Item>
+      <Button style={{marginRight:8}} type="primary" onClick={this.beginCheck}>开始检查</Button>
+        
+      </Flex.Item>
+      <Flex.Item>
+      <Button style={{marginLeft:8}} type="primary" onClick={this.beginCheck}>检查记录</Button>
+        
+      </Flex.Item>
+      </Flex>
+      </View>
+    )
+  }
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    card: {
-        paddingLeft: 25,
-        paddingRight: 25,
-        paddingBottom: 40,
-        paddingTop: 40,
-        backgroundColor: '#fff'
-    },
-    inner: {
-        flexDirection: 'row',
-    },
-    cell: {
-        flex: 2,
-    },
-    cells: {
-        flex: 1,
-        color: '#007ACC'
-
-    },
-    title: {
-        fontSize: 16,
-        textAlign: 'left',
-        marginLeft: 15,
-    },
-    num: {
-        textAlign: 'right',
-    },
-    icon: {
-        width: 26,
-        height: 26,
-    }
-});

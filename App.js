@@ -36,64 +36,64 @@ function px2dp(px) {
 
 //进行导航的注册
 
-const MainNavigator = TabNavigator({
+// const MainNavigator = TabNavigator({
 
-    CheckHome: {
-        screen: CheckHome,
-        navigationOptions: {
-            tabBarLabel: '检查',
-            header: null,
-            tabBarIcon: ({ tintColor }) =>
-                (<Image
-                    source={require('./app/iconImages/check.png')}
-                    style={[styles.icon, { tintColor: tintColor }]}
-                />),
-
-
-        }
-    },
-    RecordHome: {
-        screen: RecordHome,
-        navigationOptions: {
-            tabBarLabel: '记录',
-            header: null,
-            tabBarIcon: ({ tintColor }) => (<Image
-                source={require('./app/iconImages/record.png')}
-                style={[styles.icon, { tintColor: tintColor }]}
-            />),
+//     CheckHome: {
+//         screen: CheckHome,
+//         navigationOptions: {
+//             tabBarLabel: '检查',
+//             header: null,
+//             tabBarIcon: ({ tintColor }) =>
+//                 (<Image
+//                     source={require('./app/iconImages/check.png')}
+//                     style={[styles.icon, { tintColor: tintColor }]}
+//                 />),
 
 
+//         }
+//     },
+//     RecordHome: {
+//         screen: RecordHome,
+//         navigationOptions: {
+//             tabBarLabel: '记录',
+//             header: null,
+//             tabBarIcon: ({ tintColor }) => (<Image
+//                 source={require('./app/iconImages/record.png')}
+//                 style={[styles.icon, { tintColor: tintColor }]}
+//             />),
 
-        }
-    },
-}, {
-        animationEnabled: true,// 切换页面时是否有动画效果
-        tabBarPosition: 'bottom',
-        swipeEnabled: true,// 是否可以左右滑动切换tab
-        backBehavior: 'none',// 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
-        tabBarOptions: {
-            activeTintColor: '#3e9ce9',// 文字和图片选中颜色
-            inactiveTintColor: '#999999',// 文字和图片未选中颜色
-            showIcon: true,// android 默认不显示 icon, 需要设置为 true 才会显示
-            indicatorStyle: {
-                height: 0,  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
-                opacity: 0
-            },
-            style: {
-                backgroundColor: '#fff',// TabBar 背景色
-                // height: 44,
-                // lineHeight:44,
-            },
-            tabStyle: {
-                padding: 0
-            },
-            labelStyle: {
-                fontSize: 12, // 文字大小
-            },
-        },
 
-    },
-)
+
+//         }
+//     },
+// }, {
+//         animationEnabled: true,// 切换页面时是否有动画效果
+//         tabBarPosition: 'bottom',
+//         swipeEnabled: true,// 是否可以左右滑动切换tab
+//         backBehavior: 'none',// 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
+//         tabBarOptions: {
+//             activeTintColor: '#3e9ce9',// 文字和图片选中颜色
+//             inactiveTintColor: '#999999',// 文字和图片未选中颜色
+//             showIcon: true,// android 默认不显示 icon, 需要设置为 true 才会显示
+//             indicatorStyle: {
+//                 height: 0,  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+//                 opacity: 0
+//             },
+//             style: {
+//                 backgroundColor: '#fff',// TabBar 背景色
+//                 // height: 44,
+//                 // lineHeight:44,
+//             },
+//             tabStyle: {
+//                 padding: 0
+//             },
+//             labelStyle: {
+//                 fontSize: 12, // 文字大小
+//             },
+//         },
+
+//     },
+// )
 
 const Route = StackNavigator({
     initialRouteName: { screen: Login },
@@ -103,7 +103,16 @@ const Route = StackNavigator({
             header: null,
         }
     },
-    TabBars: { screen: MainNavigator },
+    CheckHome: {
+        screen: CheckHome, navigationOptions: {
+            title: '现场检查'
+        }
+    },
+    RecordHome: {
+        screen: RecordHome, navigationOptions: {
+            title: '检查记录'
+        }
+    },
     Check: {
         screen: Check, navigationOptions: {
             title: '检查'

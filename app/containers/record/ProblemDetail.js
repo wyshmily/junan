@@ -277,14 +277,7 @@ export default class ProblemDetail extends Component {
 
         let issueList = inspect.StandardClass[this.state.listIndex].IssueClassList;
 
-        // for (var i = 0; i < issueList.length; i++) {
-        //     if (issueList[i] == value) {
-        //         this.setState({
-        //             valueIndex: i,
-        //         })
-        //     }
-        // }
-        // let 
+       
         let currentIndex = 0;
         const currentIssue = issue.find((val, index) => {
             if (val == value) {
@@ -452,7 +445,7 @@ export default class ProblemDetail extends Component {
                                         <View style={styles.cell} >
                                             <Button type="ghost" style={{ borderColor: "#fff" }} onClick={this.changeUnit.bind(this, val)}>{val.Name}</Button>
                                         </View>
-                                        <View style={styles.cell} >
+                                        <View style={styles.cells} >
                                         </View>
 
                                         <View style={styles.cells} onClick={this.chooseUnit.bind(this, val)}>
@@ -512,10 +505,6 @@ export default class ProblemDetail extends Component {
                     </Card>
 
                     <WhiteSpace size="lg" />
-
-
-                    <WhiteSpace size="lg" />
-
 
 
                     <List>

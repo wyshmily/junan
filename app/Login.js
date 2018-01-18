@@ -118,7 +118,7 @@ export default class Login extends Component {
 
                                 //验证成功后跳转页面
                                 const {navigate} = this.props.navigation;
-                                navigate("TabBars")
+                                navigate("CheckHome")
 
                             }, 1000);
                         }),
@@ -132,7 +132,7 @@ export default class Login extends Component {
 
             //验证成功后跳转页面
             const {navigate} = this.props.navigation;
-            navigate("TabBars")
+            navigate("CheckHome")
         }
     }
 
