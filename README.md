@@ -25,6 +25,7 @@ gradlew compileDebug --stacktrace
 显示一些具体出错的信息
 
 ## 发布apk
+生成密钥文件，密码为：junanapp
 ```
 cd android && ./gradlew assembleRelease
 ```
