@@ -118,7 +118,9 @@ export default class AdvantageDetail extends Component {
 
 
     selectPhotoTapped = (index) => {
-
+        if (this.state.files.length > 10) {
+            Toast.info("一次检查至多添加10张照片")
+        } else {
 
         const options = {
             title: '选择一张照片',
@@ -169,7 +171,7 @@ export default class AdvantageDetail extends Component {
                 });
             }
         });
-
+    }
 
     }
     onChangePhoto = (files, type, index) => {

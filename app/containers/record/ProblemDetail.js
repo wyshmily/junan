@@ -13,7 +13,7 @@ const CheckboxItem = Checkbox.CheckboxItem;
 const Item = List.Item;
 const Brief = Item.Brief;
 import * as stores from './../../Stores';
- 
+
 
 
 export default class ProblemDetail extends Component {
@@ -22,7 +22,7 @@ export default class ProblemDetail extends Component {
         this.state = {
             files: [],
             issueIndex: [],
-          
+
             issueLists: [],
             typeLists: [],
             modal: false,
@@ -31,7 +31,7 @@ export default class ProblemDetail extends Component {
             Units: [],
             UnitId: '',
             UnitName: '请选择',
-            temporaryTeamLists:[]
+            temporaryTeamLists: []
         };
     }
 
@@ -77,7 +77,7 @@ export default class ProblemDetail extends Component {
         inspect.ProblemList[index].UnitId = this.state.UnitId
         inspect.ProblemList[index].UnitName = this.state.UnitName
 
- 
+
 
         global.inspect = inspect;
         this.setState({ isLoading: true })
@@ -120,30 +120,30 @@ export default class ProblemDetail extends Component {
             files: currentProblem.images,
             issueLists: currentProblem.issue,
             UnitName: currentProblem.UnitName,
-            
+
         })
 
 
- 
+
 
     }
 
     componentWillReceiveProps() {
     }
 
-    goback=()=>{
-        if(this.state.temporaryTeamLists.length){
+    goback = () => {
+        if (this.state.temporaryTeamLists.length) {
             this.state.Units.pop();
             this.setState({
-                TeamLists:this.state.temporaryTeamLists,
+                TeamLists: this.state.temporaryTeamLists,
             });
-        }else{
+        } else {
             this.setState({
                 modal: false,
             });
 
         }
-       
+
     }
 
     onClose = key => () => {
@@ -155,7 +155,7 @@ export default class ProblemDetail extends Component {
     showModal = key => (e) => {
         e.preventDefault(); // 修复 Android 上点击穿透
         this.setState({
-            Units:[],
+            Units: [],
             TeamLists: global.inspect.DepartmentTree.SubDepartments,
             [key]: true,
         });
@@ -166,18 +166,18 @@ export default class ProblemDetail extends Component {
         if (val.SubDepartments.length) {
             this.state.Units.push(val.Name)
             this.setState({
-                temporaryTeamLists:this.state.TeamLists,
+                temporaryTeamLists: this.state.TeamLists,
                 TeamLists: val.SubDepartments,
             });
-        }else{
+        } else {
             this.state.Units.push(val.Name)
 
             this.setState({
                 UnitId: val.Id,
                 UnitName: this.state.Units.join(','),
                 modal: false,
-                temporaryTeamLists:[]
-    
+                temporaryTeamLists: []
+
             });
         }
 
@@ -190,7 +190,7 @@ export default class ProblemDetail extends Component {
             UnitId: val.Id,
             UnitName: this.state.Units.join(','),
             modal: false,
-            temporaryTeamLists:[],
+            temporaryTeamLists: [],
 
         });
 
@@ -199,57 +199,59 @@ export default class ProblemDetail extends Component {
 
     selectPhotoTapped = (index) => {
 
+        if (this.state.files.length > 10) {
+            Toast.info("一次检查至多添加10张照片")
+        } else {
+            const options = {
+                title: '选择一张照片',
+                cancelButtonTitle: '取消',
+                takePhotoButtonTitle: '拍照',
+                chooseFromLibraryButtonTitle: '从手机相册选择',
+                quality: 1.0,
+                maxWidth: 500,
+                maxHeight: 500,
+                storageOptions: {
+                    skipBackup: true,
+                    path: 'junan356/images',//will save the image at Documents/[path]/ rather than the root Documents
+                    cameraRoll: true,
+                },
+                permissionDenied: {
+                    title: '权限被拒绝',
+                    text: '请用相机拍照，并从手机相册选择照片..',
+                    reTryTitle: '重试',
+                    okTitle: '确定',
+                },
+            };
 
-        const options = {
-            title: '选择一张照片',
-            cancelButtonTitle: '取消',
-            takePhotoButtonTitle: '拍照',
-            chooseFromLibraryButtonTitle: '从手机相册选择',
-            quality: 1.0,
-            maxWidth: 500,
-            maxHeight: 500,
-            storageOptions: {
-                skipBackup: true,
-                path: 'junan356/images',//will save the image at Documents/[path]/ rather than the root Documents
-                cameraRoll: true,
-            },
-            permissionDenied: {
-                title: '权限被拒绝',
-                text: '请用相机拍照，并从手机相册选择照片..',
-                reTryTitle: '重试',
-                okTitle: '确定',
-            },
-        };
+            ImagePicker.showImagePicker(options, (response) => {
+                console.log('Response = ', response);
 
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
+                if (response.didCancel) {
+                    console.log('User cancelled photo picker');
+                }
+                else if (response.error) {
+                    console.log('ImagePicker Error: ', response.error);
+                }
+                else if (response.customButton) {
+                    console.log('User tapped custom button: ', response.customButton);
+                }
+                else {
+                    let source = { uri: response.uri };
 
-            if (response.didCancel) {
-                console.log('User cancelled photo picker');
-            }
-            else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            }
-            else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-            }
-            else {
-                let source = { uri: response.uri };
+                    // You can also display the image using data:
+                    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                    let files = this.state.files;
 
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-                let files = this.state.files;
-
-                if (files.length >= index) {
-                    files[index] = source;
-                } else
-                    files.push(source)
-                this.setState({
-                    files: files
-                });
-            }
-        });
-
+                    if (files.length >= index) {
+                        files[index] = source;
+                    } else
+                        files.push(source)
+                    this.setState({
+                        files: files
+                    });
+                }
+            });
+        }
 
     }
     onChangePhoto = (files, type, index) => {
@@ -277,7 +279,7 @@ export default class ProblemDetail extends Component {
 
         let issueList = inspect.StandardClass[this.state.listIndex].IssueClassList;
 
-       
+
         let currentIndex = 0;
         const currentIssue = issue.find((val, index) => {
             if (val == value) {

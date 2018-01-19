@@ -98,6 +98,8 @@ export default class extends Component {
       <View style={styles.container}>
 
         <Swiper style={styles.wrapper} height={140}
+        loop={true}                
+        autoplay={true}
           onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
           dot={<View style={{backgroundColor: 'rgba(0,0,0,.2)', width: 5, height: 5, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
           activeDot={<View style={{backgroundColor: '#000', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
@@ -116,15 +118,21 @@ export default class extends Component {
           <View style={styles.slide} title={<Text numberOfLines={1}>Learn from Kim K to land that job</Text>}>
             <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/4.png')} />
           </View>
+          <View style={styles.slide} title={<Text numberOfLines={1}>Why Stone split from Garfield</Text>}>
+            <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/5.png')} />
+          </View>
+          <View style={styles.slide} title={<Text numberOfLines={1}>Learn from Kim K to land that job</Text>}>
+            <Image resizeMode='stretch' style={styles.image} source={require('../../iconImages/6.png')} />
+          </View>
         </Swiper>
   
-        <List  style={{height:80,position:"relative"}} >
+        {/* <List  style={{height:80,position:"relative"}} >
       <Image source={require('../../iconImages/name.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
         
         <Item multipleLine   extra=" " style={{fontSize:27,marginLeft:60}}>
           检查名称<Brief style={{fontSize:20,marginTop:8}}>{this.state.name}</Brief>
         </Item>
-      </List>
+      </List> */}
       <List  style={{height:80,position:"relative"}} >
       <Image source={require('../../iconImages/person.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
         <Item multipleLine extra=" "   style={{fontSize:27,marginLeft:60}}>
@@ -149,6 +157,8 @@ export default class extends Component {
         
       </Flex.Item>
       </Flex>
+      <WhiteSpace size="lg" />
+      
       </View>
     )
   }

@@ -14,19 +14,20 @@ import ZoomImage from 'react-native-zoom-image';
 import ImagePicker from 'react-native-image-picker';
 
 import * as stores from './../../Stores';
- 
+
 const CheckboxItem = Checkbox.CheckboxItem;
 const RadioItem = Radio.RadioItem;
- 
+
 const Item = List.Item;
 const Brief = Item.Brief;
+const alert = Modal.alert;
 
 export default class Check extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            checkSwitch:false,
+            checkSwitch: false,
             advantageRemark: '',
             files: [],
             lists: global.inspect.StandardClass,
@@ -68,56 +69,62 @@ export default class Check extends Component {
 
     // 选择照片
     selectPhotoTapped = (index) => {
-        const options = {
-            title: '选择一张照片',
-            cancelButtonTitle: '取消',
-            takePhotoButtonTitle: '拍照',
-            chooseFromLibraryButtonTitle: '从手机相册选择',
-            quality: 1.0,
-            maxWidth: 500,
-            maxHeight: 500,
-            storageOptions: {
-                skipBackup: true,
-                path: 'junan356/images',//will save the image at Documents/[path]/ rather than the root Documents
-                cameraRoll: true,
-            },
-            permissionDenied: {
-                title: '权限被拒绝',
-                text: '请用相机拍照，并从手机相册选择照片..',
-                reTryTitle: '重试',
-                okTitle: '确定',
-            },
-        };
+        if (this.state.files.length > 10) {
+            Toast.info("一次检查至多添加10张照片")
+        } else {
 
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
+            const options = {
+                title: '选择一张照片',
+                cancelButtonTitle: '取消',
+                takePhotoButtonTitle: '拍照',
+                chooseFromLibraryButtonTitle: '从手机相册选择',
+                quality: 1.0,
+                maxWidth: 500,
+                maxHeight: 500,
+                storageOptions: {
+                    skipBackup: true,
+                    path: 'junan356/images',//will save the image at Documents/[path]/ rather than the root Documents
+                    cameraRoll: true,
+                },
+                permissionDenied: {
+                    title: '权限被拒绝',
+                    text: '请用相机拍照，并从手机相册选择照片..',
+                    reTryTitle: '重试',
+                    okTitle: '确定',
+                },
+            };
 
-            if (response.didCancel) {
-                console.log('User cancelled photo picker');
-            }
-            else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            }
-            else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-            }
-            else {
-                // let time=new Date()
-                let source = { uri: response.uri, cTime: new Date() };
+            ImagePicker.showImagePicker(options, (response) => {
+                console.log('Response = ', response);
 
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-                let files = this.state.files;
+                if (response.didCancel) {
+                    console.log('User cancelled photo picker');
+                }
+                else if (response.error) {
+                    console.log('ImagePicker Error: ', response.error);
+                }
+                else if (response.customButton) {
+                    console.log('User tapped custom button: ', response.customButton);
+                }
+                else {
+                    // let time=new Date()
+                    let source = { uri: response.uri, cTime: new Date() };
 
-                if (files.length >= index) {
-                    files[index] = source;
-                } else
-                    files.push(source)
-                this.setState({
-                    files: files
-                });
-            }
-        });
+                    // You can also display the image using data:
+                    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                    let files = this.state.files;
+
+                    if (files.length >= index) {
+                        files[index] = source;
+                    } else
+                        files.push(source)
+                    this.setState({
+                        files: files
+                    });
+                }
+            });
+        }
+
     }
     onChangePhoto = (files, type, index) => {
         this.setState({
@@ -238,15 +245,13 @@ export default class Check extends Component {
             // 刷新页面,置空
             const { state, navigate, goBack } = this.props.navigation;
             const params = state.params || {};
-            params.go_back_key = params.go_back_key -1 ;
+            params.go_back_key = params.go_back_key - 1;
             // navigate("Check");
-            this.forceUpdate() ;
-            this.setProps() 
-            React.render();
-            // navigate("CheckHome");
+
+            navigate("Check");
 
             // goBack(params.go_back_key);
-             
+
             // this.props.navigation.state.params.updateData(global.inspect);
 
         });
@@ -489,10 +494,22 @@ export default class Check extends Component {
                     <List>
                         <Item style={styles.view}>
                             <Flex>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item><Button type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+
+                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
                                     onClick={this.onSubmit}>保存</Button></Flex.Item>
-                                <Flex.Item></Flex.Item>
+                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+                                    onClick={() => alert('确定直接结束此次检查?', '', [
+                                        { text: '取消', onPress: () => console.log('取消') },
+                                        {
+                                            text: '确定', onPress: value => new Promise((resolve) => {
+                                                console.log('确定')
+                                                setTimeout(resolve, 500);
+                                                const { navigate } = this.props.navigation;
+                                                navigate("CheckHome")
+                                            })
+                                        },
+                                    ])}>结束检查</Button></Flex.Item>
+
                             </Flex>
                         </Item>
                     </List>
@@ -618,10 +635,20 @@ export default class Check extends Component {
                     <List>
                         <Item style={styles.view}>
                             <Flex>
-                                <Flex.Item></Flex.Item>
-                                <Flex.Item><Button type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
                                     onClick={this.onSubmit}>保存</Button></Flex.Item>
-                                <Flex.Item></Flex.Item>
+                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+                                    onClick={() => alert('确定直接结束此次检查?', '', [
+                                        { text: '取消', onPress: () => console.log('取消') },
+                                        {
+                                            text: '确定', onPress: value => new Promise((resolve) => {
+                                                console.log('确定')
+                                                setTimeout(resolve, 500);
+                                                const { navigate } = this.props.navigation;
+                                                navigate("CheckHome")
+                                            })
+                                        },
+                                    ])}>结束检查</Button></Flex.Item>
                             </Flex>
                         </Item>
                     </List>

@@ -10,9 +10,6 @@ import Check from './app/containers/check/Check';
 import CheckHome from './app/containers/check/CheckHome';
 import RecordHome from './app/containers/record/RecordHome';
 
-import Test from './app/containers/check/Test';
-
-
 import AdvantageList from "./app/containers/record/AdvantageList";
 import ProblemList from "./app/containers/record/ProblemList";
 import ProblemDetail from "./app/containers/record/ProblemDetail";
@@ -115,14 +112,10 @@ const Route = StackNavigator({
     },
     Check: {
         screen: Check, navigationOptions: {
-            title: '检查'
+            header: null
         }
     },
-    Test: {
-        screen: Test, navigationOptions: {
-            title: '测试'
-        }
-    },
+    
 
     AdvantageList: {
         screen: AdvantageList, navigationOptions: {
