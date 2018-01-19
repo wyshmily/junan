@@ -27,6 +27,8 @@ export default class Check extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading:false,
+            hasLoading:false,
             checkSwitch: false,
             advantageRemark: '',
             files: [],
@@ -228,7 +230,7 @@ export default class Check extends Component {
         global.inspect = inspect;
         this.setState({ isLoading: true })
         stores.writeFile(inspect, () => {
-            // Toast.info(`保存成功`, 1);
+            Toast.info(`保存成功`, 1);
             this.setState({
                 isLoading: false,
                 advantageRemark: '',
@@ -497,14 +499,15 @@ export default class Check extends Component {
 
                                 <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
                                     onClick={this.onSubmit}>保存</Button></Flex.Item>
-                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.hasLoading}
                                     onClick={() => alert('确定直接结束此次检查?', '', [
                                         { text: '取消', onPress: () => console.log('取消') },
                                         {
                                             text: '确定', onPress: value => new Promise((resolve) => {
-                                                console.log('确定')
+                                                this.setState({ hasLoading: true })
                                                 setTimeout(resolve, 500);
                                                 const { navigate } = this.props.navigation;
+                                                this.setState({ hasLoading: false })
                                                 navigate("CheckHome")
                                             })
                                         },
@@ -637,14 +640,15 @@ export default class Check extends Component {
                             <Flex>
                                 <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
                                     onClick={this.onSubmit}>保存</Button></Flex.Item>
-                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.isLoading}
+                                <Flex.Item><Button style={{ marginLeft: 8, marginRight: 8 }} type="primary" focusableInTouchMode="false" focusable="false" loading={this.state.hasLoading}
                                     onClick={() => alert('确定直接结束此次检查?', '', [
                                         { text: '取消', onPress: () => console.log('取消') },
                                         {
                                             text: '确定', onPress: value => new Promise((resolve) => {
-                                                console.log('确定')
+                                                this.setState({ hasLoading: true })
                                                 setTimeout(resolve, 500);
                                                 const { navigate } = this.props.navigation;
+                                                this.setState({ hasLoading: false })
                                                 navigate("CheckHome")
                                             })
                                         },

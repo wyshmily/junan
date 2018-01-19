@@ -135,14 +135,14 @@ export default class extends Component {
       </List> */}
       <List  style={{height:80,position:"relative"}} >
       <Image source={require('../../iconImages/person.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
-        <Item multipleLine extra=" "   style={{fontSize:27,marginLeft:60}}>
-          检查人 <Brief style={{fontSize:20,marginTop:8,color:"2e88f5"}}>{this.state.inspectorName}</Brief>
+        <Item multipleLine extra=" "   style={{ marginLeft:60}}>
+          检查人 <Brief style={{fontSize:20,marginTop:8 }}>{this.state.inspectorName}</Brief>
         </Item>
       </List>
       <List  style={{height:80,position:"relative"}} >
       <Image source={require('../../iconImages/time.png')} style={{width:35, height: 35,position:"absolute",top:20,left:15}} />
       
-        <Item multipleLine extra=" " style={{fontSize:27,marginLeft:60}}>
+        <Item multipleLine extra=" " style={{ marginLeft:60}}>
           检查时间 <Brief style={{fontSize:20,marginTop:8}}>{this.state.time}</Brief>
         </Item>
       </List>
