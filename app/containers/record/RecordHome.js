@@ -17,9 +17,7 @@ export default class RecordHome extends Component {
             problem: { num: 0 },
             advantage: { num: 0 }
         };
-        setInterval(()=>{  
-            this.componentWillMount()
-        },4000); 
+       
     }
     componentWillMount() {
      

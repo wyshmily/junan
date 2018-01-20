@@ -74,6 +74,7 @@ export default class ProblemList extends Component {
                     {this.state.list.map((val, index) => {
                         return (
                             <Item
+                            style={{marginTop:4,marginBottom:4}}
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine
@@ -87,7 +88,7 @@ export default class ProblemList extends Component {
                                 {/* {val.list.map((value,i)=>{
                                     return <Brief>{value.name}</Brief>
                                 })} */}
-                                <Brief>{val.value.remark}</Brief>
+                                <Brief style={{marginTop:3}}>{val.value.remark}</Brief>
                             </Item>
                         )
                     })}

@@ -315,7 +315,7 @@ export default class ProblemDetail extends Component {
 
                     <Card>
                         <Card.Header
-                            title="问题备注"
+                            title="问题详情"
                         />
                         <Card.Body>
                             <TextareaItem
@@ -391,7 +391,7 @@ export default class ProblemDetail extends Component {
 
                     <Card>
                         <Card.Header
-                            title="问题备注"
+                            title="问题详情"
                         />
                         <Card.Body>
                             <WingBlank>

@@ -254,7 +254,7 @@ export default class AddAdvantage extends Component {
 
                     <Card>
                         <Card.Header
-                            title="优点备注"
+                            title="优点详情"
                         />
                         <Card.Body>
                             <TextareaItem

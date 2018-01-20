@@ -6,13 +6,13 @@ import {
     Image,
     DeviceEventEmitter
 } from 'react-native';
-import { List, Button, WingBlank, Flex, Toast } from 'antd-mobile'
+import { Modal, List, Button, WingBlank, Flex, Toast } from 'antd-mobile'
 import * as stores from './../../Stores';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 const StateObj = { "normal": '正常', 'problem': '有缺点', 'advantage': '有优点' }
-
+const alert = Modal.alert;
 export default class CheckList extends Component {
     constructor(props) {
         super(props);
@@ -94,7 +94,7 @@ export default class CheckList extends Component {
     componentWillReceiveProps() {
 
         this.componentWillMount();
-     
+
     }
     setStateList = (index, value) => {
         let stateList = this.state.StateList
@@ -245,7 +245,20 @@ export default class CheckList extends Component {
                         </Flex.Item>
                         <Flex.Item >
                             {/* <Text>结束检查</Text> */}
-                            <Button style={{ height: 50 }} type="primary" size="small" inline onClick={this.endCheck}>结束检查</Button>
+                            <Button style={{ height: 50 }} type="primary" size="small" inline
+                                onClick={() => alert('确定直接结束此次检查?', '', [
+                                    { text: '取消', onPress: () => console.log('取消') },
+                                    {
+                                        text: '确定', onPress: value => new Promise((resolve) => {
+                                            setTimeout(resolve, 500);
+                                            const { navigate } = this.props.navigation;
+                                            const params = state.params || {};
+                                            // params.go_back_key = params.go_back_key - 1;
+                                            goBack(params.go_back_key);
+                                        })
+
+                                    },
+                                ])}>结束检查</Button>
                         </Flex.Item>
                     </Flex>
                 </View>

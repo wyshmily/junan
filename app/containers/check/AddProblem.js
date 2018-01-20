@@ -280,7 +280,7 @@ export default class AddProblem extends Component {
 
                     <Card>
                         <Card.Header
-                            title="问题备注"
+                            title="问题详情"
                         />
                         <Card.Body>
                             <TextareaItem

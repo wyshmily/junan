@@ -78,6 +78,7 @@ export default class AdvantageList extends Component {
                     {this.state.list.map((val, index) => {
                         return (
                             <Item
+                            style={{marginTop:20}}
                                 key={"item" + index}
                                 arrow="horizontal"
                                 multipleLine

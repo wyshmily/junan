@@ -96,7 +96,27 @@ export default class Login extends Component {
             }
             prompt('设置密码', '密码',
                 [
-                    { text: '取消' },
+                    { text: '以后再说',
+                    onPress: value => new Promise((resolve) => {
+                        //存储新密码数据
+                        let inspect = global.inspect;
+                        // 存储用户信息
+                        inspect.Record.InspectorName=inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Name"];
+                        inspect.Record.InspectorAccount=inspect.TeamList[this.state.currentUser.i]["InspectorList"][this.state.currentUser.j]["Account"];
+
+                        stores.writeFile(inspect)
+                        global.inspect = inspect;
+                        setTimeout(() => {
+                            resolve();
+
+                            //验证成功后跳转页面
+                            const {navigate} = this.props.navigation;
+                            navigate("CheckHome")
+
+                        }, 1000);
+                    }),
+                 
+             },
                     {
                         text: '设置',
                         onPress: value => new Promise((resolve) => {
@@ -118,7 +138,7 @@ export default class Login extends Component {
 
                                 //验证成功后跳转页面
                                 const {navigate} = this.props.navigation;
-                                navigate("TabBars")
+                                navigate("CheckHome")
 
                             }, 1000);
                         }),
@@ -132,7 +152,7 @@ export default class Login extends Component {
 
             //验证成功后跳转页面
             const {navigate} = this.props.navigation;
-            navigate("TabBars")
+            navigate("CheckHome")
         }
     }
 
