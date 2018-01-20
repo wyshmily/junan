@@ -136,7 +136,7 @@ export default class AddAdvantage extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["ProblemList"].find((val, i) => {
                 if (val["index"] == index) {
-                    currentIndex = i  
+                    currentIndex = i
                     return true
                 }
                 return false
@@ -145,7 +145,7 @@ export default class AddAdvantage extends Component {
                 inspect.PositionTypeList[type].PositionList[point]["ProblemList"].splice(currentIndex, 1);
             }
         }
-        
+
 
         inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].push({
             "index": index, "value": advantage
@@ -181,22 +181,26 @@ export default class AddAdvantage extends Component {
     }
 
     onSubmit = () => {
-        let index = this.props.navigation.state.params.id;
-        let firstIndex = global.currentPoint.type;
-        let secondIndex = global.currentPoint.point;
-        let category = inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
+        if (this.state.files.length < 2) {
+            Toast.info("请添加照片")
+        } else {
+
+            let index = this.props.navigation.state.params.id;
+            let firstIndex = global.currentPoint.type;
+            let secondIndex = global.currentPoint.point;
+            let category = inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
 
 
-        //将优点保存至优点列表
-        let advantage = { "images": this.state.files, remark: this.state.remark, "category": category, positionArr: [inspect.PositionTypeList[firstIndex].Name, inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name, firstIndex, secondIndex, index] }
-        // let advantage = {"images":this.state.files,remark:this.state.remark,category:category}
-        //记录当前检查项为优点项目
-        this.setStateList(this.props.navigation.state.params.id, 'advantage', advantage)
+            //将优点保存至优点列表
+            let advantage = { "images": this.state.files, remark: this.state.remark, "category": category, positionArr: [inspect.PositionTypeList[firstIndex].Name, inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name, firstIndex, secondIndex, index] }
+            // let advantage = {"images":this.state.files,remark:this.state.remark,category:category}
+            //记录当前检查项为优点项目
+            this.setStateList(this.props.navigation.state.params.id, 'advantage', advantage)
+        }
+
     }
 
-    dosomething() {
-        Toast.info(9)
-    }
+
 
     render() {
         const { files } = this.state;

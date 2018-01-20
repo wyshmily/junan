@@ -75,7 +75,7 @@ export default class AddProblem extends Component {
             let currentIndex = 0;
             const current = inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].find((val, i) => {
                 if (val["index"] == index) {
-                    currentIndex = i  
+                    currentIndex = i
                     return true
                 }
                 return false
@@ -83,12 +83,12 @@ export default class AddProblem extends Component {
             if (current) {
                 inspect.PositionTypeList[type].PositionList[point]["AdvantageList"].splice(currentIndex, 1);
             }
-        } 
-        
-            inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
-                "index": index, "value": problem
-            })
-       
+        }
+
+        inspect.PositionTypeList[type].PositionList[point]["ProblemList"].push({
+            "index": index, "value": problem
+        })
+
         stateList[index] = value;
         inspect.PositionTypeList[type].PositionList[point]["StateList"] = stateList
         global.inspect = inspect;
@@ -197,19 +197,28 @@ export default class AddProblem extends Component {
     onSubmit = () => {
         //将问题保存至问题列表
 
-        let index = this.props.navigation.state.params.id;
+        if (this.state.files.length < 2) {
+            Toast.info("请添加照片")
+        } else if (this.state.issue.length < 1) {
+            Toast.info("请先选择问题类型")
+        } else {
+ 
+            let index = this.props.navigation.state.params.id;
 
-        let firstIndex = global.currentPoint.type;
-        let secondIndex = global.currentPoint.point;
-        let category = inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
+            let firstIndex = global.currentPoint.type;
+            let secondIndex = global.currentPoint.point;
+            let category = inspect.PositionTypeList[firstIndex].StandardList[index]["Category"]
 
 
-        //将缺点保存至优点列表
+            //将缺点保存至优点列表
 
-        let problem = { "images": this.state.files, issue: this.state.issue, remark: this.state.remark, "category": category, positionArr: [inspect.PositionTypeList[firstIndex].Name, inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name, firstIndex, secondIndex, index] }
-        //记录当前检查项为问题项目
-        this.setStateList(this.props.navigation.state.params.id, 'problem', problem)
+            let problem = { "images": this.state.files, issue: this.state.issue, remark: this.state.remark, "category": category, positionArr: [inspect.PositionTypeList[firstIndex].Name, inspect.PositionTypeList[firstIndex].PositionList[secondIndex].Name, firstIndex, secondIndex, index] }
+            //记录当前检查项为问题项目
+            this.setStateList(this.props.navigation.state.params.id, 'problem', problem)
+        }
+
     }
+
 
 
     render() {
