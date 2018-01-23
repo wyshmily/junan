@@ -1,4 +1,4 @@
-package com.junan;
+package com.junan365;
 
 import com.facebook.react.ReactActivity;
 
